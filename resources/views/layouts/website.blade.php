@@ -49,7 +49,7 @@
     <!-- Preloader End -->
 
     <!-- Topbar Section Start -->
-    <div class="topbar">
+    <div class="topbar" >
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-3 col-7">
@@ -128,7 +128,7 @@
                                     <!-- Header Search Form Start -->
                                     <form action="{{ route('shop') }}" method="GET" class="header-search-form">
                                         <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                            <img src="{{asset('website')}}/images/icon-search-primary.svg" alt="">
+                                            <img src="{{asset('website')}}/images/icon-search-gold.svg" alt="">
                                         </button>
                                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -150,11 +150,11 @@
                                     </form>
                                     <!-- Header Search Form End -->
                                 </li>
-                                <li><a href="#"><img src="{{asset('website')}}/images/icon-user-primary.svg" alt=""></a>
+                                <li><a href="{{ route('dashboard') }}"><img src="{{asset('website')}}/images/icon-user-gold.svg" alt=""></a>
                                 </li>
-                                <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
+                                <li><a href="{{ route('wishlist') }}"><img src="{{asset('website')}}/images/icon-wishlist-gold.svg"
                                             alt=""></a></li>
-                                <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg" alt=""></a>
+                                <li><a href="{{ route('cart') }}"><img src="{{asset('website')}}/images/icon-cart-gold.svg" alt=""></a>
                                 </li>
                             </ul>
                         </div>

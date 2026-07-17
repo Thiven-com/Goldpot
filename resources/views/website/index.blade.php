@@ -85,7 +85,7 @@
         }
 
         .gold {
-            background: #d4af37;
+            background: #dea54a;
         }
 
         .blue {
@@ -113,21 +113,21 @@
         }
 
         .btn-gold {
-            background: #d4af37;
+            background: #dea54a;
             color: #fff;
             border-radius: 40px;
             padding: 12px;
         }
 
         .btn-blue {
-            background: #173d72;
+            background: #dea54a;
             color: #fff;
             border-radius: 40px;
             padding: 12px;
         }
 
         .btn-red {
-            background: #8c1d2d;
+            background: #dea54a;
             color: #fff;
             border-radius: 40px;
             padding: 12px;
@@ -139,6 +139,7 @@
             opacity: .9;
         }
     </style>
+
     <!-- Hero Section Start -->
     <div class="hero dark-section parallaxie">
         <div class="container">

@@ -451,7 +451,8 @@ a:focus{
 /****************************************/
 
 .topbar{
-	background: var(--accent-color);
+	background: #bd7f0f;
+	/* background: var(--accent-color); */
 	padding: 15px 0;
 }
 
@@ -529,7 +530,8 @@ a:focus{
 
 header.main-header{
 	position: relative;
-	background: var(--bg-color);
+	/* background: var(--bg-color); */
+	background: var(--accent-color);
 	z-index: 100;
 }
 
@@ -597,7 +599,8 @@ header.main-header .header-sticky.active{
 	font-weight: 400;
 	line-height: 1.2em;
 	padding: 8px 0px !important;
-	color: var(--primary-color);
+	/* color: var(--primary-color); */
+	color: white;
 	background: transparent;
 	border-radius: 0px;
 	text-transform: capitalize;
@@ -615,7 +618,8 @@ header.main-header .header-sticky.active{
 
 .main-menu ul .nav-item .nav-link:hover,
 .main-menu ul .nav-item .nav-link:focus{
-	color: var(--accent-color);
+	/* color: var(--accent-color); */
+	color: #bd7f0f;
 }
 
 .main-menu ul .nav-item:first-child{

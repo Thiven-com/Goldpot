@@ -11,3 +11,10 @@ Route::get('/product-details', [PageController::class, 'productDetails'])->name(
 Route::get('/blog', [PageController::class, 'blog'])->name('blog');
 Route::get('/blog-details', [PageController::class, 'blogDetails'])->name('blogDetails');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+Route::get('/cart', [PageController::class, 'cart'])->name('cart');
+Route::get('/checkout', [PageController::class, 'checkout'])->name('checkout');
+Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
+Route::get('/wishlist', [PageController::class, 'wishlist'])->name('wishlist');
+Route::get('/orders', [PageController::class, 'orders'])->name('orders');
+Route::get('/profile', [PageController::class, 'profile'])->name('profile');
+Route::get('/login', [PageController::class, 'login'])->name('login');
