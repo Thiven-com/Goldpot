@@ -158,12 +158,7 @@
                                                         alt=""></a></li>
                                             <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg"
                                                         alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
-                                                        alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg"
-                                                        alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg"
-                                                        alt=""></a></li>
+                                           
                                         </ul>
                                     </div>
                                     <!-- Product Item Action End -->

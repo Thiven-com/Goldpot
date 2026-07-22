@@ -27,7 +27,7 @@ class Product extends Model
 
     public function subcategories()
     {
-        return $this->belongsToMany(Category::class, 'category_products', 'product_id', 'category_id');
+        return $this->belongsToMany(Category::class,'product_id', 'category_id');
     }
     public function media()
     {
