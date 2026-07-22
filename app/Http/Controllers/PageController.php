@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -11,10 +12,11 @@ class PageController extends Controller
     //
     public function home()
     {
-        $categories = Category::where('is_feature','yes')->inRandomOrder()->take(6)->get();
-        $products = Product::where('status','show')->inRandomOrder()->take(6)->get();
-        $featured_products = Product::where('is_feature','yes')->inRandomOrder()->take(6)->get();
-        return view('website.index',compact('categories','products','featured_products'));
+        $categories = Category::where('is_feature', 'yes')->inRandomOrder()->take(6)->get();
+        $products = Product::where('status', 'show')->inRandomOrder()->take(6)->get();
+        $featured_products = Product::where('is_feature', 'yes')->inRandomOrder()->take(6)->get();
+        $blogs = Blog::where('status', 'show')->inRandomOrder()->take(6)->get();
+        return view('website.index', compact('categories', 'products', 'featured_products', 'blogs'));
     }
     public function about()
     {
@@ -39,12 +41,14 @@ class PageController extends Controller
     }
     public function blog()
     {
-        return view('website.blog');
+        $blogs = Blog::where('status', 'show')->get();
+        return view('website.blog', compact('blogs'));
     }
 
-    public function blogDetails()
+    public function blogDetails($slug)
     {
-        return view('website.blog-details');
+        $blog = Blog::where('slug', $slug)->where('status', 'show')->first();
+        return view('website.blog-details', compact('blog'));
     }
     public function contact()
     {

@@ -57,22 +57,36 @@ class BlogController extends Controller
         $manager = new ImageManager(new Driver());
 
         if ($request->hasFile('image')) {
+
             $productImage = $request->file('image');
-            $productName = $request->slug . ".webp";
-            $image = $manager->read($productImage);
-            $image->resize(450, 600);
-            $image->toWebp(70)->save(public_path('blogs/image/') . $productName);
-            $blog->image = 'blogs/image/' . $productName;
-            // $blog->image = $request->image->store('blogs');
+            $productName = $request->slug . '.webp';
+
+            $image = $manager->decode($productImage);
+
+            $image->scale(width: 450, height: 600);
+
+            $image->save(
+                public_path('blogs/' . $productName),
+                quality: 70
+            );
+
+            $blog->image = 'blogs/' . $productName;
         }
         if ($request->hasFile('banner')) {
-            $productImage = $request->file('banner');
-            $bannerName = $request->slug . ".webp";
-            $image = $manager->read($productImage);
-            $image->resize(850, 510);
-            $image->toWebp(70)->save(public_path('blogs/banner/') . $bannerName);
-            $blog->banner = 'blogs/banner/' . $bannerName;
-            // $blog->banner = $request->banner->store('blogs');
+
+            $bannerImage = $request->file('banner');
+            $bannerName = $request->slug . '.webp';
+
+            $image = $manager->decode($bannerImage);
+
+            $image->scale(width: 850, height: 510);
+
+            $image->save(
+                public_path('blogs/' . $bannerName),
+                quality: 70
+            );
+
+            $blog->banner = 'blogs/' . $bannerName;
         }
         $blog->save();
 
@@ -131,23 +145,38 @@ class BlogController extends Controller
         // if ($request->hasFile('banner')) {
         //     $blog->banner = $request->banner->store('blogs');
         // }
+
         if ($request->hasFile('image')) {
+
             $productImage = $request->file('image');
-            $productName = $request->slug . ".webp";
-            $image = $manager->read($productImage);
-            $image->resize(450, 600);
-            $image->toWebp(70)->save(public_path('blogs/image/') . $productName);
-            $blog->image = 'blogs/image/' . $productName;
-            // $blog->image = $request->image->store('blogs');
+            $productName = $request->slug . '.webp';
+
+            $image = $manager->decode($productImage);
+
+            $image->scale(width: 450, height: 600);
+
+            $image->save(
+                public_path('blogs/' . $productName),
+                quality: 70
+            );
+
+            $blog->image = 'blogs/' . $productName;
         }
         if ($request->hasFile('banner')) {
-            $productImage = $request->file('banner');
-            $bannerName = $request->slug . ".webp";
-            $image = $manager->read($productImage);
-            $image->resize(850, 510);
-            $image->toWebp(70)->save(public_path('blogs/banner/') . $bannerName);
-            $blog->banner = 'blogs/banner/' . $bannerName;
-            // $blog->banner = $request->banner->store('blogs');
+
+            $bannerImage = $request->file('banner');
+            $bannerName = $request->slug . '.webp';
+
+            $image = $manager->decode($bannerImage);
+
+            $image->scale(width: 850, height: 510);
+
+            $image->save(
+                public_path('blogs/' . $bannerName),
+                quality: 70
+            );
+
+            $blog->banner = 'blogs/' . $bannerName;
         }
         $blog->save();
         Alert::toast('Blog updated successfuuly', 'success');

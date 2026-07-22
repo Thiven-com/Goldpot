@@ -889,104 +889,41 @@
             </div>
 
             <div class="row">
-                <div class="col-xl-4 col-md-6">
-                    <!-- Post Item Start -->
-                    <div class="post-item wow fadeInUp">
-                        <!-- Post Featured Image Start-->
-                        <div class="post-featured-image">
-                            <a href="{{ route('blogDetails') }}" data-cursor-text="View">
-                                <figure class="image-anime">
-                                    <img src="{{asset('website')}}/images/post-1.jpg" alt="">
-                                </figure>
-                            </a>
-                        </div>
-                        <!-- Post Featured Image End -->
-
-                        <!-- Post Item Body Start -->
-                        <div class="post-item-body">
-                            <!-- Post Item Content Start -->
-                            <div class="post-item-content">
-                                <h2><a href="{{ route('blogDetails') }}">Bridal Jewellery Guide Complete Your Wedding
-                                        Look</a></h2>
+                @foreach ($blogs as $blog)
+                    <div class="col-xl-4 col-md-6">
+                        <!-- Post Item Start -->
+                        <div class="post-item wow fadeInUp">
+                            <!-- Post Featured Image Start-->
+                            <div class="post-featured-image">
+                                <a href="{{ route('blogDetails', $blog->slug) }}" data-cursor-text="View">
+                                    <figure class="image-anime">
+                                        <img src="{{ asset($blog->image) }}" alt="">
+                                    </figure>
+                                </a>
                             </div>
-                            <!-- Post Item Content End -->
+                            <!-- Post Featured Image End -->
 
-                            <!-- Post Item Button Start-->
-                            <div class="post-item-btn">
-                                <a href="{{ route('blogDetails') }}" class="readmore-btn">read more</a>
+                            <!-- Post Item Body Start -->
+                            <div class="post-item-body">
+                                <!-- Post Item Content Start -->
+                                <div class="post-item-content">
+                                    <h2><a href="{{ route('blogDetails', $blog->slug) }}">{{ $blog->title }}</a></h2>
+                                </div>
+                                <!-- Post Item Content End -->
+
+                                <!-- Post Item Button Start-->
+                                <div class="post-item-btn">
+                                    <a href="{{ route('blogDetails', $blog->slug) }}" class="readmore-btn">read more</a>
+                                </div>
+                                <!-- Post Item Button End-->
                             </div>
-                            <!-- Post Item Button End-->
+                            <!-- Post Item Body End -->
                         </div>
-                        <!-- Post Item Body End -->
+                        <!-- Post Item End -->
                     </div>
-                    <!-- Post Item End -->
-                </div>
 
-                <div class="col-xl-4 col-md-6">
-                    <!-- Post Item Start -->
-                    <div class="post-item wow fadeInUp" data-wow-delay="0.2s">
-                        <!-- Post Featured Image Start-->
-                        <div class="post-featured-image">
-                            <a href="{{ route('blogDetails') }}" data-cursor-text="View">
-                                <figure class="image-anime">
-                                    <img src="{{asset('website')}}/images/post-2.jpg" alt="">
-                                </figure>
-                            </a>
-                        </div>
-                        <!-- Post Featured Image End -->
 
-                        <!-- Post Item Body Start -->
-                        <div class="post-item-body">
-                            <!-- Post Item Content Start -->
-                            <div class="post-item-content">
-                                <h2><a href="{{ route('blogDetails') }}">How to Choose the Perfect Diamond Engagement
-                                        Ring</a></h2>
-                            </div>
-                            <!-- Post Item Content End -->
-
-                            <!-- Post Item Button Start-->
-                            <div class="post-item-btn">
-                                <a href="{{ route('blogDetails') }}" class="readmore-btn">read more</a>
-                            </div>
-                            <!-- Post Item Button End-->
-                        </div>
-                        <!-- Post Item Body End -->
-                    </div>
-                    <!-- Post Item End -->
-                </div>
-
-                <div class="col-xl-4 col-md-6">
-                    <!-- Post Item Start -->
-                    <div class="post-item wow fadeInUp" data-wow-delay="0.4s">
-                        <!-- Post Featured Image Start-->
-                        <div class="post-featured-image">
-                            <a href="{{ route('blogDetails') }}" data-cursor-text="View">
-                                <figure class="image-anime">
-                                    <img src="{{asset('website')}}/images/post-3.jpg" alt="">
-                                </figure>
-                            </a>
-                        </div>
-                        <!-- Post Featured Image End -->
-
-                        <!-- Post Item Body Start -->
-                        <div class="post-item-body">
-                            <!-- Post Item Content Start -->
-                            <div class="post-item-content">
-                                <h2><a href="{{ route('blogDetails') }}">Caring for Your Jewellery Tips to Keep It
-                                        Shining</a></h2>
-                            </div>
-                            <!-- Post Item Content End -->
-
-                            <!-- Post Item Button Start-->
-                            <div class="post-item-btn">
-                                <a href="{{ route('blogDetails') }}" class="readmore-btn">read more</a>
-                            </div>
-                            <!-- Post Item Button End-->
-                        </div>
-                        <!-- Post Item Body End -->
-                    </div>
-                    <!-- Post Item End -->
-                </div>
+                @endforeach
             </div>
         </div>
     </div>

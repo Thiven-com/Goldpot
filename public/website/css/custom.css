@@ -5296,7 +5296,6 @@ ul.view-order-product-info-list li span{
 }
 
 .login-content-box{
-    display: flex;
     flex-wrap: wrap;
     gap: 40px 80px;
 }
