@@ -35,29 +35,36 @@ class PageController extends Controller
         return view('website.schemes');
     }
 
-    public function productDetails($slug)
+    public function productDetails(Request $request,$slug)
     {
         $product = Product::with([
-            'category',
-            'brand',
-            'variants',
-            'media'
-        ])->where('slug', $slug)
-            ->where('status', 1)
-            ->firstOrFail();
+            'images',
+            'variants.attributeMappings.attribute',
+            'variants.attributeMappings.value'
+        ])->where('slug', $slug)->first();
 
-        // Related Products
-        $relatedProducts = Product::where('category_id', $product->category_id)
-            ->where('id', '!=', $product->id)
-            ->where('status', 1)
+        if (!$product) {
+            return redirect()->route('shop');
+        }
+
+        $variant = $product->variants->first();
+
+        if ($request->filled('variant_id')) {
+            $selected = $product->variants->firstWhere('id', $request->variant_id);
+
+            if ($selected) {
+                $variant = $selected;
+            }
+        }
+        if (!isset($variant)) {
+            return redirect()->route('shop');
+        }
+        $products = Product::where('id', '!=', $product->id)
             ->latest()
-            ->take(8)
+            ->take(4)
             ->get();
 
-        return view('website.product-details', compact(
-            'product',
-            'relatedProducts'
-        ));
+        return view('website.product-details', compact('product', 'products', 'variant'));
     }
     public function blog()
     {
