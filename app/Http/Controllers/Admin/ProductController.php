@@ -486,12 +486,6 @@ class ProductController extends Controller
             }
         }
 
-        if ($request->has('subcategories')) {
-            $product->subcategories()->sync($request->subcategories);
-        } else {
-            $product->subcategories()->sync([]);
-        }
-
 
         Alert::toast('Product updated successfully', 'success');
         return redirect(route('admin.products.index'));
