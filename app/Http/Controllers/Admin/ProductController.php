@@ -96,12 +96,20 @@ class ProductController extends Controller
         $manager = new ImageManager(new Driver());
 
         if ($request->hasFile('image')) {
+
             $productImage = $request->file('image');
-            $productName = $product->slug . ".webp";
-            $image = $manager->read($productImage);
-            $image->resize(1200, 1600);
-            $image->toWebp(100)->save(public_path('media/products/') . $productName);
-            $product->image = 'media/products/' . $productName;
+            $productName = $product->slug . '.webp';
+
+            $image = $manager->decode($productImage);
+
+            $image->scale(width: 1200, height: 1600);
+
+            $image->save(
+                public_path('products/' . $productName),
+                quality: 100
+            );
+
+            $product->image = 'products/' . $productName;
         }
 
         $product->category_id = $request->category_id ?? 0;
@@ -155,12 +163,21 @@ class ProductController extends Controller
             $sku = strtoupper(implode('_', $skuParts));
 
             $imagePath = null;
+
             if (isset($variantInput['image']) && $variantInput['image'] instanceof \Illuminate\Http\UploadedFile) {
-                $variantImgName = $sku . ".webp";
-                $img = $manager->read($variantInput['image']);
-                $img->resize(1200, 1600);
-                $img->toWebp(100)->save(public_path('media/variants/') . $variantImgName);
-                $imagePath = 'media/variants/' . $variantImgName;
+
+                $variantImgName = $sku . '.webp';
+
+                $image = $manager->decode($variantInput['image']);
+
+                $image->scale(width: 1200, height: 1600);
+
+                $image->save(
+                    public_path('variants/' . $variantImgName),
+                    quality: 100
+                );
+
+                $imagePath = 'variants/' . $variantImgName;
             }
 
             $variant = ProductVariant::create([
@@ -257,11 +274,20 @@ class ProductController extends Controller
         $manager = new ImageManager(new Driver());
 
         if ($request->hasFile('image')) {
-            $productName = $product->slug . ".webp";
-            $image = $manager->read($request->file('image'));
-            $image->resize(1200, 1600);
-            $image->toWebp(100)->save(public_path('media/variants/') . $productName);
-            $product->image = 'media/variants/' . $productName;
+
+            $productImage = $request->file('image');
+            $productName = $product->slug . '.webp';
+
+            $image = $manager->decode($productImage);
+
+            $image->scale(width: 1200, height: 1600);
+
+            $image->save(
+                public_path('products/' . $productName),
+                quality: 100
+            );
+
+            $product->image = 'products/' . $productName;
         }
 
         $product->save();

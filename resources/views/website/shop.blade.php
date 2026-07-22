@@ -59,7 +59,7 @@
 
                                         <li>
                                             <input type="checkbox" id="Rings" name="interest" value="Rings">
-                                            <label for="Rings">{{ $category->name }}</label>
+                                            <label for="Rings" style="color: black;">{{ $category->title }}</label>
                                         </li>
                                     @endforeach
                                    
@@ -67,39 +67,10 @@
                             </div>
                             <!-- Product Category Item End -->
 
-                            <!-- Product Category Item Start -->
-                            <div class="product-category-item wow fadeInUp" data-wow-delay="0.4s">
-                                <h2 class="product-category-item-title">Collection</h2>
-                                <ul>
-                                    <li>
-                                        <input type="checkbox" id="Bridal_collection" name="interest"
-                                            value="Bridal_collection">
-                                        <label for="Bridal_collection">Bridal Collection</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="Timeless_elegance" name="interest"
-                                            value="Timeless_elegance">
-                                        <label for="Timeless_elegance">Timeless Elegance</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="Minimalist" name="interest" value="Minimalist">
-                                        <label for="Minimalist">Minimalist</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="Everyday_wear" name="interest" value="Everyday_wear">
-                                        <label for="Everyday_wear">Everyday Wear</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="Luxury_statement" name="interest"
-                                            value="Luxury_statement">
-                                        <label for="Luxury_statement">Luxury Statement</label>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- Product Category Item End -->
+                          
 
                             <!-- Product Category Item Start -->
-                            <div class="product-category-item wow fadeInUp" data-wow-delay="0.6s">
+                            {{-- <div class="product-category-item wow fadeInUp" data-wow-delay="0.6s">
                                 <h2 class="product-category-item-title">Stone Type</h2>
                                 <ul>
                                     <li>
@@ -123,7 +94,7 @@
                                         <label for="Sapphire">Sapphire</label>
                                     </li>
                                 </ul>
-                            </div>
+                            </div> --}}
                             <!-- Product Category Item End -->
                         </div>
                         <!-- Product Category Item List End -->
@@ -135,7 +106,7 @@
                     <!-- Product item List Box Start -->
                     <div class="product-item-list-box">
                         <!-- Product Category Filter Header Start -->
-                        <div class="product-category-filter-header wow fadeInUp">
+                        {{-- <div class="product-category-filter-header wow fadeInUp">
                             <div class="product-category-filter-title">
                                 <h2>Showing all results</h2>
                             </div>
@@ -161,7 +132,7 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <!-- Product Category Filter Header End -->
 
                         <!-- Product item List Start -->
