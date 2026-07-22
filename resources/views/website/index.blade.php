@@ -211,93 +211,21 @@
                     <!-- Top Selling Item List Start -->
                     <div class="top-selling-item-list">
                         <!-- Top Selling Item Start -->
-                        <div class="top-selling-item wow fadeInUp">
-                            <div class="top-selling-item-image">
-                                <a href="{{ route('shop') }}" data-cursor-text="View">
-                                    <figure class="image-anime">
-                                        <img src="{{asset('website')}}/images/top-selling-item-image-1.jpg" alt="">
-                                    </figure>
-                                </a>
+                        @foreach($categories as $category)
+                            <div class="top-selling-item wow fadeInUp">
+                                <div class="top-selling-item-image">
+                                    <a href="{{ route('shop') }}" data-cursor-text="View">
+                                        <figure class="image-anime">
+                                            <img src="{{ asset($category->image) }}" alt="">
+                                        </figure>
+                                    </a>
+                                </div>
+                                <div class="top-selling-item-content">
+                                    <h3><a href="{{ route('shop', ['category[]' => $category->id]) }}">{{$category->title}}</a>
+                                    </h3>
+                                </div>
                             </div>
-                            <div class="top-selling-item-content">
-                                <h3><a href="{{ route('shop') }}">Earrings</a></h3>
-                            </div>
-                        </div>
-                        <!-- Top Selling Item End -->
-
-                        <!-- Top Selling Item Start -->
-                        <div class="top-selling-item wow fadeInUp" data-wow-delay="0.2s">
-                            <div class="top-selling-item-image">
-                                <a href="{{ route('shop') }}" data-cursor-text="View">
-                                    <figure class="image-anime">
-                                        <img src="{{asset('website')}}/images/top-selling-item-image-2.jpg" alt="">
-                                    </figure>
-                                </a>
-                            </div>
-                            <div class="top-selling-item-content">
-                                <h3><a href="{{ route('shop') }}">Necklaces</a></h3>
-                            </div>
-                        </div>
-                        <!-- Top Selling Item End -->
-
-                        <!-- Top Selling Item Start -->
-                        <div class="top-selling-item wow fadeInUp" data-wow-delay="0.4s">
-                            <div class="top-selling-item-image">
-                                <a href="{{ route('shop') }}" data-cursor-text="View">
-                                    <figure class="image-anime">
-                                        <img src="{{asset('website')}}/images/top-selling-item-image-3.jpg" alt="">
-                                    </figure>
-                                </a>
-                            </div>
-                            <div class="top-selling-item-content">
-                                <h3><a href="{{ route('shop') }}">Pendants</a></h3>
-                            </div>
-                        </div>
-                        <!-- Top Selling Item End -->
-
-                        <!-- Top Selling Item Start -->
-                        <div class="top-selling-item wow fadeInUp" data-wow-delay="0.6s">
-                            <div class="top-selling-item-image">
-                                <a href="{{ route('shop') }}" data-cursor-text="View">
-                                    <figure class="image-anime">
-                                        <img src="{{asset('website')}}/images/top-selling-item-image-4.jpg" alt="">
-                                    </figure>
-                                </a>
-                            </div>
-                            <div class="top-selling-item-content">
-                                <h3><a href="{{ route('shop') }}">Bracelets</a></h3>
-                            </div>
-                        </div>
-                        <!-- Top Selling Item End -->
-
-                        <!-- Top Selling Item Start -->
-                        <div class="top-selling-item wow fadeInUp" data-wow-delay="0.8s">
-                            <div class="top-selling-item-image">
-                                <a href="{{ route('shop') }}" data-cursor-text="View">
-                                    <figure class="image-anime">
-                                        <img src="{{asset('website')}}/images/top-selling-item-image-5.jpg" alt="">
-                                    </figure>
-                                </a>
-                            </div>
-                            <div class="top-selling-item-content">
-                                <h3><a href="{{ route('shop') }}">Rings</a></h3>
-                            </div>
-                        </div>
-                        <!-- Top Selling Item End -->
-
-                        <!-- Top Selling Item Start -->
-                        <div class="top-selling-item wow fadeInUp" data-wow-delay="1s">
-                            <div class="top-selling-item-image">
-                                <a href="{{ route('shop') }}" data-cursor-text="View">
-                                    <figure class="image-anime">
-                                        <img src="{{asset('website')}}/images/top-selling-item-image-6.jpg" alt="">
-                                    </figure>
-                                </a>
-                            </div>
-                            <div class="top-selling-item-content">
-                                <h3><a href="{{ route('shop') }}">Chains</a></h3>
-                            </div>
-                        </div>
+                        @endforeach
                         <!-- Top Selling Item End -->
                     </div>
                     <!-- Top Selling Item List End -->
@@ -385,310 +313,65 @@
                         <div class="swiper">
                             <div class="swiper-wrapper">
                                 <!-- Product Slide Start -->
-                                <div class="swiper-slide">
-                                    <!-- Product Item Start -->
-                                    <div class="product-item">
-                                        <!-- Product Item Header Start -->
-                                        <div class="product-item-header">
-                                            <!-- Product Item Image Start -->
-                                            <div class="product-item-image">
-                                                <a href="{{ route('productDetails') }}">
-                                                    <figure>
-                                                        <img src="{{asset('website')}}/images/product-image-1.png" alt="">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- Product Item Image End -->
+                                @foreach ($products as $product)
+                                    <div class="swiper-slide">
+                                        <!-- Product Item Start -->
+                                        <div class="product-item">
+                                            <!-- Product Item Header Start -->
+                                            <div class="product-item-header">
+                                                <!-- Product Item Image Start -->
+                                                <div class="product-item-image">
+                                                    <a href="{{ route('productDetails', $product->slug) }}">
+                                                        <figure>
+                                                            <img src="{{ asset($product->image) }}" alt="">
+                                                        </figure>
+                                                    </a>
+                                                </div>
+                                                <!-- Product Item Image End -->
 
-                                            <!-- Product Item Action Start -->
-                                            <div class="product-item-action">
-                                                <ul>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-wishlist-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-preview-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-cart-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-compare-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-payment-primary.svg"
-                                                                alt=""></a></li>
-                                                </ul>
+                                                <!-- Product Item Action Start -->
+                                                <div class="product-item-action">
+                                                    <ul>
+                                                        <li><a href="#"><img
+                                                                    src="{{asset('website')}}/images/icon-wishlist-primary.svg"
+                                                                    alt=""></a></li>
+                                                        <li><a href="#"><img
+                                                                    src="{{asset('website')}}/images/icon-preview-primary.svg"
+                                                                    alt=""></a></li>
+                                                        <li><a href="#"><img
+                                                                    src="{{asset('website')}}/images/icon-cart-primary.svg"
+                                                                    alt=""></a></li>
+                                                    </ul>
+                                                </div>
+                                                <!-- Product Item Action End -->
                                             </div>
-                                            <!-- Product Item Action End -->
+                                            <!-- Product Item Header End -->
+
+                                            <!-- Product Item Body Start -->
+                                            <div class="product-item-body">
+                                                <!-- Product Item Content Start -->
+                                                <div class="product-item-content">
+                                                    <h2 class="product-item-title"><a
+                                                            href="{{ route('productDetails', $product->slug) }}">{{ $product->title }}</a>
+                                                    </h2>
+                                                </div>
+                                                <!-- Product Item Content End -->
+
+                                                <!-- Product Item Price Start -->
+                                                <div class="product-item-price">
+                                                    <h3>₹{{ $product->variant->price }}
+                                                        <span>₹{{ $product->variant->actual_price }}</span></h3>
+                                                </div>
+                                                <!-- Product Item Price End -->
+                                            </div>
+                                            <!-- Product Item Body End -->
                                         </div>
-                                        <!-- Product Item Header End -->
-
-                                        <!-- Product Item Body Start -->
-                                        <div class="product-item-body">
-                                            <!-- Product Item Content Start -->
-                                            <div class="product-item-content">
-                                                <h2 class="product-item-title"><a
-                                                        href="{{ route('productDetails') }}">Timeless Elegance Ring</a></h2>
-                                            </div>
-                                            <!-- Product Item Content End -->
-
-                                            <!-- Product Item Price Start -->
-                                            <div class="product-item-price">
-                                                <h3>₹4000.00 <span>₹8000.00</span></h3>
-                                            </div>
-                                            <!-- Product Item Price End -->
-                                        </div>
-                                        <!-- Product Item Body End -->
+                                        <!-- Product Item End -->
                                     </div>
-                                    <!-- Product Item End -->
-                                </div>
+                                @endforeach
+
                                 <!-- Product Slide End -->
 
-                                <!-- Product Slide Start -->
-                                <div class="swiper-slide">
-                                    <!-- Product Item Start -->
-                                    <div class="product-item">
-                                        <!-- Product Item Header Start -->
-                                        <div class="product-item-header">
-                                            <!-- Product Item Image Start -->
-                                            <div class="product-item-image">
-                                                <a href="{{ route('productDetails') }}">
-                                                    <figure>
-                                                        <img src="{{asset('website')}}/images/product-image-2.png" alt="">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- Product Item Image End -->
-
-                                            <!-- Product Item Action Start -->
-                                            <div class="product-item-action">
-                                                <ul>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-wishlist-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-preview-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-cart-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-compare-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-payment-primary.svg"
-                                                                alt=""></a></li>
-                                                </ul>
-                                            </div>
-                                            <!-- Product Item Action End -->
-                                        </div>
-                                        <!-- Product Item Header End -->
-
-                                        <!-- Product Item Body Start -->
-                                        <div class="product-item-body">
-                                            <!-- Product Item Content Start -->
-                                            <div class="product-item-content">
-                                                <h2 class="product-item-title"><a
-                                                        href="{{ route('productDetails') }}">Kundan Curve Necklace</a></h2>
-                                            </div>
-                                            <!-- Product Item Content End -->
-
-                                            <!-- Product Item Price Start -->
-                                            <div class="product-item-price">
-                                                <h3>₹6000.00 <span>₹8000.00</span></h3>
-                                            </div>
-                                            <!-- Product Item Price End -->
-                                        </div>
-                                        <!-- Product Item Body End -->
-                                    </div>
-                                    <!-- Product Item End -->
-                                </div>
-                                <!-- Product Slide End -->
-
-                                <!-- Product Slide Start -->
-                                <div class="swiper-slide">
-                                    <!-- Product Item Start -->
-                                    <div class="product-item">
-                                        <!-- Product Item Header Start -->
-                                        <div class="product-item-header">
-                                            <!-- Product Item Image Start -->
-                                            <div class="product-item-image">
-                                                <a href="{{ route('productDetails') }}">
-                                                    <figure>
-                                                        <img src="{{asset('website')}}/images/product-image-3.png" alt="">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- Product Item Image End -->
-
-                                            <!-- Product Item Action Start -->
-                                            <div class="product-item-action">
-                                                <ul>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-wishlist-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-preview-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-cart-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-compare-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-payment-primary.svg"
-                                                                alt=""></a></li>
-                                                </ul>
-                                            </div>
-                                            <!-- Product Item Action End -->
-                                        </div>
-                                        <!-- Product Item Header End -->
-
-                                        <!-- Product Item Body Start -->
-                                        <div class="product-item-body">
-                                            <!-- Product Item Content Start -->
-                                            <div class="product-item-content">
-                                                <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Gold
-                                                        Solitaire Earrings</a></h2>
-                                            </div>
-                                            <!-- Product Item Content End -->
-
-                                            <!-- Product Item Price Start -->
-                                            <div class="product-item-price">
-                                                <h3>₹10000.00 <span>₹20000.00</span></h3>
-                                            </div>
-                                            <!-- Product Item Price End -->
-                                        </div>
-                                        <!-- Product Item Body End -->
-                                    </div>
-                                    <!-- Product Item End -->
-                                </div>
-                                <!-- Product Slide End -->
-
-                                <!-- Product Slide Start -->
-                                <div class="swiper-slide">
-                                    <!-- Product Item Start -->
-                                    <div class="product-item">
-                                        <!-- Product Item Header Start -->
-                                        <div class="product-item-header">
-                                            <!-- Product Item Image Start -->
-                                            <div class="product-item-image">
-                                                <a href="{{ route('productDetails') }}">
-                                                    <figure>
-                                                        <img src="{{asset('website')}}/images/product-image-4.png" alt="">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- Product Item Image End -->
-
-                                            <!-- Product Item Action Start -->
-                                            <div class="product-item-action">
-                                                <ul>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-wishlist-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-preview-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-cart-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-compare-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-payment-primary.svg"
-                                                                alt=""></a></li>
-                                                </ul>
-                                            </div>
-                                            <!-- Product Item Action End -->
-                                        </div>
-                                        <!-- Product Item Header End -->
-
-                                        <!-- Product Item Body Start -->
-                                        <div class="product-item-body">
-                                            <!-- Product Item Content Start -->
-                                            <div class="product-item-content">
-                                                <h2 class="product-item-title"><a
-                                                        href="{{ route('productDetails') }}">Bridal Gold Hoop Earrings</a>
-                                                </h2>
-                                            </div>
-                                            <!-- Product Item Content End -->
-
-                                            <!-- Product Item Price Start -->
-                                            <div class="product-item-price">
-                                                <h3>₹4000.00 <span>₹8000.00</span></h3>
-                                            </div>
-                                            <!-- Product Item Price End -->
-                                        </div>
-                                        <!-- Product Item Body End -->
-                                    </div>
-                                    <!-- Product Item End -->
-                                </div>
-                                <!-- Product Slide End -->
-
-                                <!-- Product Slide Start -->
-                                <div class="swiper-slide">
-                                    <!-- Product Item Start -->
-                                    <div class="product-item">
-                                        <!-- Product Item Header Start -->
-                                        <div class="product-item-header">
-                                            <!-- Product Item Image Start -->
-                                            <div class="product-item-image">
-                                                <a href="{{ route('productDetails') }}">
-                                                    <figure>
-                                                        <img src="{{asset('website')}}/images/product-image-5.png" alt="">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- Product Item Image End -->
-
-                                            <!-- Product Item Action Start -->
-                                            <div class="product-item-action">
-                                                <ul>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-wishlist-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-preview-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-cart-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-compare-primary.svg"
-                                                                alt=""></a></li>
-                                                    <li><a href="#"><img
-                                                                src="{{asset('website')}}/images/icon-payment-primary.svg"
-                                                                alt=""></a></li>
-                                                </ul>
-                                            </div>
-                                            <!-- Product Item Action End -->
-                                        </div>
-                                        <!-- Product Item Header End -->
-
-                                        <!-- Product Item Body Start -->
-                                        <div class="product-item-body">
-                                            <!-- Product Item Content Start -->
-                                            <div class="product-item-content">
-                                                <h2 class="product-item-title"><a
-                                                        href="{{ route('productDetails') }}">Diamond Hoop Earrings</a></h2>
-                                            </div>
-                                            <!-- Product Item Content End -->
-
-                                            <!-- Product Item Price Start -->
-                                            <div class="product-item-price">
-                                                <h3>₹5000.00 <span>₹8000.00</span></h3>
-                                            </div>
-                                            <!-- Product Item Price End -->
-                                        </div>
-                                        <!-- Product Item Body End -->
-                                    </div>
-                                    <!-- Product Item End -->
-                                </div>
-                                <!-- Product Slide End -->
                             </div>
                             <div class="product-slider-btn">
                                 <div class="product-slider-button-prev"></div>
@@ -1019,7 +702,7 @@
                                         <div class="product-item-header">
                                             <!-- Product Item Image Start -->
                                             <div class="product-item-image">
-                                                <a href="{{ route('productDetails') }}">
+                                                <a href="{{ route('productDetails',' ') }}">
                                                     <figure>
                                                         <img src="{{asset('website')}}/images/product-image-5.png" alt="">
                                                     </figure>
@@ -1056,7 +739,7 @@
                                             <!-- Product Item Content Start -->
                                             <div class="product-item-content">
                                                 <h2 class="product-item-title"><a
-                                                        href="{{ route('productDetails') }}">Timeless Elegance Ring</a></h2>
+                                                        href="{{ route('productDetails',' ') }}">Timeless Elegance Ring</a></h2>
                                             </div>
                                             <!-- Product Item Content End -->
 
@@ -1080,7 +763,7 @@
                                         <div class="product-item-header">
                                             <!-- Product Item Image Start -->
                                             <div class="product-item-image">
-                                                <a href="{{ route('productDetails') }}">
+                                                <a href="{{ route('productDetails',' ') }}">
                                                     <figure>
                                                         <img src="{{asset('website')}}/images/product-image-6.png" alt="">
                                                     </figure>
@@ -1117,7 +800,7 @@
                                             <!-- Product Item Content Start -->
                                             <div class="product-item-content">
                                                 <h2 class="product-item-title"><a
-                                                        href="{{ route('productDetails') }}">Kundan Curve Necklace</a></h2>
+                                                        href="{{ route('productDetails',' ') }}">Kundan Curve Necklace</a></h2>
                                             </div>
                                             <!-- Product Item Content End -->
 
@@ -1141,7 +824,7 @@
                                         <div class="product-item-header">
                                             <!-- Product Item Image Start -->
                                             <div class="product-item-image">
-                                                <a href="{{ route('productDetails') }}">
+                                                <a href="{{ route('productDetails',' ') }}">
                                                     <figure>
                                                         <img src="{{asset('website')}}/images/product-image-7.png" alt="">
                                                     </figure>
@@ -1177,7 +860,7 @@
                                         <div class="product-item-body">
                                             <!-- Product Item Content Start -->
                                             <div class="product-item-content">
-                                                <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Gold
+                                                <h2 class="product-item-title"><a href="{{ route('productDetails',' ') }}">Gold
                                                         Solitaire Earrings</a></h2>
                                             </div>
                                             <!-- Product Item Content End -->
@@ -1202,7 +885,7 @@
                                         <div class="product-item-header">
                                             <!-- Product Item Image Start -->
                                             <div class="product-item-image">
-                                                <a href="{{ route('productDetails') }}">
+                                                <a href="{{ route('productDetails',' ') }}">
                                                     <figure>
                                                         <img src="{{asset('website')}}/images/product-image-8.png" alt="">
                                                     </figure>
@@ -1239,7 +922,7 @@
                                             <!-- Product Item Content Start -->
                                             <div class="product-item-content">
                                                 <h2 class="product-item-title"><a
-                                                        href="{{ route('productDetails') }}">Bridal Gold Hoop Earrings</a>
+                                                        href="{{ route('productDetails',' ') }}">Bridal Gold Hoop Earrings</a>
                                                 </h2>
                                             </div>
                                             <!-- Product Item Content End -->
@@ -1264,7 +947,7 @@
                                         <div class="product-item-header">
                                             <!-- Product Item Image Start -->
                                             <div class="product-item-image">
-                                                <a href="{{ route('productDetails') }}">
+                                                <a href="{{ route('productDetails',' ') }}">
                                                     <figure>
                                                         <img src="{{asset('website')}}/images/product-image-9.png" alt="">
                                                     </figure>
@@ -1301,7 +984,7 @@
                                             <!-- Product Item Content Start -->
                                             <div class="product-item-content">
                                                 <h2 class="product-item-title"><a
-                                                        href="{{ route('productDetails') }}">Diamond Hoop Earrings</a></h2>
+                                                        href="{{ route('productDetails',' ') }}">Diamond Hoop Earrings</a></h2>
                                             </div>
                                             <!-- Product Item Content End -->
 

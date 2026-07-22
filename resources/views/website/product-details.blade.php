@@ -11,10 +11,10 @@
                         <div class="product-single-breadcrumb-list wow fadeInUp">
                             <nav>
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="{{ route('productDetails') }}">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="{{ route('productDetails') }}">Women</a></li>
-                                    <li class="breadcrumb-item"><a href="{{ route('productDetails') }}">Jewelry</a></li>
-                                    <li class="breadcrumb-item"><a href="{{ route('productDetails') }}">Rings</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ route('productDetails',' ') }}">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ route('productDetails',' ') }}">Women</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ route('productDetails',' ') }}">Jewelry</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ route('productDetails',' ') }}">Rings</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Timeless Elegance Ring</li>
                                 </ol>
                             </nav>
@@ -368,7 +368,7 @@
                             <div class="product-item-header">
                                 <!-- Product Item Image Start -->
                                 <div class="product-item-image">
-                                    <a href="{{ route('productDetails') }}">
+                                    <a href="{{ route('productDetails',' ') }}">
                                         <figure>
                                             <img src="{{asset('website')}}/images/product-image-1.png" alt="">
                                         </figure>
@@ -394,7 +394,7 @@
                             <div class="product-item-body">
                                 <!-- Product Item Content Start -->
                                 <div class="product-item-content">
-                                    <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Timeless Elegance Ring</a>
+                                    <h2 class="product-item-title"><a href="{{ route('productDetails',' ') }}">Timeless Elegance Ring</a>
                                     </h2>
                                 </div>
                                 <!-- Product Item Content End -->
@@ -415,7 +415,7 @@
                             <div class="product-item-header">
                                 <!-- Product Item Image Start -->
                                 <div class="product-item-image">
-                                    <a href="{{ route('productDetails') }}">
+                                    <a href="{{ route('productDetails',' ') }}">
                                         <figure>
                                             <img src="{{asset('website')}}/images/product-image-2.png" alt="">
                                         </figure>
@@ -441,7 +441,7 @@
                             <div class="product-item-body">
                                 <!-- Product Item Content Start -->
                                 <div class="product-item-content">
-                                    <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Kundan Necklace</a></h2>
+                                    <h2 class="product-item-title"><a href="{{ route('productDetails',' ') }}">Kundan Necklace</a></h2>
                                 </div>
                                 <!-- Product Item Content End -->
 
@@ -461,7 +461,7 @@
                             <div class="product-item-header">
                                 <!-- Product Item Image Start -->
                                 <div class="product-item-image">
-                                    <a href="{{ route('productDetails') }}">
+                                    <a href="{{ route('productDetails',' ') }}">
                                         <figure>
                                             <img src="{{asset('website')}}/images/product-image-3.png" alt="">
                                         </figure>
@@ -487,7 +487,7 @@
                             <div class="product-item-body">
                                 <!-- Product Item Content Start -->
                                 <div class="product-item-content">
-                                    <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Gold Solitaire Earrings</a>
+                                    <h2 class="product-item-title"><a href="{{ route('productDetails',' ') }}">Gold Solitaire Earrings</a>
                                     </h2>
                                 </div>
                                 <!-- Product Item Content End -->
@@ -508,7 +508,7 @@
                             <div class="product-item-header">
                                 <!-- Product Item Image Start -->
                                 <div class="product-item-image">
-                                    <a href="{{ route('productDetails') }}">
+                                    <a href="{{ route('productDetails',' ') }}">
                                         <figure>
                                             <img src="{{asset('website')}}/images/product-image-4.png" alt="">
                                         </figure>
@@ -534,7 +534,7 @@
                             <div class="product-item-body">
                                 <!-- Product Item Content Start -->
                                 <div class="product-item-content">
-                                    <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Bridal Gold Earrings</a>
+                                    <h2 class="product-item-title"><a href="{{ route('productDetails',' ') }}">Bridal Gold Earrings</a>
                                     </h2>
                                 </div>
                                 <!-- Product Item Content End -->

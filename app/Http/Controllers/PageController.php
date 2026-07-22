@@ -11,7 +11,10 @@ class PageController extends Controller
     //
     public function home()
     {
-        return view('website.index');
+        $categories = Category::where('is_feature','yes')->inRandomOrder()->take(6)->get();
+        $products = Product::where('status','show')->inRandomOrder()->take(6)->get();
+        $featured_products = Product::where('is_feature','yes')->inRandomOrder()->take(6)->get();
+        return view('website.index',compact('categories','products','featured_products'));
     }
     public function about()
     {
@@ -30,7 +33,7 @@ class PageController extends Controller
         return view('website.schemes');
     }
 
-    public function productDetails()
+    public function productDetails($slug)
     {
         return view('website.product-details');
     }
