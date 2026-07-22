@@ -249,9 +249,8 @@ class ProductController extends Controller
         $categories = Category::where(['status' => 'show', 'parent_id' => 0])->get();
         $brands = Brand::all();
         $variantAttributes = Attribute::with('attributeValues')->get();
-        $selectedSubcategories = $product->subcategories->pluck('id')->toArray();
 
-        return view('admin.products.edit', compact('product', 'categories', 'brands', 'variantAttributes', 'selectedSubcategories'));
+        return view('admin.products.edit', compact('product', 'categories', 'brands', 'variantAttributes'));
     }
 
     /**
