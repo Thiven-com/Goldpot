@@ -54,16 +54,27 @@ class BrandController extends Controller
         $brand->name = $request->name;
         $brand->slug = $this->slugGenerate($request->name, 0);
         $manager = new ImageManager(new Driver());
+
         if ($request->hasFile('image')) {
-            $product_image = request()->file('image');
-            $productName = $brand->slug . "." . 'webp';
-            $image = $manager->read($product_image);
-            $image->resize(237, 255);
-            $image->toWebp(70)->save(public_path('brands/') . $productName);
-            $imagePath = 'brands/' . $productName;
-            $brand->image = $imagePath;
+
+            $productImage = $request->file('image');
+            $productName = $brand->slug . '.webp';
+
+            // Read uploaded image
+            $image = $manager->decode($productImage);
+
+            // Resize
+            $image->scale(width: 237, height: 255);
+
+            // Save as WebP
+            $image->save(
+                public_path('brands/' . $productName),
+                quality: 70
+            );
+
+            $brand->image = 'brands/' . $productName;
         }
-        $brand->status     = $request->has('status') ? 'show' : 'hide';
+        $brand->status = $request->has('status') ? 'show' : 'hide';
         $brand->save();
 
         Alert::toast('Brand created Succesfully', 'success');
@@ -110,16 +121,27 @@ class BrandController extends Controller
         }
         $brand->name = $request->name;
         $manager = new ImageManager(new Driver());
+
         if ($request->hasFile('image')) {
-            $product_image = request()->file('image');
-            $productName = $brand->slug . "." . 'webp';
-           $image = $manager->read($request->file('image'));
-            $image->resize(237, 255);
-            $image->toWebp(70)->save(public_path('brands/') . $productName);
-            $imagePath = 'brands/' . $productName;
-            $brand->image = $imagePath;
+
+            $productImage = $request->file('image');
+            $productName = $brand->slug . '.webp';
+
+            // Read uploaded image
+            $image = $manager->decode($productImage);
+
+            // Resize
+            $image->scale(width: 237, height: 255);
+
+            // Save as WebP
+            $image->save(
+                public_path('brands/' . $productName),
+                quality: 70
+            );
+
+            $brand->image = 'brands/' . $productName;
         }
-        $brand->status     = $request->has('status') ? 'show' : 'hide';
+        $brand->status = $request->has('status') ? 'show' : 'hide';
         $brand->save();
 
         Alert::toast('Brand Updated Succesfully', 'success');

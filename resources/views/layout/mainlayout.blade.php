@@ -43,7 +43,7 @@
 </head>
 <style>
     .sidebar {
-        background-color: #382b94 !important;
+        background-color: #dea54a !important;
     }
 
     /* .sidebar .sidebar-menu>ul>li.submenu-open ul li a span,
