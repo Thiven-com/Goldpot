@@ -62,12 +62,12 @@
                                             <label for="Rings" style="color: black;">{{ $category->title }}</label>
                                         </li>
                                     @endforeach
-                                   
+
                                 </ul>
                             </div>
                             <!-- Product Category Item End -->
 
-                          
+
 
                             <!-- Product Category Item Start -->
                             {{-- <div class="product-category-item wow fadeInUp" data-wow-delay="0.6s">
@@ -138,51 +138,83 @@
                         <!-- Product item List Start -->
                         <div class="product-item-list">
                             <!-- Product Item Start -->
-                            <div class="product-item wow fadeInUp">
-                                <!-- Product Item Header Start -->
-                                <div class="product-item-header">
-                                    <!-- Product Item Image Start -->
-                                    <div class="product-item-image">
-                                        <a href="{{ route('productDetails') }}">
-                                            <figure>
-                                                <img src="{{asset('website')}}/images/product-image-1.png" alt="">
-                                            </figure>
-                                        </a>
-                                    </div>
-                                    <!-- Product Item Image End -->
+                            @foreach($products as $product)
 
-                                    <!-- Product Item Action Start -->
-                                    <div class="product-item-action">
-                                        <ul>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
-                                                        alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg"
-                                                        alt=""></a></li>
-                                           
-                                        </ul>
+                                @php
+                                    $variant = $product->variants->first();
+                                @endphp
+
+                                <div class="product-item wow fadeInUp">
+
+                                    <!-- Product Item Header -->
+                                    <div class="product-item-header">
+
+                                        <div class="product-item-image">
+                                            <a href="{{ route('productDetails', $product->slug) }}">
+                                                <figure>
+                                                    @if($variant && $variant->image)
+                                                        <img src="{{ asset($variant->image) }}" alt="{{ $product->title }}">
+                                                    @elseif($product->image)
+                                                        <img src="{{ asset($product->image) }}" alt="{{ $product->title }}">
+                                                    @else
+                                                        <img src="{{ asset('website/images/product-image-1.png') }}" alt="">
+                                                    @endif
+                                                </figure>
+                                            </a>
+                                        </div>
+
+                                        <div class="product-item-action">
+                                            <ul>
+                                                <li>
+                                                    <a href="#">
+                                                        <img src="{{ asset('website/images/icon-wishlist-primary.svg') }}"
+                                                            alt="">
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="{{ route('productDetails', $product->slug) }}">
+                                                        <img src="{{ asset('website/images/icon-preview-primary.svg') }}"
+                                                            alt="">
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
                                     </div>
-                                    <!-- Product Item Action End -->
+
+                                    <!-- Product Item Body -->
+                                    <div class="product-item-body">
+
+                                        <div class="product-item-content">
+                                            <h2 class="product-item-title">
+                                                <a href="{{ route('productDetails', $product->slug) }}">
+                                                    {{ $product->title }}
+                                                </a>
+                                            </h2>
+                                        </div>
+
+                                        <div class="product-item-price">
+
+                                            @if($variant)
+                                                <h3>
+                                                    ₹{{ number_format($variant->price, 2) }}
+
+                                                    @if($product->actual_price && $product->actual_price > $product->price)
+                                                        <span>₹{{ number_format($product->actual_price, 2) }}</span>
+                                                    @endif
+                                                </h3>
+                                            @else
+                                                <h3>Price Not Available</h3>
+                                            @endif
+
+                                        </div>
+
+                                    </div>
+
                                 </div>
-                                <!-- Product Item Header End -->
 
-                                <!-- Product Item Body Start -->
-                                <div class="product-item-body">
-                                    <!-- Product Item Content Start -->
-                                    <div class="product-item-content">
-                                        <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Timeless
-                                                Elegance
-                                                Ring</a></h2>
-                                    </div>
-                                    <!-- Product Item Content End -->
-
-                                    <!-- Product Item Price Start -->
-                                    <div class="product-item-price">
-                                        <h3>₹4000.00 <span>₹8000.00</span></h3>
-                                    </div>
-                                    <!-- Product Item Price End -->
-                                </div>
-                                <!-- Product Item Body End -->
-                            </div>
+                            @endforeach
                             <!-- Product Item End -->
 
                             <!-- Product Item Start -->

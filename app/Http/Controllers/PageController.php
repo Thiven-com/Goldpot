@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -19,7 +20,10 @@ class PageController extends Controller
     public function shop()
     {
         $categories = Category::get();
-        return view('website.shop',compact('categories'));
+        $products = Product::with('variants')
+            ->where('status', 'show')
+            ->get();
+        return view('website.shop', compact('categories', 'products'));
     }
     public function schemes()
     {
