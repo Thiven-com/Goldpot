@@ -55,26 +55,14 @@
                             <div class="product-category-item wow fadeInUp" data-wow-delay="0.2s">
                                 <h2 class="product-category-item-title">Categories</h2>
                                 <ul>
-                                    <li>
-                                        <input type="checkbox" id="Rings" name="interest" value="Rings">
-                                        <label for="Rings">Rings</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="Necklaces" name="interest" value="Necklaces">
-                                        <label for="Necklaces">Necklaces</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="Earrings" name="interest" value="Earrings">
-                                        <label for="Earrings">Earrings</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="Bracelets" name="interest" value="Bracelets">
-                                        <label for="Bracelets">Bracelets</label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" id="Anklets" name="interest" value="Anklets">
-                                        <label for="Anklets">Anklets</label>
-                                    </li>
+                                    @foreach($categories as $category)
+
+                                        <li>
+                                            <input type="checkbox" id="Rings" name="interest" value="Rings">
+                                            <label for="Rings">{{ $category->name }}</label>
+                                        </li>
+                                    @endforeach
+                                   
                                 </ul>
                             </div>
                             <!-- Product Category Item End -->

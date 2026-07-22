@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -17,7 +18,8 @@ class PageController extends Controller
     }
     public function shop()
     {
-        return view('website.shop');
+        $categories = Category::get();
+        return view('website.shop',compact('categories'));
     }
     public function schemes()
     {

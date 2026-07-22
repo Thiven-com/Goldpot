@@ -113,7 +113,7 @@ class BrandController extends Controller
         if ($request->hasFile('image')) {
             $product_image = request()->file('image');
             $productName = $brand->slug . "." . 'webp';
-            $image = $manager->read($product_image);
+           $image = $manager->read($request->file('image'));
             $image->resize(237, 255);
             $image->toWebp(70)->save(public_path('brands/') . $productName);
             $imagePath = 'brands/' . $productName;
