@@ -236,7 +236,7 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product = Product::with(['brand', 'category','variants'])->findOrFail($id);
+        $product = Product::with(['brand', 'category', 'variants'])->findOrFail($id);
         return view('admin.products.show', compact('product'));
     }
 
@@ -501,86 +501,26 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      */
 
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $product = Product::with(['variants', 'media'])->find($id);
-
-        if (!$product) {
-            Alert::toast('Product not found', 'error');
-            return redirect()->back();
-        }
-
-        DB::beginTransaction();
-
         try {
-            // 1) Delete main product image
-            if (!empty($product->image)) {
-                $productImagePath = public_path($product->image);
-                if (file_exists($productImagePath)) {
-                    @unlink($productImagePath);
-                }
-            }
 
-            // 2) Delete variants
-            foreach ($product->variants as $variant) {
-                // Delete variant main image
-                if (!empty($variant->image)) {
-                    $variantImagePath = public_path($variant->image);
-                    if (file_exists($variantImagePath)) {
-                        @unlink($variantImagePath);
-                    }
-                }
+            $product = Product::findOrFail($id);
 
-                CartItem::where('product_variant_id', $variant->id)->delete();
-                WishlistItem::where('product_variant_id', $variant->id)->delete();
-
-                // Delete variant media
-                $variantMedias = ProductMedia::where('product_variant_id', $variant->id)->get();
-                foreach ($variantMedias as $vm) {
-                    if (!empty($vm->url)) {
-                        $filePath = public_path($vm->url);
-                        if (file_exists($filePath)) {
-                            @unlink($filePath);
-                        }
-                    }
-                    $vm->delete();
-                }
-
-                // Delete variant attribute values
-                VariantAttributeValue::where('product_variant_id', $variant->id)->delete();
-
-                // Delete variant itself
-                $variant->delete();
-            }
-
-            // 3) Delete product media
-            foreach ($product->media as $pm) {
-                if (!empty($pm->url)) {
-                    $filePath = public_path($pm->url);
-                    if (file_exists($filePath)) {
-                        @unlink($filePath);
-                    }
-                }
-                $pm->delete();
-            }
-
-            // 4) Detach subcategories (pivot table)
-            if (method_exists($product, 'subcategories')) {
-                $product->subcategories()->detach();
-            }
-
-            // 5) Delete product record
             $product->delete();
 
-            DB::commit();
+            return response()->json([
+                'success' => true,
+                'message' => 'Product deleted successfully.'
+            ]);
 
-            Alert::toast('Product deleted successfully', 'success');
-            return redirect()->route('admin.products.index');
-        } catch (\Throwable $e) {
-            DB::rollBack();
-            \Log::error('Product delete error: ' . $e->getMessage(), ['product_id' => $id]);
-            Alert::toast('Unable to delete product: ' . $e->getMessage(), 'error');
-            return redirect()->back();
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+
         }
     }
 
