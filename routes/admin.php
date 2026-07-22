@@ -150,3 +150,6 @@ Route::get('service/reviews', 'ServiceController@reviews')->name('admin.services
 Route::post('service/reviews/store', 'ServiceController@store_review')->name('admin.services.reviews.store');
 Route::delete('/admin/testimonial/{id}', [TestimonialController::class, 'destroy'])
     ->name('admin.services.reviews.destroy');
+
+Route::delete('/products/{id}', [ProductController::class, 'destroy'])
+    ->name('admin.products.destroy');
