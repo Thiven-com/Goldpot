@@ -37,7 +37,27 @@ class PageController extends Controller
 
     public function productDetails($slug)
     {
-        return view('website.product-details');
+        $product = Product::with([
+            'category',
+            'brand',
+            'variants',
+            'media'
+        ])->where('slug', $slug)
+            ->where('status', 1)
+            ->firstOrFail();
+
+        // Related Products
+        $relatedProducts = Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->where('status', 1)
+            ->latest()
+            ->take(8)
+            ->get();
+
+        return view('website.product-details', compact(
+            'product',
+            'relatedProducts'
+        ));
     }
     public function blog()
     {
