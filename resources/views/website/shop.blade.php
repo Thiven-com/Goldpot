@@ -148,7 +148,7 @@
                                         <div class="product-item-image">
                                             <a href="{{ route('productDetails', $product->slug) }}">
                                                 <figure>
-                                                        <img src="{{ asset($product->image) }}" alt="{{ $product->title }}">
+                                                    <img src="{{ asset($product->image) }}" alt="{{ $product->title }}">
                                                 </figure>
                                             </a>
                                         </div>
@@ -168,6 +168,8 @@
                                                             alt="">
                                                     </a>
                                                 </li>
+                                                <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
+                                                            alt=""></a></li>
                                             </ul>
                                         </div>
 
@@ -186,14 +188,14 @@
 
                                         <div class="product-item-price">
 
-                                            
-                                                <h3>
-                                                    ₹{{ number_format($product->variant->price, 2) }}
 
-                                                    @if($product->variant->actual_price && $product->variant->actual_price > $product->variant->price)
-                                                        <span>₹{{ number_format($product->variant->actual_price, 2) }}</span>
-                                                    @endif
-                                                </h3>
+                                            <h3>
+                                                ₹{{ number_format($product->variant->price, 2) }}
+
+                                                @if($product->variant->actual_price && $product->variant->actual_price > $product->variant->price)
+                                                    <span>₹{{ number_format($product->variant->actual_price, 2) }}</span>
+                                                @endif
+                                            </h3>
 
                                         </div>
 
@@ -206,7 +208,7 @@
                         </div>
                         <!-- Product item List End -->
 
-                       
+
                     </div>
                     <!-- Product item List Box End -->
                 </div>
