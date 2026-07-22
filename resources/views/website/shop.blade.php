@@ -1,5 +1,13 @@
 ﻿@extends('layouts.website')
 @section('content')
+
+    @php
+        $wishlistIds = auth()->check()
+            ? \App\Models\WishlistItem::where('user_id', auth()->id())
+                ->pluck('product_variant_id')
+                ->toArray()
+            : [];
+    @endphp
     <!-- Page Header Start -->
     <div class="page-header dark-section parallaxie">
         <div class="container">
@@ -187,11 +195,16 @@
                                     <!-- Product Item Action Start -->
                                     <div class="product-item-action">
                                         <ul>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg" alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg"
+                                                        alt=""></a></li>
                                         </ul>
                                     </div>
                                     <!-- Product Item Action End -->
@@ -202,7 +215,8 @@
                                 <div class="product-item-body">
                                     <!-- Product Item Content Start -->
                                     <div class="product-item-content">
-                                        <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Timeless Elegance
+                                        <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Timeless
+                                                Elegance
                                                 Ring</a></h2>
                                     </div>
                                     <!-- Product Item Content End -->
@@ -234,11 +248,16 @@
                                     <!-- Product Item Action Start -->
                                     <div class="product-item-action">
                                         <ul>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg" alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg"
+                                                        alt=""></a></li>
                                         </ul>
                                     </div>
                                     <!-- Product Item Action End -->
@@ -281,11 +300,16 @@
                                     <!-- Product Item Action Start -->
                                     <div class="product-item-action">
                                         <ul>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg" alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg"
+                                                        alt=""></a></li>
                                         </ul>
                                     </div>
                                     <!-- Product Item Action End -->
@@ -296,7 +320,8 @@
                                 <div class="product-item-body">
                                     <!-- Product Item Content Start -->
                                     <div class="product-item-content">
-                                        <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Gold Solitaire
+                                        <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Gold
+                                                Solitaire
                                                 Earrings</a></h2>
                                     </div>
                                     <!-- Product Item Content End -->
@@ -328,11 +353,16 @@
                                     <!-- Product Item Action Start -->
                                     <div class="product-item-action">
                                         <ul>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg" alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg"
+                                                        alt=""></a></li>
                                         </ul>
                                     </div>
                                     <!-- Product Item Action End -->
@@ -343,7 +373,8 @@
                                 <div class="product-item-body">
                                     <!-- Product Item Content Start -->
                                     <div class="product-item-content">
-                                        <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Bridal Gold Hoop
+                                        <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Bridal Gold
+                                                Hoop
                                                 Earrings</a></h2>
                                     </div>
                                     <!-- Product Item Content End -->
@@ -375,11 +406,16 @@
                                     <!-- Product Item Action Start -->
                                     <div class="product-item-action">
                                         <ul>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg" alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg"
+                                                        alt=""></a></li>
                                         </ul>
                                     </div>
                                     <!-- Product Item Action End -->
@@ -422,11 +458,16 @@
                                     <!-- Product Item Action Start -->
                                     <div class="product-item-action">
                                         <ul>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg" alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg"
+                                                        alt=""></a></li>
                                         </ul>
                                     </div>
                                     <!-- Product Item Action End -->
@@ -437,7 +478,8 @@
                                 <div class="product-item-body">
                                     <!-- Product Item Content Start -->
                                     <div class="product-item-content">
-                                        <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Wavy Diamond Gold
+                                        <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Wavy Diamond
+                                                Gold
                                                 Band</a></h2>
                                     </div>
                                     <!-- Product Item Content End -->
@@ -469,11 +511,16 @@
                                     <!-- Product Item Action Start -->
                                     <div class="product-item-action">
                                         <ul>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg" alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg"
+                                                        alt=""></a></li>
                                         </ul>
                                     </div>
                                     <!-- Product Item Action End -->
@@ -484,7 +531,8 @@
                                 <div class="product-item-body">
                                     <!-- Product Item Content Start -->
                                     <div class="product-item-content">
-                                        <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Zinzi Silver Style
+                                        <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Zinzi Silver
+                                                Style
                                                 Earrings</a></h2>
                                     </div>
                                     <!-- Product Item Content End -->
@@ -516,11 +564,16 @@
                                     <!-- Product Item Action Start -->
                                     <div class="product-item-action">
                                         <ul>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg" alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg"
+                                                        alt=""></a></li>
                                         </ul>
                                     </div>
                                     <!-- Product Item Action End -->
@@ -531,7 +584,8 @@
                                 <div class="product-item-body">
                                     <!-- Product Item Content Start -->
                                     <div class="product-item-content">
-                                        <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Diamond Engagement
+                                        <h2 class="product-item-title"><a href="{{ route('productDetails') }}">Diamond
+                                                Engagement
                                                 Ring</a></h2>
                                     </div>
                                     <!-- Product Item Content End -->
@@ -563,11 +617,16 @@
                                     <!-- Product Item Action Start -->
                                     <div class="product-item-action">
                                         <ul>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg" alt=""></a></li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg" alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg"
+                                                        alt=""></a></li>
                                         </ul>
                                     </div>
                                     <!-- Product Item Action End -->
@@ -578,7 +637,8 @@
                                 <div class="product-item-body">
                                     <!-- Product Item Content Start -->
                                     <div class="product-item-content">
-                                        <h2 class="product-item-title"><a href="{{ route('productDetails') }}"> Locking Diamond Orbit
+                                        <h2 class="product-item-title"><a href="{{ route('productDetails') }}"> Locking
+                                                Diamond Orbit
                                                 Ring</a></h2>
                                     </div>
                                     <!-- Product Item Content End -->
