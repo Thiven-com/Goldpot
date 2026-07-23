@@ -182,7 +182,7 @@
 
                                 <div class="product-single-content-body wow fadeInUp" data-wow-delay="0.8s">
 
-                                    <div class="qty-box">
+                                    {{-- <div class="qty-box">
 
                                         <button class="qty-btn minus">-</button>
 
@@ -190,7 +190,7 @@
 
                                         <button class="qty-btn plus">+</button>
 
-                                    </div>
+                                    </div> --}}
                                     <div class="product-single-content-btn">
                                         <a href="javascript:void(0);" class="btn-default addCartBtn"
                                             data-id="{{ $selectedValueId }}">
@@ -210,8 +210,6 @@
                                                         alt="">
                                                 </a>
                                             </li>
-                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg"
-                                                        alt=""></a></li>
                                         </ul>
 
                                     </div>
@@ -225,16 +223,10 @@
                                         <ul>
                                             <li><img src="{{asset('website')}}/images/icon-product-shipping-1.svg"
                                                     alt="">Free Shipping &
-                                            <li><img src="{{asset('website')}}/images/icon-product-shipping-1.svg"
-                                                    alt="">Free Shipping &
                                                 Exchanges</li>
                                             <li><img src="{{asset('website')}}/images/icon-product-shipping-2.svg"
                                                     alt="">Flexible and Secure
-                                            <li><img src="{{asset('website')}}/images/icon-product-shipping-2.svg"
-                                                    alt="">Flexible and Secure
                                                 Payment, Pay on Delivery</li>
-                                            <li><img src="{{asset('website')}}/images/icon-product-shipping-3.svg"
-                                                    alt="">600,000 Happy Customers
                                             <li><img src="{{asset('website')}}/images/icon-product-shipping-3.svg"
                                                     alt="">600,000 Happy Customers
                                             </li>
@@ -461,14 +453,14 @@
                                     <!-- Product Item Image End -->
 
                                     <!-- Product Item Action Start -->
-                                    <div class="product-item-action">
+                                    {{-- <div class="product-item-action">
                                         <ul>
                                             <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
                                                         alt=""></a></li>
                                             <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
                                                         alt=""></a></li>
                                         </ul>
-                                    </div>
+                                    </div> --}}
                                     <!-- Product Item Action End -->
                                 </div>
                                 <!-- Product Item Header End -->
@@ -526,6 +518,8 @@
                         if (res.stock_error == true) {
                             alert(res.message);
                             button.find('.text').text('Add To Cart');
+                            location.reload();
+
                             return false;
                         }
                         $('#cartCount').text(res.count);

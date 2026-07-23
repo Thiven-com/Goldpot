@@ -53,7 +53,17 @@ class PageController extends Controller
         }
 
         $variant = $product->variants->first();
+        if (!$request->filled('variant_id')) {
 
+            $firstVariant = $product->variants->first();
+
+            if ($firstVariant) {
+                return redirect()->route('productDetails', [
+                    'slug' => $product->slug,
+                    'variant_id' => $firstVariant->id,
+                ]);
+            }
+        }
         if ($request->filled('variant_id')) {
             $selected = $product->variants->firstWhere('id', $request->variant_id);
 
