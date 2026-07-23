@@ -36,7 +36,7 @@
                                 <li><a href="{{ route('dashboard') }}"><img
                                             src="{{asset('website')}}/images/icon-dashboard-primary.svg"
                                             alt="">Dashboard</a></li>
-                                <li><a href="{{ route('orders') }}"><img
+                                <li><a href="{{ route('customer.orders') }}"><img
                                             src="{{asset('website')}}/images/icon-cart-primary.svg" alt="">Orders</a>
                                 </li>
                                 <li><a href="{{ route('addresses') }}"><img
@@ -75,7 +75,7 @@
                                 <div class="border rounded-3 p-4 h-100">
                                     <h5>🛍 My Orders</h5>
                                     <p>View your order history and track your recent jewellery purchases.</p>
-                                    <a href="{{ route('orders') }}" class="btn-default">View Orders</a>
+                                    <a href="{{ route('customer.orders') }}" class="btn-default">View Orders</a>
                                 </div>
                             </div>
 

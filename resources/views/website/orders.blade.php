@@ -23,107 +23,179 @@
     </div>
     <!-- Page Header End -->
 
-    <!-- Page Account Order Start -->
-    <div class="page-account-order light-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4">
-                    <!-- Page Single Sidebar Start -->
-                    <div class="page-single-sidebar">
-                        <!-- My Account Sidebar Item Start -->
-                        <div class="my-account-sidebar-item wow fadeInUp">
-                            <ul>
-                                <li><a href="{{ route('dashboard') }}"><img
-                                            src="{{asset('website')}}/images/icon-dashboard-primary.svg"
-                                            alt="">Dashboard</a></li>
-                                <li><a href="{{ route('orders') }}"><img
-                                            src="{{asset('website')}}/images/icon-cart-primary.svg" alt="">Orders</a>
-                                </li>
-                                <li><a href="{{ route('profile') }}"><img
-                                            src="{{asset('website')}}/images/icon-user-primary.svg" alt="">Account
-                                        details</a></li>
-                                         <li><a href="{{ route('addresses') }}"><img
-                                            src="{{asset('website')}}/images/icon-dashboard-primary.svg" alt="">Addresses</a></li>
-                                <li><a href="{{ route('wishlist') }}"><img
-                                            src="{{asset('website')}}/images/icon-wishlist-primary.svg" alt="">Wishlist</a>
-                                </li>
-                                <li><a href="{{ route('login') }}"><img
-                                            src="{{asset('website')}}/images/icon-logout-primary.svg" alt="">Logout</a></li>
-                            </ul>
-                        </div>
-                        <!-- My Account Sidebar Item End -->
-                    </div>
-                    <!-- Page Single Sidebar End -->
+    <main class="main-bg">
+
+        <section class="pt-50 pb-20 mt-20">
+            <div class="container">
+
+                <div class="text-center mb-5" style="margin-top: 70px;">
+                    {{-- <span class="badge bg-dark px-3 py-2 mb-3">Customer Dashboard</span> --}}
+                    <h2 class="fw-bold">My Orders</h2>
+                    <p class="text-muted">Track your recent purchases and order history</p>
                 </div>
 
-                <div class="col-lg-8">
-                    <!-- Account Order Detail Box Start -->
-                    <div class="account-order-detail-box">
-                        <!-- Account Order Table Box Start -->
-                        <div class="account-order-table-box wow fadeInUp">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Order</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
-                                        {{-- <th>Actions</th> --}}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="account-order-table-no">#236</td>
-                                        <td>Feb 15, 2026</td>
-                                        <td>On hold</td>
-                                        <td>1 items</td>
-                                        <td>₹4000.00</td>
-                                        {{-- <td><a href="account-orders-details.html" class="btn-default">View</a></td>
-                                        --}}
-                                    </tr>
-                                    <tr>
-                                        <td class="account-order-table-no">#237</td>
-                                        <td>March 22, 2026</td>
-                                        <td>On hold</td>
-                                        <td>2 items</td>
-                                        <td>₹6000.00</td>
-                                        {{-- <td><a href="account-orders-details.html" class="btn-default">View</a></td>
-                                        --}}
-                                    </tr>
-                                    <tr>
-                                        <td class="account-order-table-no">#238</td>
-                                        <td>April 17, 2026</td>
-                                        <td>On hold</td>
-                                        <td>4 items</td>
-                                        <td>₹12000.00</td>
-                                        {{-- <td><a href="account-orders-details.html" class="btn-default">View</a></td>
-                                        --}}
-                                    </tr>
-                                    <tr>
-                                        <td class="account-order-table-no">#239</td>
-                                        <td>May 18, 2026</td>
-                                        <td>On hold</td>
-                                        <td>1 items</td>
-                                        <td>₹4000.00</td>
-                                        {{-- <td><a href="account-orders-details.html" class="btn-default">View</a></td>
-                                        --}}
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- Account Order Table Box End -->
+                @if($orders->count())
 
-                        <!-- Account Order Button Start -->
-                        <div class="account-order-button wow fadeInUp" data-wow-delay="0.2s">
-                            <a href="{{route('shop')}}" class="btn-default">Back to Shop</a>
-                        </div>
-                        <!-- Account Order Button End -->
+                    <div class="row g-4">
+
+                        @foreach($orders as $order)
+
+                            @php
+                                switch ($order->status) {
+                                    case 'placed':
+                                        $statusColor = 'success';
+                                        break;
+                                    case 'pending':
+                                        $statusColor = 'warning';
+                                        break;
+                                    case 'cancelled':
+                                        $statusColor = 'danger';
+                                        break;
+                                    case 'delivered':
+                                        $statusColor = 'primary';
+                                        break;
+                                    default:
+                                        $statusColor = 'secondary';
+                                }
+                            @endphp
+
+                            <div class="col-lg-6">
+
+                                <div class="card border-0 shadow-sm rounded-4 h-100 order-card">
+
+                                    <div class="card-body">
+
+                                        <div class="d-flex justify-content-between align-items-center">
+
+                                            <div>
+                                                <h5 class="fw-bold mb-1">
+                                                    {{ $order->invoice_id }}
+                                                </h5>
+
+                                                <small class="text-muted">
+                                                    {{ $order->created_at->format('d M Y') }}
+                                                </small>
+                                            </div>
+
+                                            <div class="text-end">
+
+                                                <span class="badge bg-{{ $statusColor }}">
+                                                    {{ ucfirst($order->status) }}
+                                                </span>
+
+                                                <div class="fw-bold text-success mt-2">
+                                                    ₹{{ number_format($order->grand_total, 2) }}
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <hr>
+
+                                        {{-- Products --}}
+
+                                        @foreach($order->items as $item)
+
+                                            <div class="d-flex align-items-center mb-3">
+
+                                                <img src="{{ asset($item->variant->image ?? 'website/images/no-image.png') }}"
+                                                    width="70" height="70" class="rounded border object-fit-cover">
+
+                                                <div class="ms-3 flex-grow-1">
+
+                                                    <h6 class="mb-1">
+                                                        {{ $item->variant->product->name ?? '' }}
+                                                    </h6>
+
+                                                    <small class="text-muted">
+                                                        Qty : {{ $item->quantity }}
+                                                    </small>
+
+                                                </div>
+
+                                                <strong>
+                                                    ₹{{ number_format($item->subtotal, 2) }}
+                                                </strong>
+
+                                            </div>
+
+                                        @endforeach
+
+                                        <hr>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+
+                                            <div>
+
+                                                <small class="text-muted d-block">
+                                                    Payment
+                                                </small>
+
+                                                <strong>
+                                                    {{ ucfirst($order->payment_status) }}
+                                                </strong>
+
+                                            </div>
+
+                                            {{-- <a href="{{ route('customer.orders.show', $order->id) }}"
+                                                class="theme-btn style-one btn-sm">
+
+                                                View Details
+
+                                            </a> --}}
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        @endforeach
+
                     </div>
-                    <!-- Account Order Detail Box End -->
-                </div>
+
+                    <div class="mt-4 d-flex justify-content-center">
+                        {{ $orders->links('pagination::bootstrap-5') }}
+                    </div>
+
+                @else
+
+                    <div class="text-center py-5">
+
+                        <h4>No Orders Found</h4>
+
+                        <p class="text-muted">
+                            You haven't placed any orders yet.
+                        </p>
+
+                        <a href="{{ route('shop') }}" class="theme-btn style-one">
+                            Start Shopping
+                        </a>
+
+                    </div>
+
+                @endif
+
             </div>
-        </div>
-    </div>
-    <!-- Page Account Order End -->
+        </section>
+
+    </main>
+
+    <style>
+        .order-card {
+            transition: .3s;
+        }
+
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, .08) !important;
+        }
+
+        .object-fit-cover {
+            object-fit: cover;
+        }
+    </style>
 @endsection

@@ -211,7 +211,7 @@ class OrderController extends Controller
             }
            
         } catch (\Exception $e) {
-            // dd($e->getMessage());
+            dd($e->getMessage());
             DB::rollBack();
 
             Alert::toast($e->getMessage(), 'error');
