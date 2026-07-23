@@ -1009,7 +1009,10 @@
         </div>
     </div>
     <!-- Hero Info Box End -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         $(document).on('click', '.addCartBtn', function () {
 
@@ -1039,6 +1042,7 @@
                         $('#cartCount').text(res.count);
 
                         button.find('.text').text('Added');
+                        toastr.success(res.message);
 
                         setTimeout(function () {
                             button.find('.text').text('Add To Cart');
@@ -1060,7 +1064,6 @@
 
         });
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         $(document).on('click', '.wishlistBtn', function (e) {
 
@@ -1090,7 +1093,9 @@
                     }
 
                     toastr.success(res.message);
-                }, // <-- Missing comma was here
+                        location.reload();
+
+                }, 
 
                 error: function (xhr) {
                     console.log(xhr.responseText);

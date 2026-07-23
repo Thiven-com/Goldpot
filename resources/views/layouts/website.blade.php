@@ -284,7 +284,7 @@
     <!-- Header End -->
 
     @yield('content')
-
+     @include('sweetalert::alert')
     <!-- Main Footer Start -->
     <footer class="main-footer dark-section">
         <div class="container">

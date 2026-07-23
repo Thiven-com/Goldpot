@@ -24,6 +24,7 @@ class WishlistController extends Controller
         if ($item) {
 
             $item->delete();
+            Alert::toast('Removed from wishlist', 'success');
 
             return response()->json([
                 'status' => true,
@@ -37,6 +38,7 @@ class WishlistController extends Controller
             'user_id' => Auth::guard('customer')->id(),
             'product_variant_id' => $request->product_variant_id
         ]);
+        Alert::toast('Added Successfully', 'success');
 
         return response()->json([
             'status' => true,
@@ -55,5 +57,5 @@ class WishlistController extends Controller
         Alert::toast('Removed from wishlist', 'success');
         return back()->with('success', 'Removed from wishlist');
     }
-    
+
 }
