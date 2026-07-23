@@ -214,7 +214,7 @@
                         @foreach($categories as $category)
                             <div class="top-selling-item wow fadeInUp">
                                 <div class="top-selling-item-image">
-                                    <a href="{{ route('shop') }}" data-cursor-text="View">
+                                    <a href="{{ route('shop', ['category[]' => $category->id]) }}" data-cursor-text="View">
                                         <figure class="image-anime">
                                             <img src="{{ asset($category->image) }}" alt="">
                                         </figure>
