@@ -38,6 +38,84 @@
 </head>
 
 <body>
+    <style>
+        /* User Dropdown */
+        .main-menu ul li.menu-item.has-children {
+            position: relative;
+        }
+
+        .main-menu ul li.menu-item.has-children .sub-menu {
+            position: absolute;
+            top: 120%;
+            right: 0;
+            left: auto;
+            min-width: 180px;
+            background: #fff;
+            border-radius: 10px;
+            padding: 8px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .12);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all .3s ease;
+            z-index: 9999;
+        }
+
+        .main-menu ul li.menu-item.has-children:hover .sub-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .main-menu ul li.menu-item.has-children .sub-menu li {
+            display: block;
+            width: 100%;
+        }
+
+        .main-menu ul li.menu-item.has-children .sub-menu li a {
+            display: block;
+            padding: 10px 18px;
+            color: #333;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all .3s;
+        }
+
+        .main-menu ul li.menu-item.has-children .sub-menu li a:hover {
+            background: #dea54a;
+            color: #fff;
+        }
+
+        .main-menu ul li.menu-item.has-children>a img {
+            width: 24px;
+            height: 24px;
+            transition: .3s;
+        }
+
+        .main-menu ul li.menu-item.has-children:hover>a img {
+            transform: scale(1.1);
+        }
+
+        /* Mobile */
+        @media (max-width: 991px) {
+
+            .main-menu ul li.menu-item.has-children .sub-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                border-radius: 0;
+                padding-left: 15px;
+                display: none;
+            }
+
+            .main-menu ul li.menu-item.has-children:hover .sub-menu {
+                display: block;
+            }
+        }
+    </style>
 
     <!-- Preloader Start -->
     <div class="preloader">
@@ -49,7 +127,7 @@
     <!-- Preloader End -->
 
     <!-- Topbar Section Start -->
-    <div class="topbar" >
+    <div class="topbar">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-3 col-7">
@@ -109,7 +187,8 @@
                                 <ul class="navbar-nav" id="menu">
                                     <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('shop') }}">Shop</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('schemes') }}">Schemes</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('schemes') }}">Schemes</a>
+                                    </li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">About</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('blog') }}">Blog</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('contact') }}">Contact
@@ -150,11 +229,45 @@
                                     </form>
                                     <!-- Header Search Form End -->
                                 </li>
-                                <li><a href="{{ route('dashboard') }}"><img src="{{asset('website')}}/images/icon-user-gold.svg" alt=""></a>
+                                <li class="menu-item has-children">
+                                    <a href="javascript:void(0)">
+                                        <img src="{{ asset('website/images/icon-user-gold.svg') }}" alt="User">
+                                    </a>
+
+                                    <ul class="sub-menu">
+
+                                        @if (Auth::guard('customer')->check())
+
+                                            <li>
+                                                <a href="{{ route('dashboard') }}">Dashboard</a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">Orders</a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">Account</a>
+                                            </li>
+
+                                            <li>
+                                                <a href="{{ route('logout') }}">Logout</a>
+                                            </li>
+
+                                        @else
+
+                                            <li>
+                                                <a href="{{ route('login') }}">Login</a>
+                                            </li>
+
+                                        @endif
+
+                                    </ul>
                                 </li>
-                                <li><a href="{{ route('wishlist') }}"><img src="{{asset('website')}}/images/icon-wishlist-gold.svg"
-                                            alt=""></a></li>
-                                <li><a href="{{ route('cart') }}"><img src="{{asset('website')}}/images/icon-cart-gold.svg" alt=""></a>
+                                <li><a href="{{ route('wishlist') }}"><img
+                                            src="{{asset('website')}}/images/icon-wishlist-gold.svg" alt=""></a></li>
+                                <li><a href="{{ route('cart') }}"><img
+                                            src="{{asset('website')}}/images/icon-cart-gold.svg" alt=""></a>
                                 </li>
                             </ul>
                         </div>

@@ -23,3 +23,5 @@ Route::get('login', [AccountController::class, 'login'])->name('login');
 Route::get('logout', [AccountController::class, 'logout'])->name('logout');
 Route::post('/send-otp', [AccountController::class, 'sendOtp']);
 Route::post('/verify-otp', [AccountController::class, 'verifyOtp']);
+Route::get('addresses', [PageController::class, 'addresses'])->name('addresses');
+

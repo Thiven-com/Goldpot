@@ -332,15 +332,25 @@
                                                 <!-- Product Item Action Start -->
                                                 <div class="product-item-action">
                                                     <ul>
-                                                        <li><a href="#"><img
-                                                                    src="{{asset('website')}}/images/icon-wishlist-primary.svg"
-                                                                    alt=""></a></li>
-                                                        <li><a href="#"><img
-                                                                    src="{{asset('website')}}/images/icon-preview-primary.svg"
-                                                                    alt=""></a></li>
-                                                        <li><a href="#"><img
-                                                                    src="{{asset('website')}}/images/icon-cart-primary.svg"
-                                                                    alt=""></a></li>
+                                                        <li class="wishlist">
+                                                            <a href="javascript:void(0);"
+                                                                class="hover-tooltip tooltip-left box-icon wishlistBtn"
+                                                                data-id="{{ $product->variant->id }}">
+
+                                                                <img src="{{ asset('website/images/icon-wishlist-primary.svg') }}"
+                                                                    alt="">
+                                                            </a>
+                                                        </li>
+
+                                                        <li class="cart">
+                                                            <a href="javascript:void(0);"
+                                                                class="hover-tooltip tooltip-left box-icon addCartBtn"
+                                                                data-id="{{ $product->variant->id }}">
+
+                                                                <img src="{{ asset('website/images/icon-cart-primary.svg') }}"
+                                                                    alt="">
+                                                            </a>
+                                                        </li>
                                                     </ul>
                                                 </div>
                                                 <!-- Product Item Action End -->
@@ -715,15 +725,25 @@
                                                 <!-- Product Item Action Start -->
                                                 <div class="product-item-action">
                                                     <ul>
-                                                        <li><a href="#"><img
-                                                                    src="{{asset('website')}}/images/icon-wishlist-primary.svg"
-                                                                    alt=""></a></li>
-                                                        <li><a href="#"><img
-                                                                    src="{{asset('website')}}/images/icon-preview-primary.svg"
-                                                                    alt=""></a></li>
-                                                        <li><a href="#"><img
-                                                                    src="{{asset('website')}}/images/icon-cart-primary.svg"
-                                                                    alt=""></a></li>
+
+                                                        <li class="wishlist">
+                                                            <a href="javascript:void(0);"
+                                                                class="hover-tooltip tooltip-left box-icon wishlistBtn"
+                                                                data-id="{{ $product->variant->id }}">
+
+                                                                <img src="{{ asset('website/images/icon-wishlist-primary.svg') }}"
+                                                                    alt="">
+                                                            </a>
+                                                        </li>
+                                                        <li class="cart">
+                                                            <a href="javascript:void(0);"
+                                                                class="hover-tooltip tooltip-left box-icon addCartBtn"
+                                                                data-id="{{ $product->variant->id }}">
+
+                                                                <img src="{{ asset('website/images/icon-cart-primary.svg') }}"
+                                                                    alt="">
+                                                            </a>
+                                                        </li>
 
                                                     </ul>
                                                 </div>
@@ -989,4 +1009,96 @@
         </div>
     </div>
     <!-- Hero Info Box End -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).on('click', '.addCartBtn', function () {
+
+            let button = $(this);
+            let variantId = button.data('id');
+
+            $.ajax({
+                url: "{{ route('customer.cart.add') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    product_variant_id: variantId,
+                    quantity: 1
+                },
+
+                beforeSend: function () {
+                    button.find('.text').text('Adding...');
+                },
+
+                success: function (res) {
+                    if (res.status == true) {
+                        if (res.stock_error == true) {
+                            alert(res.message);
+                            button.find('.text').text('Add To Cart');
+                            return false;
+                        }
+                        $('#cartCount').text(res.count);
+
+                        button.find('.text').text('Added');
+
+                        setTimeout(function () {
+                            button.find('.text').text('Add To Cart');
+                        }, 1500);
+                        location.reload();
+                    } else {
+                        window.location.href = "/login";
+                    }
+                },
+
+                error: function (xhr) {
+
+                    if (xhr.status == 401) {
+                        window.location.href = "/login";
+                    }
+
+                }
+            });
+
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).on('click', '.wishlistBtn', function (e) {
+
+            e.preventDefault();
+
+            let button = $(this);
+            let variantId = button.data('id');
+
+            $.ajax({
+                url: "{{ route('customer.wishlist.add') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    product_variant_id: variantId
+                },
+
+                success: function (res) {
+
+                    if (res.type == 'added') {
+                        button.find('.wishlist-icon').addClass('text-danger');
+                    } else {
+                        button.find('.wishlist-icon').removeClass('text-danger');
+                    }
+
+                    if ($('#wishlistCount').length) {
+                        $('#wishlistCount').text(res.count);
+                    }
+
+                    toastr.success(res.message);
+                }, // <-- Missing comma was here
+
+                error: function (xhr) {
+                    console.log(xhr.responseText);
+                    toastr.error("Something went wrong");
+                }
+
+            });
+
+        });
+    </script>
 @endsection

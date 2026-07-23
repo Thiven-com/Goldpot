@@ -52,7 +52,7 @@ class AccountController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'OTP sent successfully',
-            'otp' => $otp 
+            'otp' => $otp
         ]);
     }
 
@@ -127,4 +127,5 @@ class AccountController extends Controller
 
         return view('website.account', compact('customer', 'defaultAddress'));
     }
+    
 }

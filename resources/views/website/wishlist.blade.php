@@ -1,6 +1,32 @@
 ﻿@extends('layouts.website')
 @section('content')
 
+<style>
+    .addCartBtn{
+    min-width:160px;
+    height:45px;
+    border-radius:8px;
+    transition:.3s;
+}
+
+.addCartBtn:hover{
+    transform:translateY(-2px);
+}
+
+.addCartBtn i{
+    font-size:14px;
+}
+
+.addCartBtn .text{
+    font-weight:600;
+}
+
+.btn-default.disabled{
+    color:#777;
+    opacity:1;
+}
+</style>
+
     <!-- Page Header Start -->
     <div class="page-header dark-section parallaxie">
         <div class="container">
@@ -29,112 +55,132 @@
             <div class="row">
                 <div class="col-lg-12">
                     <!-- Wishlist Content Box Start -->
-                    <div class="wishlist-content-box">
-                        <!-- Wishlist Item Table Start -->
-                        <div class="wishlist-item-table wow fadeInUp">
-                            <!-- Wishlist Item Header Start -->
-                            <div class="wishlist-item-header">
-                                <span class="wishlist-product-tag">Product</span>
-                                <span class="wishlist-price-tag">Unit Price</span>
-                                <span class="wishlist-status-tag">Stock Status</span>
-                                <span class="wishlist-action-tag">Action</span>
-                            </div>
-                            <!-- Wishlist Item Header End -->
+                    <div class="wishlist-item-table wow fadeInUp">
 
-                            <!-- Wishlist Item Start -->
-                            <div class="wishlist-item">
-                                <div class="wishlist-item-image-content">
-                                    <div class="wishlist-item-image">
-                                        <figure>
-                                            <img src="{{asset('website')}}/images/product-image-1.png" alt="">
-                                        </figure>
-                                    </div>
-                                    <div class="wishlist-item-info-content">
-                                        <div class="wishlist-item-title">
-                                            <p>Timeless Elegance Ring</p>
-                                        </div>
-                                        <div class="wishlist-item-price">
-                                            <p><span>₹2000.00</span> ₹1800.00</p>
-                                            <p>10% OFF</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="wishlist-item-status-action">
-                                    <div class="wishlist-item-status">
-                                        <p>In Stock</p>
-                                    </div>
-                                    <div class="wishlist-item-action">
-                                        <a href="#"><i class="fa-regular fa-trash-can"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Wishlist Item End -->
-
-                            <!-- Wishlist Item Start -->
-                            <div class="wishlist-item">
-                                <div class="wishlist-item-image-content">
-                                    <div class="wishlist-item-image">
-                                        <figure>
-                                            <img src="{{asset('website')}}/images/product-image-2.png" alt="">
-                                        </figure>
-                                    </div>
-                                    <div class="wishlist-item-info-content">
-                                        <div class="wishlist-item-title">
-                                            <p>Kundan Curve Necklace</p>
-                                        </div>
-                                        <div class="wishlist-item-price">
-                                            <p><span>₹2000.00</span> ₹1800.00</p>
-                                            <p>10% OFF</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="wishlist-item-status-action">
-                                    <div class="wishlist-item-status">
-                                        <p>In Stock</p>
-                                    </div>
-                                    <div class="wishlist-item-action">
-                                        <a href="#"><i class="fa-regular fa-trash-can"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Wishlist Item End -->
-
-                            <!-- Wishlist Item Start -->
-                            <div class="wishlist-item">
-                                <div class="wishlist-item-image-content">
-                                    <div class="wishlist-item-image">
-                                        <figure>
-                                            <img src="{{asset('website')}}/images/product-image-3.png" alt="">
-                                        </figure>
-                                    </div>
-                                    <div class="wishlist-item-info-content">
-                                        <div class="wishlist-item-title">
-                                            <p>Gold Solitaire Earrings</p>
-                                        </div>
-                                        <div class="wishlist-item-price">
-                                            <p><span>₹2000.00</span> ₹1800.00</p>
-                                            <p>10% OFF</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="wishlist-item-status-action">
-                                    <div class="wishlist-item-status">
-                                        <p>In Stock</p>
-                                    </div>
-                                    <div class="wishlist-item-action">
-                                        <a href="#"><i class="fa-regular fa-trash-can"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Wishlist Item End -->
+                        <div class="wishlist-item-header">
+                            <span class="wishlist-product-tag">Product</span>
+                            <span class="wishlist-price-tag">Unit Price</span>
+                            <span class="wishlist-status-tag">Stock Status</span>
+                            <span class="wishlist-action-tag">Action</span>
                         </div>
-                        <!-- Wishlist Item Table End -->
 
-                        <!-- Wishlist Content Button Start -->
-                        <div class="wishlist-content-button wow fadeInUp" data-wow-delay="0.2s">
-                            <a href="{{ route('shop') }}" class="btn-default">Back to Shop</a>
-                        </div>
-                        <!-- Wishlist Content Button End -->
+                        @forelse($wishlistItems as $item)
+
+                            @php
+                                $variant = $item->variant;
+                                $product = $variant?->product;
+                            @endphp
+
+                            @if($variant && $product)
+
+                                <div class="wishlist-item">
+
+                                    <div class="wishlist-item-image-content">
+
+                                        <div class="wishlist-item-image">
+                                            <figure>
+                                                <a href="{{ route('productDetails', $product->slug) }}">
+                                                    <img src="{{ asset($variant->image) }}" alt="{{ $product->title }}">
+                                                </a>
+                                            </figure>
+                                        </div>
+
+                                        <div class="wishlist-item-info-content">
+
+                                            <div class="wishlist-item-title">
+                                                <p>{{ $product->title }}</p>
+                                            </div>
+
+                                            <div class="wishlist-item-price">
+
+                                                <p>
+
+                                                    @if($variant->actual_price > $variant->price)
+                                                        <span>
+                                                            ₹{{ number_format($variant->actual_price, 2) }}
+                                                        </span>
+                                                    @endif
+
+                                                    ₹{{ number_format($variant->price, 2) }}
+
+                                                </p>
+
+                                                @if($variant->actual_price > $variant->price)
+                                                    <p>
+                                                        {{ round((($variant->actual_price - $variant->price) / $variant->actual_price) * 100) }}%
+                                                        OFF
+                                                    </p>
+                                                @endif
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="wishlist-item-status-action">
+
+                                        <div class="wishlist-item-status">
+
+                                            @if($variant->stock > 0)
+                                                <p class="text-success">In Stock</p>
+                                            @else
+                                                <p class="text-danger">Out Of Stock</p>
+                                            @endif
+
+                                        </div>
+
+                                        <div class="wishlist-item-action d-flex align-items-center gap-2">
+
+                                            @if($variant->stock > 0)
+                                                 <a href="javascript:void(0);"
+                                                                class="hover-tooltip tooltip-left box-icon addCartBtn"
+                                                                data-id="{{ $product->variant->id }}">
+
+        <i class="fa-solid fa-cart-shopping me-2"></i>
+
+        <span class="text">Add To Cart</span>
+
+    </a>
+                                            @endif
+
+                                            <form action="{{ route('customer.wishlist.remove', $item->id) }}" method="POST">
+
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button type="submit" class="border-0 bg-transparent text-danger">
+                                                    <i class="fa-regular fa-trash-can"></i>
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            @endif
+
+                        @empty
+
+                            <div class="text-center py-5">
+
+                                {{-- <img src="{{ asset('website/images/empty-wishlist.png') }}" width="150"> --}}
+
+                                <h4 class="mt-3">
+                                    Nothing Saved Yet
+                                </h4>
+
+                                <a href="{{ route('shop') }}" class="btn-default mt-3">
+                                    Start Shopping
+                                </a>
+
+                            </div>
+
+                        @endforelse
+
                     </div>
                     <!-- Wishlist Content Box End -->
                 </div>
@@ -142,5 +188,56 @@
         </div>
     </div>
     <!-- Page Account Wishlist End -->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).on('click', '.addCartBtn', function () {
+
+            let button = $(this);
+            let variantId = button.data('id');
+
+            $.ajax({
+                url: "{{ route('customer.cart.add') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    product_variant_id: variantId,
+                    quantity: 1
+                },
+
+                beforeSend: function () {
+                    button.find('.text').text('Adding...');
+                },
+
+                success: function (res) {
+                    if (res.status == true) {
+                        if (res.stock_error == true) {
+                            alert(res.message);
+                            button.find('.text').text('Add To Cart');
+                            return false;
+                        }
+                        $('#cartCount').text(res.count);
+
+                        button.find('.text').text('Added');
+
+                        setTimeout(function () {
+                            button.find('.text').text('Add To Cart');
+                        }, 1500);
+                        location.reload();
+                    } else {
+                        window.location.href = "/login";
+                    }
+                },
+
+                error: function (xhr) {
+
+                    if (xhr.status == 401) {
+                        window.location.href = "/login";
+                    }
+
+                }
+            });
+
+        });
+    </script>
 
 @endsection

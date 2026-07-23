@@ -39,6 +39,8 @@
                                 <li><a href="{{ route('orders') }}"><img
                                             src="{{asset('website')}}/images/icon-cart-primary.svg" alt="">Orders</a>
                                 </li>
+                                <li><a href="{{ route('addresses') }}"><img
+                                            src="{{asset('website')}}/images/icon-dashboard-primary.svg" alt="">Addresses</a></li>
                                 <li><a href="{{ route('profile') }}"><img
                                             src="{{asset('website')}}/images/icon-user-primary.svg" alt="">Account
                                         details</a></li>
@@ -59,7 +61,7 @@
                     <div class="account-dashboard-detail-box wow fadeInUp" data-wow-delay="0.2s">
 
                         <p class="account-dashboard-detail-title">
-                            Welcome back, <strong>Rahul Sharma</strong> 👋
+                            Welcome back, <strong></strong> 👋
                         </p>
 
                         <p>
