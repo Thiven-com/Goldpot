@@ -46,6 +46,15 @@
         background-color: #dea54a !important;
     }
 
+   
+
+    .sidebar .sidebar-menu>ul>li.submenu-open ul>li.active a,
+    .settings-sidebar .sidebar-menu>ul>li.submenu-open ul>li.active a {
+        color: white !important;
+        background: white;
+    }
+
+
     /* .sidebar .sidebar-menu>ul>li.submenu-open ul li a span,
     .settings-sidebar .sidebar-menu>ul>li.submenu-open ul li a span {
         color: white !important;

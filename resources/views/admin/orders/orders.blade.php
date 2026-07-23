@@ -63,17 +63,17 @@
                                 Clear
                             </a>
 
-                            <button id="createParcelBtn" onclick="disableBtn()" type="button"
+                            {{-- <button id="createParcelBtn" onclick="disableBtn()" type="button"
                                 class="btn btn-primary btn-sm w-100">
                                 Create Parcel
-                            </button>
+                            </button> --}}
                         </div>
-                        <div class="col-md-3 mt-3" style="float: inline-end;">
+                        {{-- <div class="col-md-3 mt-3" style="float: inline-end;">
                             <button id="refreshAWB" onclick="disableBtn1()" type="button"
                                 class="btn btn-warning btn-sm w-100">
                                 Refresh AWB Status
                             </button>
-                        </div>
+                        </div> --}}
 
                     </form>
                 </div>
