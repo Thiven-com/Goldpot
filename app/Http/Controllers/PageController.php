@@ -40,7 +40,7 @@ class PageController extends Controller
         return view('website.schemes');
     }
 
-    public function productDetails(Request $request,$slug)
+    public function productDetails(Request $request, $slug)
     {
         $product = Product::with([
             'images',
@@ -97,7 +97,9 @@ class PageController extends Controller
             ->inRandomOrder()
             ->take(3)
             ->get();
-
+        $actualTotal = $cartItems->sum(function ($item) {
+            return $item->quantity * $item->variant->actual_price;
+        });
         $subtotal = $cartItems->sum(function ($item) {
             return $item->quantity * $item->unit_price;
         });
@@ -106,12 +108,16 @@ class PageController extends Controller
 
         $total = $subtotal + $shipping;
 
+        $savings = $actualTotal - $subtotal;
+
         return view('website.cart', compact(
             'cartItems',
+            'actualTotal',
             'subtotal',
             'shipping',
             'products',
-            'total'
+            'total',
+            'savings',
         ));
     }
     public function checkout()
