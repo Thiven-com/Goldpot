@@ -212,4 +212,24 @@ class PageController extends Controller
         $addresses = Address::where('customer_id', Auth::guard('customer')->id())->get();
         return view('website.addresses', compact('address', 'addresses'));
     }
+    public function terms()
+    {
+        return view('website.terms');
+    }
+    public function shipping_delivery()
+    {
+        return view('website.shipping-delivery');
+    }
+    public function return_exchange()
+    {
+        return view('website.return-exchange');
+    }
+    public function cancellation_policy()
+    {
+        return view('website.cancellation-policy');
+    }
+    public function privacy_policy()
+    {
+        return view('website.privacy-policy');
+    }
 }

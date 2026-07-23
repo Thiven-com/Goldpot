@@ -24,4 +24,14 @@ Route::get('logout', [AccountController::class, 'logout'])->name('logout');
 Route::post('/send-otp', [AccountController::class, 'sendOtp']);
 Route::post('/verify-otp', [AccountController::class, 'verifyOtp']);
 Route::get('addresses', [PageController::class, 'addresses'])->name('addresses');
+Route::get('terms', [PageController::class, 'terms'])->name('terms');
+Route::get('shipping-delivery', [PageController::class, 'shipping_delivery'])->name('shipping-delivery');
+Route::get('return-exchange', [PageController::class, 'return_exchange'])->name('return-exchange');
+Route::get('cancellation-policy', [PageController::class, 'cancellation_policy'])->name('cancellation-policy');
+Route::get('privacy-policy', [PageController::class, 'privacy_policy'])->name('privacy-policy');
+
+
+
+
+
 

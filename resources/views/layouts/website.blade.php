@@ -344,11 +344,11 @@
                         <div class="footer-links">
                             <h2>Customer Support</h2>
                             <ul>
-                                <li><a href="javascript:void(0);">Shipping & Delivery</a></li>
-                                <li><a href="javascript:void(0);">Returns & Exchanges</a></li>
-                                <li><a href="javascript:void(0);">Cancellation Policy</a></li>
-                                <li><a href="javascript:void(0);">Privacy Policy</a></li>
-                                <li><a href="javascript:void(0);">Terms & Conditions</a></li>
+                                <li><a href="{{ route('shipping-delivery') }}">Shipping & Delivery</a></li>
+                                <li><a href="{{ route('return-exchange') }}">Returns & Exchanges</a></li>
+                                <li><a href="{{ route('cancellation-policy') }}">Cancellation Policy</a></li>
+                                <li><a href="{{ route('privacy-policy') }}">Privacy Policy</a></li>
+                                <li><a href="{{ route('terms') }}">Terms & Conditions</a></li>
                             </ul>
                         </div>
                         <!-- Footer Links End -->
