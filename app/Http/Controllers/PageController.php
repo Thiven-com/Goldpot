@@ -27,12 +27,15 @@ class PageController extends Controller
     {
         return view('website.about');
     }
-    public function shop()
+    public function shop(Request $request)
     {
         $categories = Category::get();
         $products = Product::with('variants')
-            ->where('status', 'show')
-            ->get();
+            ->where('status', 'show');
+        if (!empty($request->search)) {
+            $products = $products->where('title', 'like', '%' . $request->search . '%');
+        }
+        $products = $products->latest()->paginate(24);
         return view('website.shop', compact('categories', 'products'));
     }
     public function schemes()
