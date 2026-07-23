@@ -1,5 +1,20 @@
 ﻿@extends('layouts.website')
 @section('content')
+    <style>
+        .product-single-image-slider {
+            width: 145px;
+            height: 440px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        @media only screen and (max-width: 767px) {
+            .product-single-image-slider {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
     <!-- Page Product Single Start -->
     <div class="page-product-single">
         <div class="container">
@@ -12,11 +27,9 @@
                             <nav>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{ route('productDetails', ' ') }}">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="{{ route('productDetails', ' ') }}">Women</a></li>
-                                    <li class="breadcrumb-item"><a href="{{ route('productDetails', ' ') }}">Jewelry</a>
+                                    <li class="breadcrumb-item"><a href="{{ route('productDetails', ' ') }}">Product</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="{{ route('productDetails', ' ') }}">Rings</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Timeless Elegance Ring</li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{ $product->title }}</li>
                                 </ol>
                             </nav>
                         </div>
@@ -31,19 +44,21 @@
                                     <div class="swiper-wrapper">
                                         <div class="swiper-slide">
                                             <figure>
-                                                <img src="{{asset('website')}}/images/product-image-1.png" alt="">
+                                                <img src="{{ asset($product->image) }}" alt="">
                                             </figure>
                                         </div>
                                         <div class="swiper-slide">
                                             <figure>
-                                                <img src="{{asset('website')}}/images/product-image-2.png" alt="">
+                                                <img src="{{ asset($variant->image) }}" alt="">
                                             </figure>
                                         </div>
-                                        <div class="swiper-slide">
-                                            <figure>
-                                                <img src="{{asset('website')}}/images/product-image-3.png" alt="">
-                                            </figure>
-                                        </div>
+                                        @foreach($product->images as $image)
+                                            <div class="swiper-slide">
+                                                <figure>
+                                                    <img src="{{ asset($image->url) }}" alt="">
+                                                </figure>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                                 <!-- Product Single Image Slider End -->
@@ -53,19 +68,21 @@
                                     <div class="swiper-wrapper">
                                         <div class="swiper-slide">
                                             <figure class="imgae-anime">
-                                                <img src="{{asset('website')}}/images/product-image-1.png" alt="">
+                                                <img src="{{ asset($product->image) }}" alt="">
                                             </figure>
                                         </div>
                                         <div class="swiper-slide">
                                             <figure class="imgae-anime">
-                                                <img src="{{asset('website')}}/images/product-image-2.png" alt="">
+                                                <img src="{{ asset($variant->image) }}" alt="">
                                             </figure>
                                         </div>
-                                        <div class="swiper-slide">
-                                            <figure class="imgae-anime">
-                                                <img src="{{asset('website')}}/images/product-image-3.png" alt="">
-                                            </figure>
-                                        </div>
+                                        @foreach($product->images as $image)
+                                            <div class="swiper-slide">
+                                                <figure class="imgae-anime">
+                                                    <img src="{{ asset($image->url) }}" alt="">
+                                                </figure>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                                 <!-- Product Single Image Item End -->
@@ -76,56 +93,125 @@
                             <div class="product-single-info-content">
                                 <!-- Product Single title Start -->
                                 <div class="product-single-title wow fadeInUp">
-                                    <h1>Timeless Elegance Ring</h1>
-                                    <span>Rings</span>
+                                    <h1>{{ $product->title }}</h1>
+                                    <span>{{ optional($product->category)->title }}</span>
                                 </div>
                                 <!-- Product Single title End -->
 
                                 <!-- Product Single Description Start -->
                                 <div class="product-single-description wow fadeInUp" data-wow-delay="0.2s">
-                                    <p>Experience the perfect blend of luxury, beauty, and craftsmanship with our Timeless
-                                        Elegance Ring collection. Designed to capture attention and celebrate unforgettable
-                                        moments, each ring offers a graceful touch of sophistication and lasting shine.</p>
+                                    <p>
+                                        {{ $product->short_description }}
+                                    </p>
                                 </div>
                                 <!-- Product Single Description End -->
 
                                 <!-- Product Single Price Start -->
                                 <div class="product-single-price wow fadeInUp" data-wow-delay="0.4s">
-                                    <h2>₹4000.00 <sub>₹6000.00</sub></h2>
+                                    <h2>₹{{ number_format($variant->price, 2) }}
+                                        <sub>₹{{ number_format($variant->actual_price, 2) }}</sub>
+                                    </h2>
                                     <span>Inclusive of all taxes*</span>
                                 </div>
                                 <!-- Product Single Price End -->
 
-                                <!-- Product Single Details Start -->
                                 <div class="product-single-details-list wow fadeInUp" data-wow-delay="0.6s">
-                                    <h3>Carat</h3>
-                                    <ul>
-                                        <li><input type="radio" id="14KT" name="Size" value="14KT" checked=""><label
-                                                for="14KT">14KT</label></li>
-                                        <li><input type="radio" id="18KT" name="Size" value="18KT"><label
-                                                for="18KT">18KT</label></li>
-                                        <li><input type="radio" id="22KT" name="Size" value="22KT"><label
-                                                for="22KT">22KT</label></li>
-                                        <li><input type="radio" id="24KT" name="Size" value="24KT"><label
-                                                for="24KT">24KT</label></li>
-                                    </ul>
-                                </div>
-                                <!-- Product Single Details End -->
 
-                                <!-- Product Single Content Body Start -->
-                                <div class="product-single-content-body wow fadeInUp" data-wow-delay="0.6s">
+                                    @php
+                                        $attributes = [];
+
+                                        foreach ($product->variants as $variant) {
+
+                                            foreach ($variant->attributeMappings as $mapping) {
+
+                                                $attributeId = $mapping->attribute->id;
+                                                $valueId = $mapping->value->id;
+
+                                                if (!isset($attributes[$attributeId])) {
+                                                    $attributes[$attributeId] = [
+                                                        'id' => $attributeId,
+                                                        'name' => $mapping->attribute->name,
+                                                        'values' => []
+                                                    ];
+                                                }
+
+                                                if (!isset($attributes[$attributeId]['values'][$valueId])) {
+                                                    $attributes[$attributeId]['values'][$valueId] = [
+                                                        'id' => $valueId,
+                                                        'name' => $mapping->value->name,
+                                                        'image' => $variant->image,
+                                                        'variant_id' => $variant->id,
+                                                        'price' => $variant->price,
+                                                    ];
+                                                }
+                                            }
+                                        }
+                                    @endphp
+
+                                    @foreach($attributes as $attribute)
+
+                                        <h3>{{ $attribute['name'] }}</h3>
+
+                                        <ul class="product-variant-list">
+                                             @php
+                                                $selectedValueId = request('variant_id');
+                                            @endphp
+                                            @foreach($attribute['values'] as $value)
+
+                                                <li>
+
+                                                    <input type="radio" id="variant{{ $value['variant_id'] }}"
+                                                        name="attribute_{{ $attribute['id'] }}" value="{{ $value['variant_id'] }}"
+                                                        class="variant-radio" {{ $selectedValueId == $value['variant_id'] ? 'checked' : '' }}
+                                                        onchange="changeVariant({{ $value['variant_id'] }})">
+
+                                                    <label for="variant{{ $value['variant_id'] }}">
+                                                        {{ $value['name'] }}
+                                                    </label>
+
+                                                </li>
+
+                                            @endforeach
+
+                                        </ul>
+
+                                    @endforeach
+
+                                </div>
+
+
+                                <div class="product-single-content-body wow fadeInUp" data-wow-delay="0.8s">
+
                                     <div class="qty-box">
+
                                         <button class="qty-btn minus">-</button>
-                                        <input type="text" class="qty-input" value="01" readonly="">
+
+                                        <input type="text" class="qty-input" id="quantity" value="1" readonly>
+
                                         <button class="qty-btn plus">+</button>
+
                                     </div>
+
+                                    <div class="product-single-content-btn">
+
+                                        <button class="btn-default addCartBtn"
+                                            data-id="{{ $product->variants->first()->id }}" id="addCartBtn">
+
+                                            Add To Cart
+
+                                        </button>
+
+                                    </div>
+
                                     <div class="product-single-content-btn">
                                         <a href="javascript:void(0);" class="btn-default addCartBtn"
                                             data-id="{{ $product->variant->id }}">
                                             Add To Cart
                                         </a>
                                     </div>
+
                                     <div class="product-single-action">
+
                                         <ul>
                                             <li class="wishlist">
                                                 <a href="javascript:void(0);"
@@ -139,9 +225,10 @@
                                             <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg"
                                                         alt=""></a></li>
                                         </ul>
+
                                     </div>
+
                                 </div>
-                                <!-- Product Single Content Body End -->
 
                                 <!-- Product Single Content Footer Start -->
                                 <div class="product-single-content-footer wow fadeInUp" data-wow-delay="0.8s">
@@ -150,10 +237,16 @@
                                         <ul>
                                             <li><img src="{{asset('website')}}/images/icon-product-shipping-1.svg"
                                                     alt="">Free Shipping &
+                                            <li><img src="{{asset('website')}}/images/icon-product-shipping-1.svg"
+                                                    alt="">Free Shipping &
                                                 Exchanges</li>
                                             <li><img src="{{asset('website')}}/images/icon-product-shipping-2.svg"
                                                     alt="">Flexible and Secure
+                                            <li><img src="{{asset('website')}}/images/icon-product-shipping-2.svg"
+                                                    alt="">Flexible and Secure
                                                 Payment, Pay on Delivery</li>
+                                            <li><img src="{{asset('website')}}/images/icon-product-shipping-3.svg"
+                                                    alt="">600,000 Happy Customers
                                             <li><img src="{{asset('website')}}/images/icon-product-shipping-3.svg"
                                                     alt="">600,000 Happy Customers
                                             </li>
@@ -179,7 +272,7 @@
                                                 data-bs-target="#first" type="button" role="tab" aria-controls="first"
                                                 aria-selected="true">Product Description</button>
                                         </li>
-                                        <li class="nav-item" role="presentation">
+                                        {{-- <li class="nav-item" role="presentation">
                                             <button class="nav-link" id="second-tab" data-bs-toggle="tab"
                                                 data-bs-target="#second" type="button" role="tab" aria-controls="second"
                                                 aria-selected="false">Additional Information</button>
@@ -189,7 +282,7 @@
                                             <button class="nav-link" id="third-tab" data-bs-toggle="tab"
                                                 data-bs-target="#third" type="button" role="tab" aria-controls="second"
                                                 aria-selected="false">Reviews (50)</button>
-                                        </li>
+                                        </li> --}}
                                     </ul>
                                 </div>
                                 <!-- Product Step Nav End -->
@@ -197,25 +290,9 @@
                                 <!-- Product Tab Item Box Start -->
                                 <div class="product-tab-item-box tab-pane fade show active" id="first" role="tabpanel">
                                     <div class="product-tab-item-content">
-                                        <p>The Timeless Elegance Ring is a beautifully crafted piece that embodies grace,
-                                            simplicity, and everlasting charm. Designed with a sleek and modern touch, it
-                                            enhances your natural style while adding a subtle hint of luxury. Perfect for
-                                            everyday wear or special occasions,</p>
-                                        <p>Its smooth finish and elegant silhouette create a subtle yet captivating shine
-                                            that enhances your overall look without being overpowering. Whether worn alone
-                                            for a clean, minimalist style or paired with other jewelry for a layered fashion
-                                            statement, it always stands out effortlessly. Made with high-quality,
-                                            skin-friendly materials, the ring ensures long-lasting durability, comfort, and
-                                            resistance to tarnish. It is lightweight, easy to wear throughout the day, and
-                                            designed to maintain its brilliance over time.</p>
-                                        <ul>
-                                            <li>Crafted with a clean, refined look that represents simplicity and luxury
-                                                together, making it suitable for both modern and traditional styles.</li>
-                                            <li>deal for daily wear, office use, parties, weddings, engagements, and special
-                                                celebrations, making it a versatile jewelry piece.</li>
-                                            <li>Designed with a smooth inner finish and lightweight structure so you can
-                                                wear it comfortably throughout the day without irritation.</li>
-                                        </ul>
+                                        <p>
+                                            {!! $product->description !!}
+                                        </p>
                                     </div>
                                 </div>
                                 <!-- Product Tab Item End -->
@@ -378,215 +455,54 @@
                 <div class="col-lg-12">
                     <!-- Related Product Items Start -->
                     <div class="related-product-items-list">
-                        <!-- Product Item Start -->
-                        <div class="product-item wow fadeInUp">
-                            <!-- Product Item Header Start -->
-                            <div class="product-item-header">
-                                <!-- Product Item Image Start -->
-                                <div class="product-item-image">
-                                    <a href="{{ route('productDetails', ' ') }}">
-                                        <figure>
-                                            <img src="{{asset('website')}}/images/product-image-1.png" alt="">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- Product Item Image End -->
 
-                                <!-- Product Item Action Start -->
-                                <div class="product-item-action">
-                                    <ul>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
-                                                    alt=""></a></li>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg"
-                                                    alt=""></a></li>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
-                                                    alt=""></a></li>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg"
-                                                    alt=""></a></li>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg"
-                                                    alt=""></a></li>
-                                    </ul>
-                                </div>
-                                <!-- Product Item Action End -->
-                            </div>
-                            <!-- Product Item Header End -->
-
-                            <!-- Product Item Body Start -->
-                            <div class="product-item-body">
-                                <!-- Product Item Content Start -->
-                                <div class="product-item-content">
-                                    <h2 class="product-item-title"><a href="{{ route('productDetails', ' ') }}">Timeless
-                                            Elegance Ring</a>
-                                    </h2>
-                                </div>
-                                <!-- Product Item Content End -->
-
-                                <!-- Product Item Price Start -->
-                                <div class="product-item-price">
-                                    <h3>₹4000.00 <span>₹8000.00</span></h3>
-                                </div>
-                                <!-- Product Item Price End -->
-                            </div>
-                            <!-- Product Item Body End -->
-                        </div>
-                        <!-- Product Item End -->
 
                         <!-- Product Item Start -->
-                        <div class="product-item wow fadeInUp" data-wow-delay="0.2s">
-                            <!-- Product Item Header Start -->
-                            <div class="product-item-header">
-                                <!-- Product Item Image Start -->
-                                <div class="product-item-image">
-                                    <a href="{{ route('productDetails', ' ') }}">
-                                        <figure>
-                                            <img src="{{asset('website')}}/images/product-image-2.png" alt="">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- Product Item Image End -->
+                        @foreach($products as $item)
+                            <div class="product-item wow fadeInUp" data-wow-delay="0.6s">
+                                <!-- Product Item Header Start -->
+                                <div class="product-item-header">
+                                    <!-- Product Item Image Start -->
+                                    <div class="product-item-image">
+                                        <a href="{{ route('productDetails', $item->slug) }}">
+                                            <figure>
+                                                <img src="{{ asset($item->image) }}" alt="">
+                                            </figure>
+                                        </a>
+                                    </div>
+                                    <!-- Product Item Image End -->
 
-                                <!-- Product Item Action Start -->
-                                <div class="product-item-action">
-                                    <ul>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
-                                                    alt=""></a></li>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg"
-                                                    alt=""></a></li>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
-                                                    alt=""></a></li>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg"
-                                                    alt=""></a></li>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg"
-                                                    alt=""></a></li>
-                                    </ul>
+                                    <!-- Product Item Action Start -->
+                                    <div class="product-item-action">
+                                        <ul>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
+                                                        alt=""></a></li>
+                                            <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
+                                                        alt=""></a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- Product Item Action End -->
                                 </div>
-                                <!-- Product Item Action End -->
+                                <!-- Product Item Header End -->
+
+                                <!-- Product Item Body Start -->
+                                <div class="product-item-body">
+                                    <!-- Product Item Content Start -->
+                                    <div class="product-item-content">
+                                        <h2 class="product-item-title"><a href="{{ route('productDetails', $item->slug) }}">{{ $item->title }}</a>
+                                        </h2>
+                                    </div>
+                                    <!-- Product Item Content End -->
+
+                                    <!-- Product Item Price Start -->
+                                    <div class="product-item-price">
+                                        <h3>₹{{ $item->variant->price }} <span>₹{{ $item->variant->actual_price }}</span></h3>
+                                    </div>
+                                    <!-- Product Item Price End -->
+                                </div>
+                                <!-- Product Item Body End -->
                             </div>
-                            <!-- Product Item Header End -->
-
-                            <!-- Product Item Body Start -->
-                            <div class="product-item-body">
-                                <!-- Product Item Content Start -->
-                                <div class="product-item-content">
-                                    <h2 class="product-item-title"><a href="{{ route('productDetails', ' ') }}">Kundan
-                                            Necklace</a></h2>
-                                </div>
-                                <!-- Product Item Content End -->
-
-                                <!-- Product Item Price Start -->
-                                <div class="product-item-price">
-                                    <h3>₹6000.00 <span>₹8000.00</span></h3>
-                                </div>
-                                <!-- Product Item Price End -->
-                            </div>
-                            <!-- Product Item Body End -->
-                        </div>
-                        <!-- Product Item End -->
-
-                        <!-- Product Item Start -->
-                        <div class="product-item wow fadeInUp" data-wow-delay="0.4s">
-                            <!-- Product Item Header Start -->
-                            <div class="product-item-header">
-                                <!-- Product Item Image Start -->
-                                <div class="product-item-image">
-                                    <a href="{{ route('productDetails', ' ') }}">
-                                        <figure>
-                                            <img src="{{asset('website')}}/images/product-image-3.png" alt="">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- Product Item Image End -->
-
-                                <!-- Product Item Action Start -->
-                                <div class="product-item-action">
-                                    <ul>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
-                                                    alt=""></a></li>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg"
-                                                    alt=""></a></li>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
-                                                    alt=""></a></li>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg"
-                                                    alt=""></a></li>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg"
-                                                    alt=""></a></li>
-                                    </ul>
-                                </div>
-                                <!-- Product Item Action End -->
-                            </div>
-                            <!-- Product Item Header End -->
-
-                            <!-- Product Item Body Start -->
-                            <div class="product-item-body">
-                                <!-- Product Item Content Start -->
-                                <div class="product-item-content">
-                                    <h2 class="product-item-title"><a href="{{ route('productDetails', ' ') }}">Gold
-                                            Solitaire Earrings</a>
-                                    </h2>
-                                </div>
-                                <!-- Product Item Content End -->
-
-                                <!-- Product Item Price Start -->
-                                <div class="product-item-price">
-                                    <h3>₹10000.00 <span>₹20000.00</span></h3>
-                                </div>
-                                <!-- Product Item Price End -->
-                            </div>
-                            <!-- Product Item Body End -->
-                        </div>
-                        <!-- Product Item End -->
-
-                        <!-- Product Item Start -->
-                        <div class="product-item wow fadeInUp" data-wow-delay="0.6s">
-                            <!-- Product Item Header Start -->
-                            <div class="product-item-header">
-                                <!-- Product Item Image Start -->
-                                <div class="product-item-image">
-                                    <a href="{{ route('productDetails', ' ') }}">
-                                        <figure>
-                                            <img src="{{asset('website')}}/images/product-image-4.png" alt="">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- Product Item Image End -->
-
-                                <!-- Product Item Action Start -->
-                                <div class="product-item-action">
-                                    <ul>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-wishlist-primary.svg"
-                                                    alt=""></a></li>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-preview-primary.svg"
-                                                    alt=""></a></li>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-cart-primary.svg"
-                                                    alt=""></a></li>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-compare-primary.svg"
-                                                    alt=""></a></li>
-                                        <li><a href="#"><img src="{{asset('website')}}/images/icon-payment-primary.svg"
-                                                    alt=""></a></li>
-                                    </ul>
-                                </div>
-                                <!-- Product Item Action End -->
-                            </div>
-                            <!-- Product Item Header End -->
-
-                            <!-- Product Item Body Start -->
-                            <div class="product-item-body">
-                                <!-- Product Item Content Start -->
-                                <div class="product-item-content">
-                                    <h2 class="product-item-title"><a href="{{ route('productDetails', ' ') }}">Bridal Gold
-                                            Earrings</a>
-                                    </h2>
-                                </div>
-                                <!-- Product Item Content End -->
-
-                                <!-- Product Item Price Start -->
-                                <div class="product-item-price">
-                                    <h3>₹4000.00 <span>₹8000.00</span></h3>
-                                </div>
-                                <!-- Product Item Price End -->
-                            </div>
-                            <!-- Product Item Body End -->
-                        </div>
+                        @endforeach
                         <!-- Product Item End -->
                     </div>
                     <!-- Related Product Items End -->
@@ -689,4 +605,11 @@
         });
     </script>
 
+    <script>
+        function changeVariant(variantId) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('variant_id', variantId);
+            window.location.href = url;
+        }
+    </script>
 @endsection

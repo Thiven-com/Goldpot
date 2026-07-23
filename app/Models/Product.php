@@ -38,5 +38,9 @@ class Product extends Model
     {
         return $this->hasOne(ProductMedia::class)->where('is_primary', true)->ofMany('id', 'min');
     }
+     public function images()
+    {
+        return $this->hasMany(ProductMedia::class)->orderBy('sort_order');
+    }
 
 }

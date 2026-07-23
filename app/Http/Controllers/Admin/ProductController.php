@@ -259,6 +259,7 @@ class ProductController extends Controller
 
     public function update(Request $request, string $id)
     {
+        // dd($request->all());
         $product = Product::findOrFail($id);
         $product->title = $request->title;
         $product->slug = $this->slugGenerate($request->title, 0);
@@ -312,16 +313,16 @@ class ProductController extends Controller
             $keepIds = $keepVariantGallery[$variant->id] ?? [];
 
             // Delete removed images for this variant
-            \App\Models\ProductMedia::where('product_variant_id', $variant->id)
+            ProductMedia::where('product_variant_id', $variant->id)
                 ->whereNotIn('id', $keepIds)
                 ->delete();
 
             // Add new uploads
             if (isset($variantGalleries[$variant->id])) {
                 foreach ($variantGalleries[$variant->id] as $file) {
-                    $path = $file->store('products/variants', 'public');
+                    $path = $file->store('products/variants');
 
-                    $media = new \App\Models\ProductMedia();
+                    $media = new ProductMedia();
                     $media->product_id = $product->id;
                     $media->product_variant_id = $variant->id;
                     $media->url = $path;
