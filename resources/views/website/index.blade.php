@@ -1093,9 +1093,9 @@
                     }
 
                     toastr.success(res.message);
-                        location.reload();
+                    location.reload();
 
-                }, 
+                },
 
                 error: function (xhr) {
                     console.log(xhr.responseText);

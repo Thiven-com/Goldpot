@@ -593,6 +593,7 @@
                     }
 
                     toastr.success(res.message);
+                    location.reload();
                 }, // <-- Missing comma was here
 
                 error: function (xhr) {
