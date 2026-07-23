@@ -43,28 +43,36 @@
                                 <img src="{{asset('website')}}/images/icon-filter.svg" alt="">
                                 <h2>Filter By</h2>
                             </div>
-                            <div class="product-category-filter-clear-btn">
-                                <a href="#">Clear All</a>
-                            </div>
+
                         </div>
                         <!-- Page Category Filter Header End -->
 
                         <!-- Product Category Item List Start -->
                         <div class="product-category-item-list">
                             <!-- Product Category Item Start -->
-                            <div class="product-category-item wow fadeInUp" data-wow-delay="0.2s">
-                                <h2 class="product-category-item-title">Categories</h2>
-                                <ul>
-                                    @foreach($categories as $category)
+                            <form id="filterForm" method="GET" action="{{ route('shop') }}">
 
-                                        <li>
-                                            <input type="checkbox" id="Rings" name="interest" value="Rings">
-                                            <label for="Rings" style="color: black;">{{ $category->title }}</label>
-                                        </li>
-                                    @endforeach
+                                <div class="product-category-item wow fadeInUp" data-wow-delay="0.2s">
+                                    <h2 class="product-category-item-title">Categories</h2>
 
-                                </ul>
-                            </div>
+                                    <ul>
+                                        @foreach($categories as $category)
+
+                                            <li>
+                                                <input type="checkbox" id="category{{ $category->id }}" name="category[]"
+                                                    value="{{ $category->id }}" {{ in_array($category->id, request()->category ?? []) ? 'checked' : '' }}>
+
+                                                <label for="category{{ $category->id }}" style="color:black;">
+                                                    {{ $category->title }}
+                                                </label>
+                                            </li>
+
+                                        @endforeach
+                                    </ul>
+
+                                </div>
+
+                            </form>
                             <!-- Product Category Item End -->
 
 
@@ -316,6 +324,13 @@
 
             });
 
+        });
+    </script>
+    <script>
+        document.querySelectorAll('input[name="category[]"]').forEach(function (item) {
+            item.addEventListener('change', function () {
+                document.getElementById('filterForm').submit();
+            });
         });
     </script>
 

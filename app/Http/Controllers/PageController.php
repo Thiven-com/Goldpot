@@ -35,6 +35,11 @@ class PageController extends Controller
         if (!empty($request->search)) {
             $products = $products->where('title', 'like', '%' . $request->search . '%');
         }
+        if ($request->filled('category')) {
+
+            $products->whereIn('category_id', $request->category);
+
+        }
         $products = $products->latest()->paginate(24);
         return view('website.shop', compact('categories', 'products'));
     }
