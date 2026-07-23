@@ -1,39 +1,39 @@
 @extends('layouts.website')
 @section('content')
     <style>
-        /* ==========================
-       Address Cards
-    ========================== */
+        /* ===========================
+                   Address Cards
+                =========================== */
+
+        .my-account-address {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 24px;
+        }
 
         .account-address_item {
             background: #fff;
-            border: 1px solid #ececec;
+            border: 1px solid #e8e8e8;
             border-radius: 16px;
-            padding: 24px;
-            transition: all .3s ease;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            padding: 25px;
+            margin: 30px;
+            transition: .3s;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, .04);
         }
 
         .account-address_item:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, .08);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .08);
             border-color: #000;
         }
-
-        /* ==========================
-       Header
-    ========================== */
 
         .address-title {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            border-bottom: 1px solid #f1f1f1;
             padding-bottom: 15px;
+            border-bottom: 1px solid #f1f1f1;
         }
 
         .address-title h6 {
@@ -44,60 +44,27 @@
         .mark-default {
             background: #111827;
             color: #fff;
+            padding: 4px 12px;
+            border-radius: 30px;
             font-size: 12px;
-            padding: 5px 10px;
-            border-radius: 20px;
         }
-
-        /* ==========================
-       Edit & Delete
-    ========================== */
-
-        .address-title a {
-            color: #111827;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .address-title a:hover {
-            color: #666;
-        }
-
-        .address-title button {
-            padding: 0;
-            background: none;
-        }
-
-        .address-title button i {
-            color: #dc3545;
-            font-size: 20px;
-        }
-
-        .address-title button:hover i {
-            color: #b00020;
-        }
-
-        /* ==========================
-       Address Body
-    ========================== */
 
         .address-content {
             display: flex;
+            gap: 18px;
             align-items: flex-start;
-            gap: 15px;
         }
 
         .address-content i {
-            width: 46px;
-            height: 46px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            background: #f6f6f6;
+            background: #f5f5f5;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             font-size: 22px;
             color: #111827;
-            flex-shrink: 0;
         }
 
         .address-info {
@@ -111,22 +78,15 @@
         }
 
         .info_more {
+            line-height: 1.8;
             color: #666;
-            line-height: 1.7;
-            margin: 0;
         }
-
-        /* ==========================
-       Default Button
-    ========================== */
 
         .btn-light {
             margin-top: 20px;
             border: 1px solid #111827;
             background: #fff;
             color: #111827;
-            border-radius: 8px;
-            padding: 12px;
             transition: .3s;
         }
 
@@ -135,55 +95,37 @@
             color: #fff;
         }
 
-        /* ==========================
-       Empty Address
-    ========================== */
-
-        .wd-full {
-            grid-column: 1/-1;
-        }
-
-        .wd-full h5 {
-            margin-bottom: 10px;
-        }
-
-        .wd-full .tf-btn {
-            margin-top: 15px;
-        }
-
-        /* ==========================
-       Modal
-    ========================== */
+        /* ===========================
+                   Modal
+                =========================== */
 
         .modal-content {
-            border-radius: 18px;
+            border-radius: 16px;
             border: none;
-            overflow: hidden;
+            padding: 10px;
         }
 
         .modal-heading {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 25px;
+            padding: 20px;
             border-bottom: 1px solid #eee;
         }
 
-        .modal-heading h5 {
-            margin: 0;
-        }
-
-        .modal-heading .icon {
-            cursor: pointer;
-            font-size: 22px;
-        }
-
-        /* ==========================
-       Form
-    ========================== */
+        /* ===========================
+                   Form Layout
+                =========================== */
 
         .form-content {
             padding: 25px;
+        }
+
+        .form-content .tf-grid-layout {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin-bottom: 18px;
         }
 
         .tf-field {
@@ -193,61 +135,279 @@
         .tf-field label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 500;
+            font-size: 14px;
+            font-weight: 600;
         }
 
         .style-4 {
             width: 100%;
-            height: 50px;
+            height: 48px;
             border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 0 15px;
-            transition: .3s;
+            border-radius: 8px;
+            padding: 12px 15px;
+            background: #fff;
         }
 
         textarea.style-4 {
             height: 110px;
-            padding-top: 12px;
             resize: none;
+            padding-top: 12px;
         }
 
-        .style-4:focus {
-            border-color: #111827;
-            box-shadow: none;
+        .tf-select select {
+            width: 100%;
+            height: 48px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 0 15px;
+            background: #fff;
+        }
+
+        .style-4:focus,
+        .tf-select select:focus {
             outline: none;
+            border-color: #111827;
         }
 
-        /* ==========================
-       Buttons
-    ========================== */
+        /* Full Width Fields */
+
+        .form-content>.tf-field {
+            width: 100%;
+        }
+
+        /* Buttons */
 
         .form-group-btn {
             padding: 0 25px 25px;
         }
 
         .form-group-btn .tf-btn {
-            margin-bottom: 12px;
+            width: 100%;
+            margin-bottom: 10px;
         }
 
-        /* ==========================
-       Responsive
-    ========================== */
+        .form-group-btn .tf-btn-line {
+            width: 100%;
+            text-align: center;
+        }
 
-        @media(max-width:768px) {
+        /* ===========================
+                   Responsive
+                =========================== */
+
+        @media(max-width:991px) {
+
+            .my-account-address {
+                grid-template-columns: 1fr;
+            }
+
+            .form-content .tf-grid-layout {
+                grid-template-columns: 1fr;
+            }
 
             .address-title {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 12px;
+                gap: 10px;
             }
 
-            .address-content {
-                flex-direction: column;
+        }
+    </style>
+    <style>
+        /* ==========================
+           Action Buttons
+        ========================== */
+
+        .address-title .gap-3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Edit Button */
+
+        .editAddressBtn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 38px;
+            padding: 0 16px;
+            border-radius: 8px;
+            background: #111827;
+            color: #fff !important;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: .3s;
+        }
+
+        .editAddressBtn:hover {
+            background: #000;
+            transform: translateY(-2px);
+        }
+
+        /* Delete Button */
+
+        .address-title form {
+            margin: 0;
+        }
+
+        .address-title form button {
+            height: 38px;
+            border: none !important;
+            border-radius: 8px;
+            background: #fee2e2 !important;
+            color: #dc2626 !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: .3s;
+            cursor: pointer;
+        }
+
+        .address-title form button:hover {
+            background: #dc2626 !important;
+            color: #fff !important;
+            transform: translateY(-2px);
+        }
+
+        /* If icon font isn't working */
+        .address-title form button i {
+            font-size: 18px;
+            font-style: normal;
+        }
+
+        /* Set Default */
+
+        .btn-light {
+            width: 100%;
+            height: 46px;
+            border-radius: 10px;
+            border: 1px solid #111827;
+            background: #fff;
+            color: #111827 !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-weight: 600;
+            transition: .3s;
+        }
+
+        .btn-light:hover {
+            background: #111827;
+            color: #fff !important;
+        }
+
+        /* Save Button */
+
+        .form-group-btn .tf-btn {
+            height: 50px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: .3s;
+        }
+
+        .form-group-btn .tf-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Cancel Button */
+
+        .form-group-btn .tf-btn-line {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #555;
+            transition: .3s;
+        }
+
+        .form-group-btn .tf-btn-line:hover {
+            background: #f5f5f5;
+        }
+    </style>
+    <style>
+        /* ==========================
+       No Address Found
+    ========================== */
+
+        .wd-full.text-center {
+            max-width: 650px;
+            margin: 50px auto;
+            padding: 60px 40px;
+            background: #ffffff;
+            border: 1px solid #ececec;
+            border-radius: 20px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, .06);
+            text-align: center;
+        }
+
+        .wd-full.text-center::before {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            background: #f5f7fb;
+            border-radius: 50%;
+        }
+
+        .wd-full.text-center h5 {
+            font-size: 30px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+        .wd-full.text-center p {
+            color: #6b7280;
+            font-size: 16px;
+            line-height: 28px;
+            max-width: 420px;
+            margin: 0 auto 30px;
+        }
+
+        .wd-full.text-center .tf-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 30px;
+            background: #111827;
+            color: #fff;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: .3s;
+        }
+
+        .wd-full.text-center .tf-btn:hover {
+            background: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, .18);
+        }
+
+        .wd-full.text-center .tf-btn i {
+            font-size: 18px;
+        }
+
+        @media(max-width:768px) {
+
+            .wd-full.text-center {
+                padding: 40px 20px;
+                margin: 25px auto;
             }
 
-            .account-address_item {
-                padding: 18px;
+            .wd-full.text-center h5 {
+                font-size: 24px;
             }
+
         }
     </style>
 
@@ -270,7 +430,6 @@
             </div>
         </div>
     </div>
-
     <!-- Account -->
     <div class="flat-spacing-mix-1">
         <div class="container">
@@ -295,13 +454,13 @@
                             <div class="d-flex align-items-center gap-3">
 
                                 <!-- Edit -->
-                                <a href="javascript:void(0)" class="editAddressBtn" data-id="{{ $address->id }}"
+                                {{-- <a href="javascript:void(0)" class="editAddressBtn" data-id="{{ $address->id }}"
                                     data-name="{{ $address->name }}" data-mobile="{{ $address->mobile }}"
                                     data-email="{{ $address->email }}" data-address="{{ $address->address }}"
                                     data-city="{{ $address->city }}" data-state="{{ $address->state }}"
                                     data-pincode="{{ $address->pincode }}">
                                     Edit
-                                </a>
+                                </a> --}}
 
                                 <!-- Delete -->
                                 <form action="{{ route('customer.address.destroy', $address->id) }}" method="POST"
@@ -311,7 +470,7 @@
                                     @method('DELETE')
 
                                     <button type="submit" class="border-0 bg-transparent text-danger d-flex align-items-center">
-                                        <i class="icon icon-Trash fs-20"></i>
+                                        <i class="icon icon-Trash fs-20">Delate</i>
                                     </button>
                                 </form>
 
@@ -552,6 +711,7 @@
         </div>
     </div>
     <!-- /Edit Form -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         document.querySelectorAll('.editAddressBtn').forEach(function (btn) {
 
@@ -573,5 +733,6 @@
 
         });
     </script>
+
 
 @endsection

@@ -42,6 +42,8 @@
                                 <li><a href="{{ route('profile') }}"><img
                                             src="{{asset('website')}}/images/icon-user-primary.svg" alt="">Account
                                         details</a></li>
+                                         <li><a href="{{ route('addresses') }}"><img
+                                            src="{{asset('website')}}/images/icon-dashboard-primary.svg" alt="">Addresses</a></li>
                                 <li><a href="{{ route('wishlist') }}"><img
                                             src="{{asset('website')}}/images/icon-wishlist-primary.svg" alt="">Wishlist</a>
                                 </li>

@@ -249,25 +249,7 @@ class OrderController extends Controller
                     'user',
                 ));
             }
-            DB::commit();
-
-            $user = Auth::guard('customer')->user();
-
-            $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
-
-            $razorpayOrder = $api->order->create([
-                'receipt' => $order->invoice_id,
-                'amount' => (int) ($order->grand_total * 100), // Amount in paise
-                'currency' => 'INR',
-                'payment_capture' => 1,
-            ]);
-
-            return view('website.razorpay-payment', [
-                'user' => $user,
-                'order' => $order,
-                'grandTotal' => $order->grand_total,
-                'razorpayOrder' => $razorpayOrder,
-            ]);
+           
         } catch (\Exception $e) {
 
             DB::rollBack();

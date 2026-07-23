@@ -2,46 +2,46 @@
 
 @section('content')
 
-<style>
-    .address-box{
-    display:block;
-    cursor:pointer;
-}
+    <style>
+        .address-box {
+            display: block;
+            cursor: pointer;
+        }
 
-.address-box input{
-    display:none;
-}
+        .address-box input {
+            display: none;
+        }
 
-.address-content{
-    border:1px solid #e5e5e5;
-    border-radius:10px;
-    padding:18px;
-    transition:.3s;
-}
+        .address-content {
+            border: 1px solid #e5e5e5;
+            border-radius: 10px;
+            padding: 18px;
+            transition: .3s;
+        }
 
-.address-box input:checked + .address-content{
-    border:2px solid #000;
-    background:#f8f8f8;
-}
+        .address-box input:checked+.address-content {
+            border: 2px solid #000;
+            background: #f8f8f8;
+        }
 
-.product-total-item{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
+        .product-total-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-.checkout-sidebar-box{
-    border:1px solid #ececec;
-    border-radius:12px;
-    padding:25px;
-    position:sticky;
-    top:20px;
-}
-</style>
+        .checkout-sidebar-box {
+            border: 1px solid #ececec;
+            border-radius: 12px;
+            padding: 25px;
+            position: sticky;
+            top: 20px;
+        }
+    </style>
 
-<!-- Breadcrumb -->
-<div class="page-header dark-section parallaxie">
+    <!-- Breadcrumb -->
+    <div class="page-header dark-section parallaxie">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -61,209 +61,262 @@
         </div>
     </div>
 
-<!-- Checkout -->
-<div class="page-checkout py-5">
-    <div class="container">
+    <!-- Checkout -->
+    <div class="page-checkout py-5">
+        <div class="container">
 
-        <form action="{{ route('customer.order.store') }}" method="POST">
-            @csrf
+            <form action="{{ route('customer.order.store') }}" onsubmit="return validateAddressSelection()" method="POST"
+                class="content-left">
+                @csrf
 
-            <div class="row">
+                <div class="row">
 
-                <!-- LEFT SIDE -->
-                <div class="col-lg-7">
+                    <!-- LEFT SIDE -->
+                    <div class="col-lg-7">
 
-                    <div class="checkout-form-box">
+                        <div class="checkout-form-box">
 
-                        <h3 class="mb-4">Delivery Address</h3>
+                            <h3 class="mb-4">Delivery Address</h3>
+                            <div id="savedAddressSection">
 
-                        @forelse($addresses as $address)
+                                @forelse($addresses as $address)
 
-                            <label class="address-box mb-3">
+                                    <label class="address-box mb-3">
 
-                                <input type="radio"
-                                       name="address_id"
-                                       value="{{ $address->id }}"
-                                       {{ $loop->first ? 'checked' : '' }}>
+                                        <input type="radio" name="address_id" value="{{ $address->id }}" {{ $loop->first ? 'checked' : '' }}>
 
-                                <div class="address-content">
+                                        <div class="address-content">
 
-                                    <strong>{{ $address->name }}</strong>
+                                            <strong>{{ $address->name }}</strong>
 
-                                    <p class="mb-1">
-                                        {{ $address->address }}
-                                        @if($address->address_2)
-                                            , {{ $address->address_2 }}
-                                        @endif
-                                    </p>
+                                            <p class="mb-1">
+                                                {{ $address->address }}
+                                                @if($address->address_2)
+                                                    , {{ $address->address_2 }}
+                                                @endif
+                                            </p>
 
-                                    <p class="mb-1">
-                                        {{ $address->city }},
-                                        {{ $address->state }}
-                                        -
-                                        {{ $address->pincode }}
-                                    </p>
+                                            <p class="mb-1">
+                                                {{ $address->city }},
+                                                {{ $address->state }}
+                                                -
+                                                {{ $address->pincode }}
+                                            </p>
 
-                                    <p class="mb-0">
-                                        Mobile :
-                                        {{ $address->mobile }}
-                                    </p>
+                                            <p class="mb-0">
+                                                Mobile :
+                                                {{ $address->mobile }}
+                                            </p>
 
-                                </div>
+                                        </div>
 
-                            </label>
+                                    </label>
 
-                        @empty
+                                @empty
 
-                            <p>No address found.</p>
+                                    <p>No address found.</p>
 
-                        @endforelse
+                                @endforelse
+                            </div>
+
+                        </div>
 
                     </div>
 
-                </div>
 
+                    <!-- RIGHT SIDE -->
+                    <div class="col-lg-5">
 
-                <!-- RIGHT SIDE -->
-                <div class="col-lg-5">
+                        <div class="checkout-sidebar-box">
 
-                    <div class="checkout-sidebar-box">
-
-                        <h3 class="mb-4">
-                            Your Order
-                        </h3>
-
-                        @php
-                            $subtotal = 0;
-                        @endphp
-
-                        @foreach($cartItems as $item)
+                            <h3 class="mb-4">
+                                Your Order
+                            </h3>
 
                             @php
-
-                                $variant = $item->variant;
-                                $product = $variant->product;
-
-                                $lineTotal = $variant->price * $item->quantity;
-
-                                $subtotal += $lineTotal;
-
+                                $subtotal = 0;
                             @endphp
 
-                            <div class="product-total-item">
+                            @foreach($cartItems as $item)
 
-                                <div class="d-flex align-items-center">
+                                @php
 
-                                    <img src="{{ asset($variant->image) }}"
-                                         width="70"
-                                         class="me-3">
+                                    $variant = $item->variant;
+                                    $product = $variant->product;
+
+                                    $lineTotal = $variant->price * $item->quantity;
+
+                                    $subtotal += $lineTotal;
+
+                                @endphp
+
+                                <div class="product-total-item">
+
+                                    <div class="d-flex align-items-center">
+
+                                        <img src="{{ asset($variant->image) }}" width="70" class="me-3">
+
+                                        <div>
+
+                                            <h6 class="mb-1">
+                                                {{ $product->title }}
+                                            </h6>
+
+                                            Qty :
+                                            {{ $item->quantity }}
+
+                                        </div>
+
+                                    </div>
 
                                     <div>
 
-                                        <h6 class="mb-1">
-                                            {{ $product->title }}
-                                        </h6>
-
-                                        Qty :
-                                        {{ $item->quantity }}
+                                        ₹{{ number_format($lineTotal, 2) }}
 
                                     </div>
 
                                 </div>
 
-                                <div>
+                            @endforeach
 
-                                    ₹{{ number_format($lineTotal,2) }}
+                            <hr>
 
-                                </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal</span>
+
+                                <strong>
+                                    ₹{{ number_format($subtotal, 2) }}
+                                </strong>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Shipping</span>
+
+                                <strong>FREE</strong>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Discount</span>
+
+                                <strong>
+                                    ₹{{ number_format($discount, 2) }}
+                                </strong>
+                            </div>
+
+                            <hr>
+
+                            <div class="d-flex justify-content-between mb-4">
+
+                                <h5>Total</h5>
+
+                                <h5>
+                                    ₹{{ number_format($total, 2) }}
+                                </h5>
 
                             </div>
 
-                        @endforeach
-
-                        <hr>
-
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Subtotal</span>
-
-                            <strong>
-                                ₹{{ number_format($subtotal,2) }}
-                            </strong>
-                        </div>
-
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Shipping</span>
-
-                            <strong>FREE</strong>
-                        </div>
-
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Discount</span>
-
-                            <strong>
-                                ₹{{ number_format($discount,2) }}
-                            </strong>
-                        </div>
-
-                        <hr>
-
-                        <div class="d-flex justify-content-between mb-4">
-
-                            <h5>Total</h5>
-
-                            <h5>
-                                ₹{{ number_format($total,2) }}
+                            <h5 class="mb-3">
+                                Payment Method
                             </h5>
 
-                        </div>
+                            <div class="form-check mb-2">
 
-                        <h5 class="mb-3">
-                            Payment Method
-                        </h5>
+                                <input class="form-check-input" type="radio" name="payment_method" value="online_payment"
+                                    checked>
 
-                        <div class="form-check mb-2">
+                                <label class="form-check-label">
+                                    Online Payment
+                                </label>
 
-                            <input class="form-check-input"
-                                   type="radio"
-                                   name="payment_method"
-                                   value="online_payment"
-                                   checked>
+                            </div>
 
-                            <label class="form-check-label">
-                                Online Payment
-                            </label>
+                            <div class="form-check mb-4">
 
-                        </div>
+                                <input class="form-check-input" type="radio" name="payment_method" value="cod">
 
-                        <div class="form-check mb-4">
+                                <label class="form-check-label">
+                                    Cash On Delivery
+                                </label>
 
-                            <input class="form-check-input"
-                                   type="radio"
-                                   name="payment_method"
-                                   value="cod">
+                            </div>
 
-                            <label class="form-check-label">
-                                Cash On Delivery
-                            </label>
+                            <button type="submit" class="btn-default w-100">
+
+                                Place Order
+
+                            </button>
 
                         </div>
-
-                        <button type="submit"
-                                class="btn-default w-100">
-
-                            Place Order
-
-                        </button>
 
                     </div>
 
                 </div>
 
-            </div>
+            </form>
 
-        </form>
-
+        </div>
     </div>
-</div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $('input[name="address_type"]').on('change', function () {
+
+            if ($(this).val() == 'saved') {
+
+                $('#savedAddressSection').show();
+                $('#newAddressSection').hide();
+
+            } else {
+
+                $('#savedAddressSection').hide();
+                $('#newAddressSection').show();
+
+            }
+
+        });
+    </script>
+
+    <script>
+        document.querySelectorAll('input[name="address_id"]').forEach(input => {
+            input.addEventListener('change', function () {
+
+                document.querySelectorAll('.address-card').forEach(card => {
+                    card.style.border = "2px solid #e5e7eb";
+                    card.style.background = "#ffffff";
+                    card.style.boxShadow = "none";
+
+                    let icon = card.querySelector('div:nth-child(1)');
+                    if (icon) icon.style.opacity = "0";
+                });
+
+                let selected = this.closest('label').querySelector('.address-card');
+
+                // ✅ balanced highlight (NOT fully dark)
+                selected.style.border = "2px solid #111827";   // dark border
+                selected.style.background = "#f9fafb";         // soft gray background
+                selected.style.boxShadow = "0 6px 15px rgba(0,0,0,0.08)";
+
+                let icon = selected.querySelector('div:nth-child(1)');
+                if (icon) icon.style.opacity = "1";
+
+            });
+        });
+    </script>
+    <!--====== Start Footer Main  ======-->
+    <script>
+        function validateAddressSelection() {
+            const selected = document.querySelector('input[name="address_id"]:checked');
+
+            if (!selected) {
+                alert("Please select an address");
+
+                document.querySelectorAll('.address-card').forEach(card => {
+                    card.style.border = "2px solid red";
+                });
+
+                return false;
+            }
+            return true;
+        }
+    </script>
 
 @endsection
