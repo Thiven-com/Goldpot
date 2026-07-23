@@ -12,6 +12,13 @@ class WishlistController extends Controller
 {
     public function add(Request $request)
     {
+        if (!Auth::guard('customer')->check()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Unauthenticated'
+            ], 401);
+
+        }
         $request->validate([
             'product_variant_id' => 'required|exists:product_variants,id'
         ]);

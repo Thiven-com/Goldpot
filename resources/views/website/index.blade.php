@@ -1081,19 +1081,23 @@
                 },
 
                 success: function (res) {
+                    if (res.status == true) {
 
-                    if (res.type == 'added') {
-                        button.find('.wishlist-icon').addClass('text-danger');
+                        if (res.type == 'added') {
+                            button.find('.wishlist-icon').addClass('text-danger');
+                        } else {
+                            button.find('.wishlist-icon').removeClass('text-danger');
+                        }
+
+                        if ($('#wishlistCount').length) {
+                            $('#wishlistCount').text(res.count);
+                        }
+
+                        toastr.success(res.message);
+                        location.reload();
                     } else {
-                        button.find('.wishlist-icon').removeClass('text-danger');
+                        window.location.href = "/login";
                     }
-
-                    if ($('#wishlistCount').length) {
-                        $('#wishlistCount').text(res.count);
-                    }
-
-                    toastr.success(res.message);
-                    location.reload();
 
                 },
 

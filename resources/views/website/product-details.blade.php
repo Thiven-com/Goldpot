@@ -153,23 +153,23 @@
                                         <h3>{{ $attribute['name'] }}</h3>
 
                                         <ul class="product-variant-list">
-                                             @php
+                                            @php
                                                 $selectedValueId = request('variant_id');
                                             @endphp
                                             @foreach($attribute['values'] as $value)
 
-                                                <li>
+                                                                        <li>
 
-                                                    <input type="radio" id="variant{{ $value['variant_id'] }}"
-                                                        name="attribute_{{ $attribute['id'] }}" value="{{ $value['variant_id'] }}"
-                                                        class="variant-radio" {{ $selectedValueId == $value['variant_id'] ? 'checked' : '' }}
-                                                        onchange="changeVariant({{ $value['variant_id'] }})">
+                                                                            <input type="radio" id="variant{{ $value['variant_id'] }}"
+                                                                                name="attribute_{{ $attribute['id'] }}" value="{{ $value['variant_id'] }}"
+                                                                                class="variant-radio" {{ $selectedValueId == $value['variant_id'] ? 'checked'
+                                                : '' }} onchange="changeVariant({{ $value['variant_id'] }})">
 
-                                                    <label for="variant{{ $value['variant_id'] }}">
-                                                        {{ $value['name'] }}
-                                                    </label>
+                                                                            <label for="variant{{ $value['variant_id'] }}">
+                                                                                {{ $value['name'] }}
+                                                                            </label>
 
-                                                </li>
+                                                                        </li>
 
                                             @endforeach
 
@@ -191,21 +191,9 @@
                                         <button class="qty-btn plus">+</button>
 
                                     </div>
-
-                                    <div class="product-single-content-btn">
-
-                                        <button class="btn-default addCartBtn"
-                                            data-id="{{ $product->variants->first()->id }}" id="addCartBtn">
-
-                                            Add To Cart
-
-                                        </button>
-
-                                    </div>
-
                                     <div class="product-single-content-btn">
                                         <a href="javascript:void(0);" class="btn-default addCartBtn"
-                                            data-id="{{ $product->variant->id }}">
+                                            data-id="{{ $selectedValueId }}">
                                             Add To Cart
                                         </a>
                                     </div>
@@ -216,7 +204,7 @@
                                             <li class="wishlist">
                                                 <a href="javascript:void(0);"
                                                     class="hover-tooltip tooltip-left box-icon wishlistBtn"
-                                                    data-id="{{ $product->variant->id }}">
+                                                    data-id="{{ $selectedValueId }}">
 
                                                     <img src="{{ asset('website/images/icon-wishlist-primary.svg') }}"
                                                         alt="">
@@ -489,7 +477,8 @@
                                 <div class="product-item-body">
                                     <!-- Product Item Content Start -->
                                     <div class="product-item-content">
-                                        <h2 class="product-item-title"><a href="{{ route('productDetails', $item->slug) }}">{{ $item->title }}</a>
+                                        <h2 class="product-item-title"><a
+                                                href="{{ route('productDetails', $item->slug) }}">{{ $item->title }}</a>
                                         </h2>
                                     </div>
                                     <!-- Product Item Content End -->
@@ -581,19 +570,22 @@
                 },
 
                 success: function (res) {
+                    if (res.status == true) {
 
-                    if (res.type == 'added') {
-                        button.find('.wishlist-icon').addClass('text-danger');
+                        if (res.type == 'added') {
+                            button.find('.wishlist-icon').addClass('text-danger');
+                        } else {
+                            button.find('.wishlist-icon').removeClass('text-danger');
+                        }
+
+                        if ($('#wishlistCount').length) {
+                            $('#wishlistCount').text(res.count);
+                        }
+                        toastr.success(res.message);
+                        location.reload();
                     } else {
-                        button.find('.wishlist-icon').removeClass('text-danger');
+                        window.location.href = "/login";
                     }
-
-                    if ($('#wishlistCount').length) {
-                        $('#wishlistCount').text(res.count);
-                    }
-
-                    toastr.success(res.message);
-                    location.reload();
                 }, // <-- Missing comma was here
 
                 error: function (xhr) {
