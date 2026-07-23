@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="{{asset('website')}}/css/mousecursor.css">
     <!-- Main Custom Css -->
     <link href="{{asset('website')}}/css/custom.css" rel="stylesheet" media="screen">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
@@ -245,15 +245,15 @@
                                             </li>
 
                                             <li>
-                                                <a href="#">Orders</a>
+                                                <a href="{{ route('customer.orders') }}">Orders</a>
                                             </li>
 
                                             <li>
-                                                <a href="#">Account</a>
+                                                <a href="{{ route('profile') }}">Account</a>
                                             </li>
 
                                             <li>
-                                                <a href="{{ route('logout') }}">Logout</a>
+                                                <a href="{{ route('logout') }}" style="color: red;">Logout</a>
                                             </li>
 
                                         @else
@@ -284,7 +284,7 @@
     <!-- Header End -->
 
     @yield('content')
-     @include('sweetalert::alert')
+    @include('sweetalert::alert')
     <!-- Main Footer Start -->
     <footer class="main-footer dark-section">
         <div class="container">

@@ -47,7 +47,7 @@
                                 <li><a href="{{ route('wishlist') }}"><img
                                             src="{{asset('website')}}/images/icon-wishlist-primary.svg" alt="">Wishlist</a>
                                 </li>
-                                <li><a href="{{ route('login') }}"><img
+                                <li><a href="{{ route('login') }}" style="color: red;"><img
                                             src="{{asset('website')}}/images/icon-logout-primary.svg" alt="">Logout</a></li>
                             </ul>
                         </div>
@@ -91,7 +91,7 @@
                                 <div class="border rounded-3 p-4 h-100">
                                     <h5>👤 Account Details</h5>
                                     <p>Update your profile, contact information, and password.</p>
-                                    <a href="{{ route('profile') }}" class="btn-default">Edit Profile</a>
+                                    <a href="{{ route('profile') }}" class="btn-default">View Profile</a>
                                 </div>
                             </div>
 

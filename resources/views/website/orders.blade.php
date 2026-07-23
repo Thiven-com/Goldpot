@@ -1,6 +1,75 @@
 ﻿@extends('layouts.website')
 @section('content')
 
+<style>
+    /*==========================
+    No Orders Found
+==========================*/
+
+.text-center.py-5{
+    max-width:700px;
+    margin:50px auto;
+    padding:60px 40px !important;
+    background:#fff;
+    border:1px solid #e9ecef;
+    border-radius:20px;
+    box-shadow:0 12px 35px rgba(0,0,0,.06);
+    text-align:center;
+    transition:.3s;
+}
+
+.text-center.py-5:hover{
+    transform:translateY(-5px);
+    box-shadow:0 18px 40px rgba(0,0,0,.08);
+}
+
+.text-center.py-5 h4{
+    font-size:32px;
+    font-weight:700;
+    color:#111827;
+    margin-bottom:15px;
+}
+
+.text-center.py-5 p{
+    max-width:450px;
+    margin:0 auto 30px;
+    color:#6b7280 !important;
+    font-size:16px;
+    line-height:28px;
+}
+
+.text-center.py-5 .theme-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:14px 32px;
+    border-radius:10px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.text-center.py-5 .theme-btn:hover{
+    transform:translateY(-3px);
+}
+
+@media (max-width:768px){
+
+    .text-center.py-5{
+        margin:20px auto;
+        padding:40px 20px !important;
+    }
+
+    .text-center.py-5 h4{
+        font-size:26px;
+    }
+
+    .text-center.py-5 p{
+        font-size:15px;
+    }
+
+}
+</style>
+
     <!-- Page Header Start -->
     <div class="page-header dark-section parallaxie">
         <div class="container">
@@ -197,5 +266,40 @@
         .object-fit-cover {
             object-fit: cover;
         }
+        /* Start Shopping Button */
+
+.text-center.py-5 .theme-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 220px;
+    height: 52px;
+    padding: 0 30px;
+    background: #111827;
+    color: #fff !important;
+    border: 2px solid #111827;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all .3s ease;
+}
+
+.text-center.py-5 .theme-btn:hover{
+    background: #fff;
+    color: #111827 !important;
+    border-color: #111827;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(17, 24, 39, 0.18);
+}
+
+.text-center.py-5 .theme-btn:active{
+    transform: scale(.98);
+}
+
+.text-center.py-5 .theme-btn:focus{
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(17, 24, 39, 0.15);
+}
     </style>
 @endsection

@@ -1,5 +1,117 @@
 ﻿@extends('layouts.website')
 @section('content')
+    <style>
+        .profile-card {
+            background: #fff;
+            border-radius: 18px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, .05);
+            overflow: hidden;
+        }
+
+        .profile-title {
+            background: #f8f9fb;
+            padding: 25px 30px;
+            border-bottom: 1px solid #ececec;
+        }
+
+        .profile-title h2 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .profile-title span {
+            display: block;
+            margin-top: 6px;
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        .profile-body {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .profile-info-box {
+            background: #fff;
+            border: 1px solid #ececec;
+            border-radius: 14px;
+            padding: 22px;
+            transition: .3s;
+        }
+
+        .profile-info-box:hover {
+            transform: translateY(-4px);
+            border-color: #111827;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
+        }
+
+        .profile-full {
+            grid-column: 1/-1;
+        }
+
+        .profile-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .profile-label i {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #111827;
+        }
+
+        .profile-info-box h5 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .profile-address {
+            margin: 0;
+            line-height: 30px;
+            color: #4b5563;
+            font-size: 16px;
+        }
+
+        @media(max-width:768px) {
+
+            .profile-body {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .profile-title {
+                padding: 20px;
+            }
+
+            .profile-title h2 {
+                font-size: 22px;
+            }
+
+            .profile-full {
+                grid-column: auto;
+            }
+
+        }
+    </style>
 
     <!-- Page Header Start -->
     <div class="page-header dark-section parallaxie">
@@ -36,7 +148,7 @@
                                 <li><a href="{{ route('dashboard') }}"><img
                                             src="{{asset('website')}}/images/icon-dashboard-primary.svg"
                                             alt="">Dashboard</a></li>
-                                <li><a href="{{ route('orders') }}"><img
+                                <li><a href="{{ route('customer.orders') }}"><img
                                             src="{{asset('website')}}/images/icon-cart-primary.svg" alt="">Orders</a>
                                 </li>
                                 <li><a href="{{ route('profile') }}"><img
@@ -48,7 +160,7 @@
                                 <li><a href="{{ route('wishlist') }}"><img
                                             src="{{asset('website')}}/images/icon-wishlist-primary.svg" alt="">Wishlist</a>
                                 </li>
-                                <li><a href="{{ route('login') }}"><img
+                                <li><a href="{{ route('login') }}" style="color: red;"><img
                                             src="{{asset('website')}}/images/icon-logout-primary.svg" alt="">Logout</a></li>
                             </ul>
                         </div>
@@ -60,78 +172,83 @@
                 <div class="col-lg-8">
                     <!-- Account Details Content Box Start -->
                     <div class="account-details-content-box">
-                        <form class="checkout-bill-address-form" id="addressForm" action="#" method="POST">
-                            <!-- Account Details Content Item Start -->
-                            <div class="account-details-content-item wow fadeInUp">
-                                <div class="checkout-bill-address-title">
+
+
+
+                        <!-- Personal Information -->
+                        <div class="account-details-content-item wow fadeInUp profile-card">
+
+                            <div class="checkout-bill-address-title profile-title">
+                                <div>
                                     <h2>Personal Information</h2>
-                                </div>
-
-                                <div class="checkout-bill-address-form">
-                                    <div class="row">
-
-                                        <div class="form-group col-md-6">
-                                            <label>Full Name *</label>
-                                            <input type="text" class="form-control" name="name" value="Rahul Sharma"
-                                                placeholder="Enter full name">
-                                        </div>
-
-                                        <div class="form-group col-md-6">
-                                            <label>Mobile Number *</label>
-                                            <input type="text" class="form-control" name="mobile" value="9876543210"
-                                                placeholder="Enter mobile number">
-                                        </div>
-
-                                        <div class="form-group col-lg-12">
-                                            <label>Email Address *</label>
-                                            <input type="email" class="form-control" name="email"
-                                                value="rahul.sharma@example.com" placeholder="Enter email address">
-                                        </div>
-
-                                        <div class="form-group col-lg-12">
-                                            <label>Address</label>
-                                            <textarea class="form-control" rows="4" name="address"
-                                                placeholder="Enter your address">No. 45, MG Road, Bengaluru, Karnataka - 560001</textarea>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Account Details Content Item End -->
-                            <div class="checkout-bill-address-title">
-                                <h2>Change Password</h2>
-                            </div>
-
-                            <div class="checkout-bill-address-form">
-                                <div class="row">
-
-                                    <div class="form-group col-lg-12">
-                                        <label>Current Password</label>
-                                        <input type="password" class="form-control" name="current_password"
-                                            placeholder="Enter current password">
-                                    </div>
-
-                                    <div class="form-group col-lg-6">
-                                        <label>New Password</label>
-                                        <input type="password" class="form-control" name="new_password"
-                                            placeholder="Enter new password">
-                                    </div>
-
-                                    <div class="form-group col-lg-6">
-                                        <label>Confirm Password</label>
-                                        <input type="password" class="form-control" name="confirm_password"
-                                            placeholder="Confirm new password">
-                                    </div>
-
+                                    <span>Manage your account information</span>
                                 </div>
                             </div>
 
-                            <!-- Account Detail Form Button Start -->
-                            <div class="checkout-login-btn">
-                                <button type="submit" class="btn-default">Save Changes</button>
+                            <div class="profile-body">
+
+                                <div class="profile-info-box">
+                                    <span class="profile-label">
+                                        <i class="fa-solid fa-user"></i>
+                                        Full Name
+                                    </span>
+
+                                    <h5>{{ $address->name ?? '-' }}</h5>
+                                </div>
+
+                                <div class="profile-info-box">
+                                    <span class="profile-label">
+                                        <i class="fa-solid fa-phone"></i>
+                                        Mobile Number
+                                    </span>
+
+                                    <h5>{{ $address->mobile ?? '-' }}</h5>
+                                </div>
+
+                                <div class="profile-info-box profile-full">
+                                    <span class="profile-label">
+                                        <i class="fa-solid fa-envelope"></i>
+                                        Email Address
+                                    </span>
+
+                                    <h5>{{ $address->email ?? '-' }}</h5>
+                                </div>
+
+                                <div class="profile-info-box profile-full">
+                                    <span class="profile-label">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                         Address
+                                    </span>
+
+                                    @if($defaultAddress)
+
+                                        <p class="profile-address">
+
+                                            {{ $defaultAddress->address }}
+
+                                            @if($defaultAddress->address_2)
+                                                , {{ $defaultAddress->address_2 }}
+                                            @endif
+
+                                            <br>
+
+                                            {{ $defaultAddress->city }},
+                                            {{ $defaultAddress->state }}
+                                            - {{ $defaultAddress->pincode }}
+
+                                        </p>
+
+                                    @else
+
+                                        <p class="text-muted">No address found.</p>
+
+                                    @endif
+
+                                </div>
+
                             </div>
-                            <!-- Account Detail Form Button End -->
-                        </form>
+
+                        </div>
                     </div>
                     <!-- Account Details Content Box End -->
                 </div>

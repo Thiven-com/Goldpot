@@ -165,7 +165,18 @@ class PageController extends Controller
     }
     public function profile()
     {
-        return view('website.profile');
+        $customerId = Auth::guard('customer')->id();
+
+        if (!$customerId) {
+            return redirect()->route('login');
+        }
+        $customer = Auth::guard('customer')->user();
+        $defaultAddress = Address::where('customer_id', $customer->id)
+            ->latest()
+            ->first();
+        $address = Address::where('id', $customer->id)->first();
+
+        return view('website.profile', compact('customer', 'defaultAddress', 'address'));
     }
     public function login()
     {
