@@ -20,7 +20,7 @@ class CartController extends Controller
                 'status' => false,
                 'message' => 'Unauthenticated'
             ], 401);
-            
+
         }
         $request->validate([
             'product_variant_id' => 'required|exists:product_variants,id',
@@ -45,7 +45,7 @@ class CartController extends Controller
         $finalQty = $currentQty + $qty;
         // STOCK CHECK
         if ($variant->stock < $finalQty) {
-
+            Alert::toast('Out Of Stock', 'warning');
             return response()->json([
                 'status' => true,
                 'stock_error' => true,
@@ -76,21 +76,26 @@ class CartController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'id' => 'required',
+            'id' => 'required|exists:cart_items,id',
             'quantity' => 'required|integer|min:1'
         ]);
 
-        $item = CartItem::findOrFail($request->id);
+        $item = CartItem::with('variant')->findOrFail($request->id);
+
+        // Check stock
+        if ($request->quantity > $item->variant->stock) {
+            Alert::toast('Only ' . $item->variant->stock . ' item(s) available in stock.', 'warning');
+            return back()->withErrors([
+                'stock' => 'Only ' . $item->variant->stock . ' item(s) available in stock.'
+            ]);
+        }
 
         $item->quantity = $request->quantity;
         $item->save();
+
         Alert::toast('Updated Successfully', 'success');
+
         return back()->with('success', 'Updated Successfully');
-        // return response()->json([
-        //     'status' => true,
-        //     'message' => 'Cart updated',
-        //     'count' => $this->countItems()
-        // ]);
     }
 
     public function remove($id)

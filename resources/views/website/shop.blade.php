@@ -243,6 +243,8 @@
                         if (res.stock_error == true) {
                             alert(res.message);
                             button.find('.text').text('Add To Cart');
+                            location.reload();
+
                             return false;
                         }
                         $('#cartCount').text(res.count);

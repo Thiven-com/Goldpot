@@ -2,7 +2,7 @@
 @section('content')
     <style>
         .order-summary-footer {
-            border-top: 1px solid #e5e5e5;
+            /* border-top: 1px solid #e5e5e5; */
             padding-top: 20px;
         }
 
@@ -34,6 +34,21 @@
             width: 100%;
             text-align: center;
             padding: 14px 20px;
+        }
+    </style>
+
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        .qty-input::-webkit-outer-spin-button,
+        .qty-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        .qty-input {
+            -moz-appearance: textfield;
+            appearance: textfield;
         }
     </style>
     <!-- Page Header Start -->
@@ -320,15 +335,39 @@
                                         @endphp
 
                                         <div class="order-summary-total">
+                                            <h3>Product Total</h3>
+                                            <h3>₹{{ number_format($actualTotal, 2) }}</h3>
+                                        </div>
+
+                                        <div class="order-summary-total">
+                                            <h3>Subtotal</h3>
+                                            <h3>₹{{ number_format($subtotal, 2) }}</h3>
+                                        </div>
+
+                                        @if($savings > 0)
+                                            <div class="order-summary-total">
+                                                <h3>You Save</h3>
+                                                <h3 class="text-success">
+                                                    -₹{{ number_format($savings, 2) }}
+                                                </h3>
+                                            </div>
+                                        @endif
+
+                                        <div class="order-summary-total">
                                             <h3>Shipping</h3>
-                                            <h3>
-                                                {{ $shipping == 0 ? 'Free' : '₹' . number_format($shipping, 2) }}
-                                            </h3>
+                                            <h3>{{ $shipping == 0 ? 'Free' : '₹' . number_format($shipping, 2) }}</h3>
+                                        </div>
+                                        <hr>
+                                        <div class="total-order">
+                                            <span>Grand Total</span>
+                                            <span class="fw-bold">
+                                                ₹{{ number_format($total, 2) }}
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="order-summary-footer">
 
-                                        <div class="total-order text-body-l mb-3">
+                                        {{-- <div class="total-order text-body-l mb-3">
                                             <span class="fw-normal">Estimated Total</span>
 
                                             <div class="price-wrap gap-2">
@@ -338,27 +377,28 @@
                                                 </span>
 
                                                 @if($subtotal > $total)
-                                                    <span class="price-old text-muted text-decoration-line-through">
-                                                        ₹{{ number_format($subtotal, 2) }}
-                                                    </span>
+                                                <span class="price-old text-muted text-decoration-line-through">
+                                                    ₹{{ number_format($subtotal, 2) }}
+                                                </span>
                                                 @endif
 
                                             </div>
                                         </div>
 
                                         @if($subtotal > $total)
-                                            <p class="text-end mb-4">
-                                                You've saved
-                                                <strong class="text-success">
-                                                    ₹{{ number_format($subtotal - $total, 2) }}
-                                                </strong>
-                                            </p>
-                                        @endif
+                                        <p class="text-end mb-4">
+                                            You've saved
+                                            <strong class="text-success">
+                                                ₹{{ number_format($subtotal - $total, 2) }}
+                                            </strong>
+                                        </p>
+                                        @endif --}}
+
 
                                         <a href="{{ route('checkout') }}" class="btn-default w-100">
                                             Proceed to Checkout
-                                        </a>.
-                                        
+                                        </a>
+
 
                                     </div>
                                 </div>
@@ -470,6 +510,22 @@
                 }
             });
 
+        });
+    </script>
+
+    <script>
+        $(document).on('click', '.plus', function () {
+            let input = $(this).siblings('.qty-input');
+            input.val(parseInt(input.val()) + 1);
+        });
+
+        $(document).on('click', '.minus', function () {
+            let input = $(this).siblings('.qty-input');
+            let value = parseInt(input.val());
+
+            if (value > 1) {
+                input.val(value - 1);
+            }
         });
     </script>
 @endsection
