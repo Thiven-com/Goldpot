@@ -55,15 +55,14 @@ class OrderController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                // 'payment_method' => 'required',
+                'payment_method' => 'required',
                 'address_id' => 'required',
             ],
             [
-                // 'payment_method.required' => 'Please select a payment method.',
+                'payment_method.required' => 'Please select a payment method.',
                 'address_id.required' => 'Please select a delivery address.',
             ]
         );
-
         if ($validator->fails()) {
             return redirect(route('checkout'))
                 ->withErrors($validator)
@@ -80,7 +79,6 @@ class OrderController extends Controller
             Alert::toast('Address not found', 'error');
             return redirect()->route('customer.addresses');
         }
-
         $add['name'] = $address->name ?? $user->name;
         $add['phone'] = $address->mobile ?? $user->mobile;
         $add['mobile'] = $address->mobile ?? $user->mobile;
@@ -116,22 +114,6 @@ class OrderController extends Controller
             $shipping = 0;
             $discount = 0;
             $grandTotal = $subtotal + $shipping - $discount;
-
-            /*
-        |--------------------------------------------------------------------------
-        | CREATE ORDER ALWAYS SAME
-        |--------------------------------------------------------------------------
-        */
-            // $lastInvoice = Order::whereNotNull('invoice_id')
-            //     ->pluck('invoice_id')
-            //     ->map(function ($id) {
-            //         return (int) filter_var($id, FILTER_SANITIZE_NUMBER_INT);
-            //     })
-            //     ->max();
-
-            // $nextNumber = $lastInvoice ? $lastInvoice + 1 : 1;
-
-            // $invoiceId = 'TestVS' . str_pad($nextNumber, 5, '0', STR_PAD_LEFT);
             $order = Order::create([
                 'invoice_id' => ' ',
                 'customer_id' => $user->id,
@@ -151,9 +133,7 @@ class OrderController extends Controller
 
                 'billing_address' => json_encode($add),
             ]);
-
             $invoiceId = 'VS' . str_pad($order->id, 5, '0', STR_PAD_LEFT);
-
             $order->update([
                 'invoice_id' => $invoiceId
             ]);
@@ -178,12 +158,6 @@ class OrderController extends Controller
                 ]);
             }
 
-            /*
-        |--------------------------------------------------------------------------
-        | PAYMENT ENTRY SAME
-        |--------------------------------------------------------------------------
-        */
-
             $payment = Payment::create([
                 'order_id' => $order->id,
                 'user_id' => $user->id,
@@ -193,13 +167,6 @@ class OrderController extends Controller
                 'method' => $request->payment_method,
                 'reference_no' => $order->invoice_id,
             ]);
-
-            /*
-        |--------------------------------------------------------------------------
-        | COD CONDITION
-        |--------------------------------------------------------------------------
-        */
-
             if ($request->payment_method == 'cod') {
 
                 $order->status = 'placed';
@@ -218,13 +185,6 @@ class OrderController extends Controller
 
                 return redirect()->route('customer.orders');
             }
-
-            /*
-        |--------------------------------------------------------------------------
-        | ONLINE PAYMENT CONDITION
-        |--------------------------------------------------------------------------
-        */
-
             if ($request->payment_method == 'online_payment') {
 
                 $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
@@ -251,7 +211,7 @@ class OrderController extends Controller
             }
            
         } catch (\Exception $e) {
-
+            dd($e->getMessage());
             DB::rollBack();
 
             Alert::toast($e->getMessage(), 'error');
