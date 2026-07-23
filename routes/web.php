@@ -16,7 +16,7 @@ Route::get('/cart', [PageController::class, 'cart'])->name('cart');
 Route::get('/checkout', [PageController::class, 'checkout'])->name('checkout');
 Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
 Route::get('/wishlist', [PageController::class, 'wishlist'])->name('wishlist');
-Route::get('/orders', [PageController::class, 'orders'])->name('orders');
+// Route::get('/orders', [PageController::class, 'orders'])->name('orders');
 Route::get('/profile', [PageController::class, 'profile'])->name('profile');
 Route::get('/login', [PageController::class, 'login'])->name('login');
 Route::get('login', [AccountController::class, 'login'])->name('login');
