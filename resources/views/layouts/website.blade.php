@@ -12,7 +12,7 @@
     <!-- Page Title -->
     <title>Goldpot - Premium Jewellery Store</title>
     <!-- Favicon Icon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('website')}}/images/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('website')}}/images/logo.png">
     <!-- Google Fonts Css-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
