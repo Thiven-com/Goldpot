@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <meta name="description" content="Goldpot - Premium Jewellery Store">
     <meta name="keywords" content="Goldpot, Jewellery, Rings, Necklaces, Bracelets, Earrings, Fashion, Luxury">
-    <meta name="author" content="Awaiken">
+    <meta name="author" content="Goldpot">
     <!-- Page Title -->
     <title>Goldpot - Premium Jewellery Store</title>
     <!-- Favicon Icon -->
