@@ -95,6 +95,10 @@
                                                                 href="{{route('admin.customers.index')}}"><i
                                                                         class="ti ti-users-group fs-16 me-2"></i><span>Customers</span></a>
                                                 </li>
+                                                <li class="{{ Request::is('admin/schemes') ? 'active' : '' }}"><a
+                                                                href="{{route('admin.schemes.index')}}"><i
+                                                                        class="ti ti-users-group fs-16 me-2"></i><span>Schemes</span></a>
+                                                </li>
                                                 {{-- <li class="{{ Request::is('admin/staffs') ? 'active' : '' }}"><a
                                                                 href="{{route('admin.staffs.index')}}"><i
                                                                         class="ti ti-users-group fs-16 me-2"></i><span>Staffs</span></a>

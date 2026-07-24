@@ -190,7 +190,7 @@
 
                                         <td colspan="9" class="text-center py-5">
 
-                                            <img src="{{ asset('build/img/no-data.svg') }}" width="120" class="mb-3">
+                                            {{-- <img src="{{ asset('build/img/no-data.svg') }}" width="120" class="mb-3"> --}}
 
                                             <h6>No Schemes Found</h6>
 
