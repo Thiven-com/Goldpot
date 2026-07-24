@@ -174,7 +174,13 @@ class PageController extends Controller
     }
     public function dashboard()
     {
-        return view('website.dashboard');
+        if (!Auth::guard('customer')->check()) {
+            Alert::toast('Please Login', 'warning');
+            return redirect()->route('login');
+        }
+        $customer = Auth::guard('customer')->user();
+
+        return view('website.dashboard',compact('customer'));
     }
     public function wishlist()
     {

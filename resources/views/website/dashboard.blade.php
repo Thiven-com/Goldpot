@@ -1,6 +1,76 @@
 ﻿@extends('layouts.website')
 @section('content')
+    <style>
+        .wallet-card{
+    background: linear-gradient(135deg,#c9a227,#e7c95a);
+    border-radius:18px;
+    padding:25px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:#fff;
+    margin-bottom:30px;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
 
+.wallet-left{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.wallet-icon{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:rgba(255,255,255,.2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+}
+
+.wallet-title{
+    display:block;
+    font-size:15px;
+    opacity:.9;
+    margin-bottom:5px;
+}
+
+.wallet-amount{
+    font-size:36px;
+    font-weight:700;
+    margin:0;
+    color:#fff;
+}
+
+.wallet-card .btn-default{
+    background:#fff;
+    color:#b58d14;
+    border:none;
+}
+
+.wallet-card .btn-default:hover{
+    background:#f8f8f8;
+}
+
+@media(max-width:767px){
+
+    .wallet-card{
+        flex-direction:column;
+        text-align:center;
+        gap:20px;
+    }
+
+    .wallet-left{
+        flex-direction:column;
+    }
+
+    .wallet-amount{
+        font-size:28px;
+    }
+}
+    </style>
     <!-- Page Header Start -->
     <div class="page-header dark-section parallaxie">
         <div class="container">
@@ -40,7 +110,8 @@
                                             src="{{asset('website')}}/images/icon-cart-primary.svg" alt="">Orders</a>
                                 </li>
                                 <li><a href="{{ route('addresses') }}"><img
-                                            src="{{asset('website')}}/images/icon-dashboard-primary.svg" alt="">Addresses</a></li>
+                                            src="{{asset('website')}}/images/icon-dashboard-primary.svg"
+                                            alt="">Addresses</a></li>
                                 <li><a href="{{ route('profile') }}"><img
                                             src="{{asset('website')}}/images/icon-user-primary.svg" alt="">Account
                                         details</a></li>
@@ -70,6 +141,26 @@
                         </p>
 
                         <div class="row mt-4">
+                            <div class="row mb-4">
+
+                                <div class="col-lg-12">
+                                    <div class="wallet-card">
+                                        <div class="wallet-left">
+                                            <div class="wallet-icon">
+                                                <i class="fa-solid fa-wallet"></i>
+                                            </div>
+
+                                            <div>
+                                                <span class="wallet-title">Wallet Balance</span>
+                                                <h2 class="wallet-amount">
+                                                    ₹{{ number_format($customer->wallet, 2) }}
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
 
                             <div class="col-md-6 mb-4">
                                 <div class="border rounded-3 p-4 h-100">
