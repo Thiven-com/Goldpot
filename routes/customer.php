@@ -3,6 +3,7 @@
 use App\Http\Controllers\Customer\AddressController;
 use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\OrderController;
+use App\Http\Controllers\Customer\SchemeMemberController;
 use App\Http\Controllers\Customer\WebhookController;
 use App\Http\Controllers\Customer\WishlistController;
 use Illuminate\Support\Facades\Route;
@@ -48,7 +49,18 @@ Route::middleware(['customer'])->group(function () {
         ->name('customer.addressupdate');
     Route::post('/order/store', [OrderController::class, 'store'])
         ->name('customer.order.store');
+    Route::get('/scheme/{slug}/join', [SchemeMemberController::class, 'create'])
+        ->name('scheme.join');
 
+    Route::post('/scheme/{slug}/join', [SchemeMemberController::class, 'store'])
+        ->name('scheme.join.store');
+
+    Route::get('/scheme/payment/{member}', [SchemeMemberController::class, 'payment'])->name('scheme.payment');
+
+    Route::post('/scheme/payment-success/{member}', [SchemeMemberController::class, 'paymentSuccess'])
+        ->name('scheme.payment.success');
+    Route::get('/customer/schemes', [SchemeMemberController::class, 'mySchemes'])
+        ->name('customer.my-schemes');
 });
 
 // Route::any('webhook/razorpay/capture', [WebhookController::class, 'razorpay']);

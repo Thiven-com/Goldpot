@@ -24,17 +24,17 @@
 
                                     <div class="d-flex justify-content-between mb-2">
                                         <span>Invoice ID</span>
-                                        <strong>{{ $order->invoice_id }}</strong>
+                                        <strong>{{ $member->member_no }}</strong>
                                     </div>
 
                                     <div class="d-flex justify-content-between mb-2">
                                         <span>Customer</span>
-                                        <strong>{{ $user->name }}</strong>
+                                        <strong>{{ auth('customer')->user()->name }}</strong>
                                     </div>
 
                                     <div class="d-flex justify-content-between mb-2">
                                         <span>Email</span>
-                                        <strong>{{ $user->email }}</strong>
+                                        <strong>{{ auth('customer')->user()->email }}</strong>
                                     </div>
 
                                     <div class="d-flex justify-content-between mb-2">
@@ -57,12 +57,12 @@
                                 </div>
 
                                 <!-- Pay Button -->
-                                <button id="rzp-button" class="theme-btn style-one w-100 py-3">
+                                <button id="payButton" class="theme-btn style-one w-100 py-3">
                                     Pay ₹{{ number_format($grandTotal, 2) }}
                                 </button>
 
-                                <a href="{{ route('checkout') }}" class="btn btn-light border w-100 mt-3">
-                                    Back To Checkout
+                                <a href="{{ route('schemes') }}" class="btn btn-light border w-100 mt-3">
+                                    Back To Schemes
                                 </a>
 
                             </div>
@@ -78,56 +78,74 @@
     </main>
 
 
-
-
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <script>
-        var options = {
 
-            key: "{{ env('RAZORPAY_KEY') }}",
+        document.getElementById('payButton').addEventListener('click', function () {
 
-            amount: "{{ $grandTotal * 100 }}",
+            var options = {
 
-            currency: "INR",
+                key: "{{ env('RAZORPAY_KEY') }}",
 
-            name: "{{ config('app.name') }}",
+                amount: "{{ $payAmount * 100 }}",
 
-            description: "Order Payment",
+                currency: "INR",
 
-            image: "{{ asset($site->logo ?? '') }}",
+                name: "{{ config('app.name') }}",
 
-            order_id: "{{ $razorpayOrder['id'] }}",
+                description: "Jewellery Scheme Payment",
 
-            handler: function (response) {
+                image: "{{ asset($site->logo ?? '') }}",
 
-                let form = document.createElement('form');
-                form.method = 'POST';
-                form.action = "{{ route('customer.payment.success') }}";
+                order_id: "{{ $razorpayOrder['id'] }}",
 
-                form.innerHTML = `@csrf<input type="hidden" name="razorpay_payment_id" value="${response.razorpay_payment_id}"><input type="hidden" name="razorpay_order_id" value="${response.razorpay_order_id}"><input type="hidden" name="razorpay_signature" value="${response.razorpay_signature}">`;
+                handler: function (response) {
 
-                document.body.appendChild(form);
-                form.submit();
-            },
+                    let form = document.createElement('form');
 
-            prefill: {
-                name: "{{ $user->name }}",
-                email: "{{ $user->email }}",
-                contact: "{{ $user->phone ?? '' }}"
-            },
+                    form.method = "POST";
 
-            theme: {
-                color: "#111111"
-            }
+                    form.action = "{{ route('scheme.payment.success', $member->id) }}";
 
-        };
+                    form.innerHTML = `
+                        @csrf
+                        <input type="hidden" name="razorpay_payment_id" value="${response.razorpay_payment_id}">
+                        <input type="hidden" name="razorpay_order_id" value="${response.razorpay_order_id}">
+                        <input type="hidden" name="razorpay_signature" value="${response.razorpay_signature}">
+                    `;
 
-        var rzp1 = new Razorpay(options);
+                    document.body.appendChild(form);
 
-        document.getElementById('rzp-button').onclick = function (e) {
-            rzp1.open();
-            e.preventDefault();
-        }
+                    form.submit();
+
+                },
+
+                prefill: {
+
+                    name: "{{ auth('customer')->user()->name }}",
+
+                    email: "{{ auth('customer')->user()->email }}",
+
+                    contact: "{{ auth('customer')->user()->mobile }}"
+
+                },
+
+                theme: {
+
+                    color: "#c9a227"
+
+                }
+
+            };
+
+            console.log(options);
+
+            var rzp = new Razorpay(options);
+
+            rzp.open();
+
+        });
+
     </script>
 @endsection

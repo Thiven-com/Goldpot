@@ -30,7 +30,8 @@ Route::get('return-exchange', [PageController::class, 'return_exchange'])->name(
 Route::get('cancellation-policy', [PageController::class, 'cancellation_policy'])->name('cancellation-policy');
 Route::get('privacy-policy', [PageController::class, 'privacy_policy'])->name('privacy-policy');
 
-
+Route::get('/schemes/{slug}', [PageController::class, 'schemeDetails'])
+    ->name('schemes.show');
 
 
 

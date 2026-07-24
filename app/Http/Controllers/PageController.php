@@ -7,6 +7,7 @@ use App\Models\Blog;
 use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Scheme;
 use App\Models\WishlistItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,10 @@ class PageController extends Controller
         $products = Product::where('status', 'show')->inRandomOrder()->take(6)->get();
         $featured_products = Product::where('is_feature', 'yes')->inRandomOrder()->take(6)->get();
         $blogs = Blog::where('status', 'show')->inRandomOrder()->take(6)->get();
-        return view('website.index', compact('categories', 'products', 'featured_products', 'blogs'));
+        $schemes = Scheme::where('status', 'active')
+            ->orderBy('id', 'desc')
+            ->take(3)->get();
+        return view('website.index', compact('categories', 'products', 'featured_products', 'blogs', 'schemes'));
     }
     public function about()
     {
@@ -45,7 +49,10 @@ class PageController extends Controller
     }
     public function schemes()
     {
-        return view('website.schemes');
+        $schemes = Scheme::where('status', 'active')
+            ->orderBy('id', 'desc')
+            ->get();
+        return view('website.schemes', compact('schemes'));
     }
 
     public function productDetails(Request $request, $slug)
@@ -231,5 +238,22 @@ class PageController extends Controller
     public function privacy_policy()
     {
         return view('website.privacy-policy');
+    }
+    public function schemeDetails($slug)
+    {
+        $scheme = Scheme::where('slug', $slug)
+            ->where('status', 'active')
+            ->firstOrFail();
+
+        $relatedSchemes = Scheme::where('status', 'active')
+            ->where('id', '!=', $scheme->id)
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view('website.scheme-details', compact(
+            'scheme',
+            'relatedSchemes'
+        ));
     }
 }

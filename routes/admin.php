@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SchemeController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
@@ -124,6 +125,8 @@ Route::group(['middleware' => 'admin'], function () {
 
     Route::get('/update-orders/upload-awb', [OrderController::class, 'uploadAwbPage'])
         ->name('admin.orders.uploadAwbPage');
+
+    Route::resource('schemes',SchemeController::class)->names('admin.schemes');
 });
 Route::get('products/get-attribute-values/{unitId}', [ProductController::class, 'getAttributeValues'])->name('products.getAttributeValues');
 Route::get('/get-subcategories/{id}', function ($id) {

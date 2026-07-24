@@ -251,6 +251,9 @@
                                             <li>
                                                 <a href="{{ route('profile') }}">Account</a>
                                             </li>
+                                            <li>
+                                                <a href="{{ route('customer.my-schemes') }}">My Schemes</a>
+                                            </li>
 
                                             <li>
                                                 <a href="{{ route('logout') }}" style="color: red;">Logout</a>
@@ -285,6 +288,7 @@
 
     @yield('content')
     @include('sweetalert::alert')
+    @yield('scripts')
     <!-- Main Footer Start -->
     <footer class="main-footer dark-section">
         <div class="container">

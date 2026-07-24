@@ -148,113 +148,173 @@
         <div class="container">
 
             <div class="text-center mb-5">
-                <span class="scheme-subtitle">JEWELLERY SAVINGS PLANS</span>
+
+                <span class="scheme-subtitle">
+                    JEWELLERY SAVINGS SCHEMES
+                </span>
+
                 <h2 class="scheme-title">
-                    Save Today. Own Your Dream Jewellery Tomorrow.
+                    Save Every Month & Shop Jewellery Using Your Wallet
                 </h2>
+
                 <p class="scheme-desc">
-                    Choose a jewellery savings plan that fits your budget and enjoy exclusive
-                    benefits on your favourite jewellery.
+                    Join a jewellery savings scheme that suits your budget. Every successful
+                    monthly payment is credited to your wallet, allowing you to purchase your
+                    favourite gold and diamond jewellery with ease.
                 </p>
+
             </div>
 
             <div class="row g-4">
 
-                <!-- Gold Scheme -->
-                <div class="col-lg-4">
-                    <div class="scheme-card">
+                @forelse($schemes as $scheme)
 
-                        <div class="scheme-image">
-                            <img src="{{ asset('website') }}/images/schemes/gold-plan.png" class="img-fluid">
-                        </div>
+                    <div class="col-lg-4 col-md-6">
 
-                        <div class="scheme-content">
+                        <div class="scheme-card">
 
-                            <span class="scheme-badge gold">
-                                Gold Saver Plan
-                            </span>
+                            <div class="scheme-image">
 
-                            <h3>₹500 / Month</h3>
+                                @if($scheme->image)
 
-                            <ul>
-                                <li>✔ Save for 11 Months</li>
-                                <li>✔ Exclusive Bonus</li>
-                                <li>✔ 100% Secure</li>
-                                <li>✔ Redeem on Gold Jewellery</li>
-                            </ul>
+                                    <img src="{{ asset($scheme->image) }}" alt="{{ $scheme->title }}" class="img-fluid">
 
-                            <a href="#" class="btn btn-gold w-100">
-                                Join Now
-                            </a>
+                                @else
+
+                                    <img src="{{ asset('website/images/no-image.png') }}" alt="No Image" class="img-fluid">
+
+                                @endif
+
+                            </div>
+
+                            <div class="scheme-content">
+
+                                <span class="scheme-badge gold">
+
+                                    {{ $scheme->title }}
+
+                                </span>
+
+                                <h3>
+
+                                    ₹{{ number_format($scheme->monthly_amount, 2) }}
+                                    <small>/ Month</small>
+
+                                </h3>
+
+                                <ul>
+
+                                    <li>
+
+                                        ✔
+                                        {{ $scheme->installments }}
+                                        Monthly Installments
+
+                                    </li>
+
+                                    <li>
+
+                                        ✔
+                                        Joining Fee :
+                                        ₹{{ number_format($scheme->joining_fee, 2) }}
+
+                                    </li>
+
+                                    <li>
+
+                                        ✔
+                                        Wallet Bonus :
+
+                                        @if($scheme->bonus_type == 'fixed')
+
+                                            ₹{{ number_format($scheme->bonus_amount, 2) }}
+
+                                        @else
+
+                                            {{ $scheme->bonus_amount }}%
+
+                                        @endif
+
+                                    </li>
+
+                                    <li>
+
+                                        ✔ Wallet Credit After Every Successful Payment
+
+                                    </li>
+
+                                    <li>
+
+                                        ✔ Use Wallet Balance to Purchase Jewellery
+
+                                    </li>
+
+                                    <li>
+
+                                        ✔ Online Joining :
+                                        {{ $scheme->is_online ? 'Available' : 'Not Available' }}
+
+                                    </li>
+
+                                </ul>
+
+                                <div class="d-grid gap-2">
+
+                                    <a href="{{ route('schemes.show', $scheme->slug) }}" class="btn btn-gold">
+
+                                        View Details
+
+                                    </a>
+{{-- 
+                                    @auth('customer')
+
+                                        <a href="{{ route('scheme.join', $scheme->slug) }}" class="btn btn-dark">
+
+                                            Join Scheme
+
+                                        </a>
+
+                                    @else
+
+                                        <a href="{{ route('customer.login') }}" class="btn btn-dark">
+
+                                            Login to Join
+
+                                        </a>
+
+                                    @endauth --}}
+
+                                </div>
+
+                            </div>
 
                         </div>
 
                     </div>
-                </div>
 
-                <!-- Diamond -->
-                <div class="col-lg-4">
-                    <div class="scheme-card">
+                @empty
 
-                        <div class="scheme-image">
-                            <img src="{{ asset('website') }}/images/schemes/diamond-plan.png" class="img-fluid">
-                        </div>
+                    <div class="col-lg-12">
 
-                        <div class="scheme-content">
+                        <div class="alert alert-warning text-center">
 
-                            <span class="scheme-badge blue">
-                                Diamond Saver
-                            </span>
+                            <h5 class="mb-2">
 
-                            <h3>₹1000 / Month</h3>
+                                No Jewellery Schemes Available
 
-                            <ul>
-                                <li>✔ Flexible Installments</li>
-                                <li>✔ Certified Diamond</li>
-                                <li>✔ Premium Rewards</li>
-                                <li>✔ Lifetime Support</li>
-                            </ul>
+                            </h5>
 
-                            <a href="#" class="btn btn-blue w-100">
-                                Explore Plan
-                            </a>
+                            <p class="mb-0">
+
+                                New jewellery savings schemes will be available soon.
+
+                            </p>
 
                         </div>
 
                     </div>
-                </div>
 
-                <!-- Wedding -->
-                <div class="col-lg-4">
-                    <div class="scheme-card">
-
-                        <div class="scheme-image">
-                            <img src="{{ asset('website') }}/images/schemes/wedding-plan.png" class="img-fluid">
-                        </div>
-
-                        <div class="scheme-content">
-
-                            <span class="scheme-badge red">
-                                Wedding Plan
-                            </span>
-
-                            <h3>Flexible Savings</h3>
-
-                            <ul>
-                                <li>✔ Perfect for Weddings</li>
-                                <li>✔ Gold & Diamond Jewellery</li>
-                                <li>✔ Easy Monthly Savings</li>
-                                <li>✔ Easy Redemption</li>
-                            </ul>
-
-                            <a href="#" class="btn btn-red w-100">
-                                Start Saving
-                            </a>
-
-                        </div>
-
-                    </div>
-                </div>
+                @endforelse
 
             </div>
 
