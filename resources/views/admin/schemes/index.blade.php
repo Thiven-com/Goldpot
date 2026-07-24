@@ -213,10 +213,7 @@
         </div>
 
     </div>
-
-@endsection
-
-@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
 
@@ -239,7 +236,7 @@
 
                     success: function (res) {
 
-                        alert(res.message);
+                        alert("Deleted Successfully");
 
                         location.reload();
 
@@ -259,4 +256,4 @@
 
     </script>
 
-@endpush
+@endsection
