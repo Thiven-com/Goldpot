@@ -100,20 +100,34 @@
         }
 
         /* Mobile */
-        @media (max-width: 991px) {
+        @media (max-width:991px) {
 
-            .main-menu ul li.menu-item.has-children .sub-menu {
-                position: static;
-                opacity: 1;
-                visibility: visible;
-                transform: none;
-                box-shadow: none;
-                border-radius: 0;
-                padding-left: 15px;
-                display: none;
+            .main-menu ul {
+                display: flex;
+                align-items: center;
             }
 
-            .main-menu ul li.menu-item.has-children:hover .sub-menu {
+            .main-menu ul li.menu-item.has-children {
+                position: relative;
+                width: auto;
+                display: flex;
+                align-items: center;
+            }
+
+            .main-menu ul li.menu-item.has-children>.sub-menu {
+                position: absolute;
+                top: 45px;
+                right: 0;
+                left: auto;
+                min-width: 170px;
+                background: #fff;
+                border-radius: 8px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, .15);
+                display: none;
+                z-index: 9999;
+            }
+
+            .main-menu ul li.menu-item.has-children.active>.sub-menu {
                 display: block;
             }
         }
@@ -412,6 +426,25 @@
         <!-- Footer Copyright End -->
     </footer>
     <!-- Main Footer End -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            document.querySelectorAll('.menu-item.has-children > a').forEach(function (el) {
+
+                el.addEventListener('click', function (e) {
+
+                    if (window.innerWidth <= 991) {
+                        e.preventDefault();
+
+                        this.parentElement.classList.toggle('active');
+                    }
+
+                });
+
+            });
+
+        });
+    </script>
 
     <!-- Jquery Library File -->
     <script src="{{asset('website')}}/js/jquery-3.7.1.min.js"></script>
