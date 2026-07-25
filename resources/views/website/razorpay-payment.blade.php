@@ -24,17 +24,17 @@
 
                                     <div class="d-flex justify-content-between mb-2">
                                         <span>Invoice ID</span>
-                                        <strong>{{ $member->member_no }}</strong>
+                                        <strong>{{ $order->invoice_id }}</strong>
                                     </div>
 
                                     <div class="d-flex justify-content-between mb-2">
                                         <span>Customer</span>
-                                        <strong>{{ auth('customer')->user()->name }}</strong>
+                                        <strong>{{ $user->name }}</strong>
                                     </div>
 
                                     <div class="d-flex justify-content-between mb-2">
                                         <span>Email</span>
-                                        <strong>{{ auth('customer')->user()->email }}</strong>
+                                        <strong>{{ $user->email }}</strong>
                                     </div>
 
                                     <div class="d-flex justify-content-between mb-2">
@@ -57,12 +57,12 @@
                                 </div>
 
                                 <!-- Pay Button -->
-                                <button id="payButton" class="theme-btn style-one w-100 py-3">
+                                <button id="rzp-button" class="theme-btn style-one w-100 py-3">
                                     Pay ₹{{ number_format($grandTotal, 2) }}
                                 </button>
 
-                                <a href="{{ route('schemes') }}" class="btn btn-light border w-100 mt-3">
-                                    Back To Schemes
+                                <a href="{{ route('checkout') }}" class="btn btn-light border w-100 mt-3">
+                                    Back To Checkout
                                 </a>
 
                             </div>
@@ -82,19 +82,19 @@
 
     <script>
 
-        document.getElementById('payButton').addEventListener('click', function () {
+        document.getElementById('rzp-button').addEventListener('click', function () {
 
             var options = {
 
                 key: "{{ env('RAZORPAY_KEY') }}",
 
-                amount: "{{ $payAmount * 100 }}",
+                amount: "{{ $grandTotal * 100 }}",
 
                 currency: "INR",
 
                 name: "{{ config('app.name') }}",
 
-                description: "Jewellery Scheme Payment",
+                description: "Order Payment",
 
                 image: "{{ asset($site->logo ?? '') }}",
 
@@ -106,14 +106,14 @@
 
                     form.method = "POST";
 
-                    form.action = "{{ route('scheme.payment.success', $member->id) }}";
+                    form.action = "{{ route('customer.payment.success') }}";
 
                     form.innerHTML = `
-                        @csrf
-                        <input type="hidden" name="razorpay_payment_id" value="${response.razorpay_payment_id}">
-                        <input type="hidden" name="razorpay_order_id" value="${response.razorpay_order_id}">
-                        <input type="hidden" name="razorpay_signature" value="${response.razorpay_signature}">
-                    `;
+                            @csrf
+                            <input type="hidden" name="razorpay_payment_id" value="${response.razorpay_payment_id}">
+                            <input type="hidden" name="razorpay_order_id" value="${response.razorpay_order_id}">
+                            <input type="hidden" name="razorpay_signature" value="${response.razorpay_signature}">
+                        `;
 
                     document.body.appendChild(form);
 
@@ -122,13 +122,9 @@
                 },
 
                 prefill: {
-
-                    name: "{{ auth('customer')->user()->name }}",
-
-                    email: "{{ auth('customer')->user()->email }}",
-
-                    contact: "{{ auth('customer')->user()->mobile }}"
-
+                    name: "{{ $user->name }}",
+                    email: "{{ $user->email }}",
+                    contact: "{{ $user->phone ?? '' }}"
                 },
 
                 theme: {

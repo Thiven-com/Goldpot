@@ -36,7 +36,7 @@
                                 <label class="form-label">OTP Code</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control border-end-0 @error('otp') is-invalid @enderror"
-                                        name="otp" placeholder="Enter 6-digit OTP">
+                                        name="otp" placeholder="Enter 4-digit OTP">
                                     <span class="input-group-text border-start-0">
                                         <i class="ti ti-key"></i>
                                     </span>

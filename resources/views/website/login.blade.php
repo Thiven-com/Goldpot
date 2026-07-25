@@ -184,7 +184,7 @@
                                 </label>
 
                                 <input type="text" name="otp" maxlength="6" class="form-control text-center"
-                                    placeholder="Enter 6 Digit OTP" required><br>
+                                    placeholder="Enter 4 Digit OTP" required><br>
 
                             </div>
 
