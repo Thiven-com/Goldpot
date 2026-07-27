@@ -235,19 +235,23 @@
 
                                 </div>
 
-                                <div class="row">
+                                {{-- <div class="row">
 
                                     <div class="col-md-6 mb-3">
-
                                         <label class="fw-semibold">
-
                                             Full Name
-
                                         </label>
 
-                                        <input type="text" class="form-control readonly" required
-                                            value="{{ auth('customer')->user()->name }}">
+                                        <input type="text" name="name"
+                                            class="form-control @error('name') is-invalid @enderror"
+                                            value="{{ old('name', isset($member) ? $member->customer->name : auth('customer')->user()->name) }}"
+                                            required>
 
+                                        @error('name')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
 
                                     <div class="col-md-6 mb-3">
@@ -264,16 +268,19 @@
                                     </div>
 
                                     <div class="col-md-6 mb-3">
-
                                         <label class="fw-semibold">
-
                                             Email Address
-
                                         </label>
 
-                                        <input type="email" class="form-control readonly"
-                                            value="{{ auth('customer')->user()->email }}">
+                                        <input type="email" name="email"
+                                            class="form-control @error('email') is-invalid @enderror"
+                                            value="{{ old('email', auth('customer')->user()->email) }}" required>
 
+                                        @error('email')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
 
                                     <div class="col-md-6 mb-3">
@@ -287,6 +294,37 @@
                                         <input type="text" class="form-control readonly"
                                             value="{{ now()->format('d M Y') }}" readonly>
 
+                                    </div>
+
+                                </div> --}}
+                                <div class="row">
+
+                                    <div class="col-md-6 mb-3">
+                                        <label class="fw-semibold text-muted">Full Name</label>
+                                        <div class="form-control readonly d-flex align-items-center">
+                                            {{ isset($member) ? $member->customer->name : auth('customer')->user()->name }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label class="fw-semibold text-muted">Mobile Number</label>
+                                        <div class="form-control readonly d-flex align-items-center">
+                                            {{ auth('customer')->user()->mobile }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label class="fw-semibold text-muted">Email Address</label>
+                                        <div class="form-control readonly d-flex align-items-center">
+                                            {{ isset($member) ? $member->customer->email : auth('customer')->user()->email }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label class="fw-semibold text-muted">Joining Date</label>
+                                        <div class="form-control readonly d-flex align-items-center">
+                                            {{ isset($member) ? \Carbon\Carbon::parse($member->joining_date)->format('d M Y') : now()->format('d M Y') }}
+                                        </div>
                                     </div>
 
                                 </div>
@@ -319,9 +357,19 @@
 
                                 @php
 
-                                    $totalSaving = $scheme->monthly_amount * $scheme->installments;
+                                    if ($scheme->scheme_type == 'monthly') {
 
-                                    $firstPayment = $scheme->monthly_amount + $scheme->joining_fee;
+                                        $totalSaving = $scheme->monthly_amount * $scheme->installments;
+
+                                        $firstPayment = $scheme->monthly_amount + $scheme->joining_fee;
+
+                                    } else {
+
+                                        $totalSaving = 0;
+
+                                        $firstPayment = $scheme->minimum_daily_amount + $scheme->joining_fee;
+
+                                    }
 
                                 @endphp
 
@@ -373,41 +421,71 @@
 
                                             <small class="text-muted">
 
-                                                Monthly Saving
+                                                {{ $scheme->scheme_type == 'monthly'
+        ? 'Monthly Saving'
+        : 'Minimum Daily Payment' }}
 
                                             </small>
 
                                             <h4 class="text-warning mt-2">
 
-                                                ₹{{ number_format($scheme->monthly_amount, 2) }}
+                                                ₹{{ number_format(
+        $scheme->scheme_type == 'monthly'
+        ? $scheme->monthly_amount
+        : $scheme->minimum_daily_amount,
+        2
+    ) }}
 
                                             </h4>
 
                                         </div>
 
                                     </div>
+                                    @if($scheme->scheme_type == 'monthly')
 
-                                    <div class="col-md-6 mb-4">
+                                        <div class="col-md-6 mb-4">
 
-                                        <div class="info-box">
+                                            <div class="info-box">
 
-                                            <small class="text-muted">
+                                                <small class="text-muted">
 
-                                                Installments
+                                                    Installments
 
-                                            </small>
+                                                </small>
 
-                                            <h4 class="mt-2">
+                                                <h4 class="mt-2">
 
-                                                {{ $scheme->installments }}
+                                                    {{ $scheme->installments }} Months
 
-                                                Months
+                                                </h4>
 
-                                            </h4>
+                                            </div>
 
                                         </div>
 
-                                    </div>
+                                    @else
+
+                                        <div class="col-md-6 mb-4">
+
+                                            <div class="info-box">
+
+                                                <small class="text-muted">
+
+                                                    Payments
+
+                                                </small>
+
+                                                <h4 class="mt-2">
+
+                                                    Multiple / Day
+
+                                                </h4>
+
+                                            </div>
+
+                                        </div>
+
+                                    @endif
 
                                     <div class="col-md-6 mb-4">
 
@@ -429,33 +507,37 @@
 
                                     </div>
 
-                                    <div class="col-md-6 mb-4">
+                                    @if($scheme->scheme_type == 'monthly')
 
-                                        <div class="info-box">
+                                        <div class="col-md-6 mb-4">
 
-                                            <small class="text-muted">
+                                            <div class="info-box">
 
-                                                Wallet Bonus
+                                                <small class="text-muted">
 
-                                            </small>
+                                                    Wallet Bonus
 
-                                            <h4 class="mt-2 text-danger">
+                                                </small>
 
-                                                @if($scheme->bonus_type == 'fixed')
+                                                <h4 class="mt-2 text-danger">
 
-                                                    ₹{{ number_format($scheme->bonus_amount, 2) }}
+                                                    @if($scheme->bonus_type == 'fixed')
 
-                                                @else
+                                                        ₹{{ number_format($scheme->bonus_amount, 2) }}
 
-                                                    {{ $scheme->bonus_amount }}%
+                                                    @else
 
-                                                @endif
+                                                        {{ $scheme->bonus_amount }}%
 
-                                            </h4>
+                                                    @endif
+
+                                                </h4>
+
+                                            </div>
 
                                         </div>
 
-                                    </div>
+                                    @endif
 
                                 </div>
 
@@ -483,10 +565,17 @@
 
                                             <p class="mb-0 mt-2">
 
-                                                Every successful monthly installment will be
-                                                credited to your jewellery wallet. The wallet
-                                                balance can be redeemed while purchasing
-                                                jewellery.
+                                                @if($scheme->scheme_type == 'monthly')
+
+                                                    Every successful monthly installment will be credited to your jewellery
+                                                    wallet.
+
+                                                @else
+
+                                                    Every successful payment will be credited to your jewellery wallet. You may
+                                                    make multiple payments in a day.
+
+                                                @endif
 
                                             </p>
 
@@ -498,25 +587,51 @@
 
                                 <div class="row">
 
-                                    <div class="col-md-6">
+                                    @if($scheme->scheme_type == 'monthly')
 
-                                        <div class="info-box">
+                                        <div class="col-md-6">
 
-                                            <small class="text-muted">
+                                            <div class="info-box">
 
-                                                Total Savings
+                                                <small class="text-muted">
 
-                                            </small>
+                                                    Total Savings
 
-                                            <h3 class="mt-2">
+                                                </small>
 
-                                                ₹{{ number_format($totalSaving, 2) }}
+                                                <h3 class="mt-2">
 
-                                            </h3>
+                                                    ₹{{ number_format($totalSaving, 2) }}
+
+                                                </h3>
+
+                                            </div>
 
                                         </div>
 
-                                    </div>
+                                    @else
+
+                                        <div class="col-md-6">
+
+                                            <div class="info-box">
+
+                                                <small class="text-muted">
+
+                                                    Minimum Daily Payment
+
+                                                </small>
+
+                                                <h3 class="mt-2">
+
+                                                    ₹{{ number_format($scheme->minimum_daily_amount, 2) }}
+
+                                                </h3>
+
+                                            </div>
+
+                                        </div>
+
+                                    @endif
 
                                     <div class="col-md-6">
 
@@ -541,6 +656,7 @@
                                 </div>
 
                                 <!-- Hidden Fields -->
+
 
                                 <input type="hidden" name="scheme_id" value="{{ $scheme->id }}">
 
@@ -576,96 +692,119 @@
                                 </div>
 
                                 <div class="d-flex justify-content-between mb-3">
-
                                     <span>Scheme</span>
-
                                     <strong>{{ $scheme->title }}</strong>
-
                                 </div>
 
                                 <div class="d-flex justify-content-between mb-3">
-
-                                    <span>Monthly Amount</span>
+                                    <span>
+                                        {{ $scheme->scheme_type == 'monthly'
+        ? 'Monthly Amount'
+        : 'Minimum Daily Amount' }}
+                                    </span>
 
                                     <strong>
 
-                                        ₹{{ number_format($scheme->monthly_amount, 2) }}
+                                        ₹{{ number_format(
+        $scheme->scheme_type == 'monthly'
+        ? $scheme->monthly_amount
+        : $scheme->minimum_daily_amount,
+        2
+    ) }}
 
                                     </strong>
-
                                 </div>
 
+                                @if($scheme->scheme_type == 'monthly')
+
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <span>Installments</span>
+                                        <strong>{{ $scheme->installments }}</strong>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <span>Total Saving</span>
+                                        <strong>₹{{ number_format($totalSaving, 2) }}</strong>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <span>Wallet Bonus</span>
+                                        <strong>
+
+                                            @if($scheme->bonus_type == 'fixed')
+
+                                                ₹{{ number_format($scheme->bonus_amount, 2) }}
+
+                                            @else
+
+                                                {{ $scheme->bonus_amount }}%
+
+                                            @endif
+
+                                        </strong>
+                                    </div>
+
+                                @else
+
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <span>Payments</span>
+                                        <strong>Multiple / Day</strong>
+                                    </div>
+
+                                @endif
+
                                 <div class="d-flex justify-content-between mb-3">
-
-                                    <span>Installments</span>
-
-                                    <strong>
-
-                                        {{ $scheme->installments }}
-
-                                    </strong>
-
-                                </div>
-
-                                <div class="d-flex justify-content-between mb-3">
-
-                                    <span>Total Saving</span>
-
-                                    <strong>
-
-                                        ₹{{ number_format($totalSaving, 2) }}
-
-                                    </strong>
-
-                                </div>
-
-                                <div class="d-flex justify-content-between mb-3">
-
                                     <span>Joining Fee</span>
-
-                                    <strong>
-
-                                        ₹{{ number_format($scheme->joining_fee, 2) }}
-
-                                    </strong>
-
-                                </div>
-
-                                <div class="d-flex justify-content-between mb-3">
-
-                                    <span>Wallet Bonus</span>
-
-                                    <strong>
-
-                                        @if($scheme->bonus_type == 'fixed')
-
-                                            ₹{{ number_format($scheme->bonus_amount, 2) }}
-
-                                        @else
-
-                                            {{ $scheme->bonus_amount }}%
-
-                                        @endif
-
-                                    </strong>
-
+                                    <strong>₹{{ number_format($scheme->joining_fee, 2) }}</strong>
                                 </div>
 
                                 <hr>
+                                @if($scheme->scheme_type == 'daily')
+
+                                    <div class="mt-4">
+
+                                        <label class="form-label fw-bold">
+                                            Enter Today's Payment Amount
+                                        </label>
+
+                                        <input type="number" id="paymentAmount" name="amount"
+                                            class="form-control @error('amount') is-invalid @enderror"
+                                            min="{{ $scheme->minimum_daily_amount }}"
+                                            value="{{ old('amount', $scheme->minimum_daily_amount) }}" step="0.01" required>
+
+                                        <small class="text-muted">
+                                            Minimum Amount: ₹{{ number_format($scheme->minimum_daily_amount, 2) }}
+                                        </small>
+
+                                        @error('amount')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+
+                                    </div>
+
+                                @endif
 
                                 <div class="d-flex justify-content-between align-items-center mb-4">
 
                                     <div>
 
                                         <small class="text-muted">
-
                                             Pay Today
-
                                         </small>
 
-                                        <h3 class="text-success mb-0">
+                                        <h3 class="text-success mb-0" id="payTodayAmount">
 
-                                            ₹{{ number_format($firstPayment, 2) }}
+                                            @if($scheme->scheme_type == 'monthly')
+
+                                                ₹{{ number_format($firstPayment, 2) }}
+
+                                            @else
+
+                                                ₹{{ number_format($scheme->minimum_daily_amount + $scheme->joining_fee, 2) }}
+
+                                            @endif
 
                                         </h3>
 
@@ -674,7 +813,6 @@
                                     <i class="fa fa-credit-card fa-2x text-success"></i>
 
                                 </div>
-
                                 <div class="alert alert-success border-0">
 
                                     <strong>
@@ -685,8 +823,16 @@
 
                                     <p class="mb-0 mt-2">
 
-                                        Your monthly installments will be credited to your
-                                        jewellery wallet after every successful payment.
+                                        @if($scheme->scheme_type == 'monthly')
+
+                                            Your monthly installments will be credited to your jewellery wallet after every
+                                            successful payment.
+
+                                        @else
+
+                                            Every successful payment will be credited immediately to your jewellery wallet.
+
+                                        @endif
 
                                     </p>
 
@@ -735,9 +881,6 @@
 
     </section>
 
-@endsection
-
-@push('scripts')
 
     <script>
 
@@ -754,5 +897,38 @@
         });
 
     </script>
+    @if($scheme->scheme_type == 'daily')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
 
-@endpush
+                const input = document.getElementById('paymentAmount');
+                const payToday = document.getElementById('payTodayAmount');
+
+                const joiningFee = {{ $scheme->joining_fee }};
+                const minimum = {{ $scheme->minimum_daily_amount }};
+
+                function updateTotal() {
+
+                    let amount = parseFloat(input.value) || minimum;
+
+                    if (amount < minimum) {
+                        amount = minimum;
+                    }
+
+                    let total = amount + joiningFee;
+
+                    payToday.innerHTML = '₹' + total.toLocaleString('en-IN', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+
+                input.addEventListener('input', updateTotal);
+
+                updateTotal();
+
+            });
+        </script>
+    @endif
+
+@endsection

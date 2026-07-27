@@ -50,6 +50,7 @@
                                     <th>Image</th>
 
                                     <th>Scheme</th>
+                                    <th>Scheme Type</th>
 
                                     <th>Monthly Amount</th>
 
@@ -106,16 +107,52 @@
                                             </small>
 
                                         </td>
-
                                         <td>
 
-                                            ₹{{ number_format($scheme->monthly_amount, 2) }}
+                                            @if($scheme->scheme_type == 'monthly')
+
+                                                <span class="badge bg-primary">
+                                                    Monthly
+                                                </span>
+
+                                            @else
+
+                                                <span class="badge bg-warning text-dark">
+                                                    Daily
+                                                </span>
+
+                                            @endif
 
                                         </td>
 
                                         <td>
 
-                                            {{ $scheme->installments }}
+                                            @if($scheme->scheme_type == 'monthly')
+
+                                                ₹{{ number_format($scheme->monthly_amount, 2) }}
+
+                                            @else
+
+                                                ₹{{ number_format($scheme->minimum_daily_amount, 2) }}
+                                                <br>
+                                                <small class="text-muted">Minimum / Day</small>
+
+                                            @endif
+
+                                        </td>
+                                        <td>
+
+                                            @if($scheme->scheme_type == 'monthly')
+
+                                                {{ $scheme->installments }}
+
+                                            @else
+
+                                                <span class="badge bg-info">
+                                                    Unlimited
+                                                </span>
+
+                                            @endif
 
                                         </td>
 
@@ -127,13 +164,21 @@
 
                                         <td>
 
-                                            @if($scheme->bonus_type == 'fixed')
+                                            @if($scheme->scheme_type == 'monthly')
 
-                                                ₹{{ number_format($scheme->bonus_amount, 2) }}
+                                                @if($scheme->bonus_type == 'fixed')
+
+                                                    ₹{{ number_format($scheme->bonus_amount, 2) }}
+
+                                                @else
+
+                                                    {{ $scheme->bonus_amount }}%
+
+                                                @endif
 
                                             @else
 
-                                                {{ $scheme->bonus_amount }}%
+                                                -
 
                                             @endif
 

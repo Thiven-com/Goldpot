@@ -78,9 +78,33 @@
                                 </div>
 
                             </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Scheme Type</label>
+
+                                    <select name="scheme_type" id="scheme_type" class="form-select">
+                                        <option value="monthly">Monthly</option>
+                                        <option value="daily">Daily</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4" id="dailyAmountDiv" style="display:none;">
+
+                                <div class="mb-3">
+
+                                    <label class="form-label">
+                                        Minimum Daily Amount
+                                    </label>
+
+                                    <input type="number" name="minimum_daily_amount" id="minimum_daily_amount"
+                                        class="form-control" min="1" step="0.01">
+
+                                </div>
+
+                            </div>
 
                             <!-- Monthly Amount -->
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="monthlyAmountDiv">
 
                                 <div class="mb-3">
 
@@ -96,7 +120,7 @@
                             </div>
 
                             <!-- Installments -->
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="installmentsDiv">
 
                                 <div class="mb-3">
 
@@ -128,7 +152,7 @@
                             </div>
 
                             <!-- Bonus Type -->
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="bonusTypeDiv">
 
                                 <div class="mb-3">
 
@@ -153,7 +177,7 @@
                             </div>
 
                             <!-- Bonus Amount -->
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="bonusAmountDiv">
 
                                 <div class="mb-3">
 
@@ -169,7 +193,7 @@
                             </div>
 
                             <!-- Wallet Credit Preview -->
-                            <div class="col-md-4">
+                            <div class="col-md-4" id="walletPreviewDiv">
 
                                 <div class="mb-3">
 
@@ -381,7 +405,7 @@
 
             @endif
 
-            if ($("#summernote").length) {
+                                if ($("#summernote").length) {
 
                 $("#summernote").summernote({
                     height: 250
@@ -399,6 +423,50 @@
 
         });
 
+    </script>
+    <script>
+        $("#scheme_type").on("change", function () {
+
+            if ($(this).val() === "daily") {
+
+                // Show daily fields
+                $("#dailyAmountDiv").show();
+
+                // Hide monthly fields
+                $("#monthlyAmountDiv").hide();
+                $("#installmentsDiv").hide();
+                $("#bonusTypeDiv").hide();
+                $("#bonusAmountDiv").hide();
+                $("#walletPreviewDiv").hide();
+
+                // Required fields
+                $("#minimum_daily_amount").prop("required", true);
+
+                $("#monthly_amount").prop("required", false);
+                $("#installments").prop("required", false);
+                $("#bonus_type").prop("required", false);
+                $("#bonus_amount").prop("required", false);
+
+            } else {
+
+                // Show monthly fields
+                $("#dailyAmountDiv").hide();
+
+                $("#monthlyAmountDiv").show();
+                $("#installmentsDiv").show();
+                $("#bonusTypeDiv").show();
+                $("#bonusAmountDiv").show();
+                $("#walletPreviewDiv").show();
+
+                // Required fields
+                $("#minimum_daily_amount").prop("required", false);
+
+                $("#monthly_amount").prop("required", true);
+                $("#installments").prop("required", true);
+                $("#bonus_type").prop("required", true);
+            }
+
+        }).trigger("change");
     </script>
 
 @endsection

@@ -36,16 +36,41 @@ class SchemeController extends Controller
         $request->validate([
             'title' => 'required|string|max:255|unique:schemes,title',
             'scheme_code' => 'nullable|string|max:50|unique:schemes,scheme_code',
-            'monthly_amount' => 'required|numeric|min:1',
-            'installments' => 'required|integer|min:1',
-            'bonus_amount' => 'nullable|numeric|min:0',
-            'bonus_type' => 'required|in:fixed,percentage',
+
+            'scheme_type' => 'required|in:monthly,daily',
+
+            'monthly_amount' => $request->scheme_type == 'monthly'
+                ? 'required|numeric|min:1'
+                : 'nullable',
+
+            'installments' => $request->scheme_type == 'monthly'
+                ? 'required|integer|min:1'
+                : 'nullable',
+
+            'bonus_type' => $request->scheme_type == 'monthly'
+                ? 'required|in:fixed,percentage'
+                : 'nullable',
+
+            'bonus_amount' => $request->scheme_type == 'monthly'
+                ? 'nullable|numeric|min:0'
+                : 'nullable',
+
+            'minimum_daily_amount' => $request->scheme_type == 'daily'
+                ? 'required|numeric|min:1'
+                : 'nullable',
+
             'joining_fee' => 'nullable|numeric|min:0',
+
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+
             'short_description' => 'nullable|string',
+
             'description' => 'nullable|string',
+
             'terms_conditions' => 'nullable|string',
+
             'is_online' => 'required|boolean',
+
             'status' => 'required|in:active,inactive',
         ]);
 
@@ -65,11 +90,11 @@ class SchemeController extends Controller
             ? $request->scheme_code
             : 'SCH' . date('Y') . rand(1000, 9999);
 
-        $scheme->monthly_amount = $request->monthly_amount;
-        $scheme->installments = $request->installments;
+        // $scheme->monthly_amount = $request->monthly_amount;
+        // $scheme->installments = $request->installments;
 
-        $scheme->bonus_amount = $request->bonus_amount ?? 0;
-        $scheme->bonus_type = $request->bonus_type;
+        // $scheme->bonus_amount = $request->bonus_amount ?? 0;
+        // $scheme->bonus_type = $request->bonus_type;
 
         $scheme->joining_fee = $request->joining_fee ?? 0;
 
@@ -79,6 +104,26 @@ class SchemeController extends Controller
 
         $scheme->is_online = $request->is_online;
         $scheme->status = $request->status;
+        $scheme->scheme_type = $request->scheme_type;
+
+        if ($request->scheme_type == 'monthly') {
+
+            $scheme->monthly_amount = $request->monthly_amount;
+            $scheme->installments = $request->installments;
+            $scheme->bonus_amount = $request->bonus_amount ?? 0;
+            $scheme->bonus_type = $request->bonus_type;
+
+            $scheme->minimum_daily_amount = null;
+
+        } else {
+
+            $scheme->monthly_amount = 0;
+            $scheme->installments = 0;
+            $scheme->bonus_amount = 0;
+            // $scheme->bonus_type = null;
+
+            $scheme->minimum_daily_amount = $request->minimum_daily_amount;
+        }
 
         /*
         |--------------------------------------------------------------------------
@@ -125,10 +170,27 @@ class SchemeController extends Controller
         $request->validate([
             'title' => 'required|string|max:255|unique:schemes,title,' . $scheme->id,
             'scheme_code' => 'nullable|string|max:50|unique:schemes,scheme_code,' . $scheme->id,
-            'monthly_amount' => 'required|numeric|min:1',
-            'installments' => 'required|integer|min:1',
-            'bonus_amount' => 'nullable|numeric|min:0',
-            'bonus_type' => 'required|in:fixed,percentage',
+
+            'monthly_amount' => $scheme->scheme_type == 'monthly'
+                ? 'required|numeric|min:1'
+                : 'nullable',
+
+            'installments' => $scheme->scheme_type == 'monthly'
+                ? 'required|integer|min:1'
+                : 'nullable',
+
+            'bonus_type' => $scheme->scheme_type == 'monthly'
+                ? 'required|in:fixed,percentage'
+                : 'nullable',
+
+            'bonus_amount' => $scheme->scheme_type == 'monthly'
+                ? 'nullable|numeric|min:0'
+                : 'nullable',
+
+            'minimum_daily_amount' => $scheme->scheme_type == 'daily'
+                ? 'required|numeric|min:1'
+                : 'nullable',
+
             'joining_fee' => 'nullable|numeric|min:0',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'short_description' => 'nullable|string',
@@ -155,11 +217,23 @@ class SchemeController extends Controller
             ? $request->scheme_code
             : $scheme->scheme_code;
 
-        $scheme->monthly_amount = $request->monthly_amount;
-        $scheme->installments = $request->installments;
+        if ($scheme->scheme_type == 'monthly') {
 
-        $scheme->bonus_amount = $request->bonus_amount ?? 0;
-        $scheme->bonus_type = $request->bonus_type;
+            $scheme->monthly_amount = $request->monthly_amount;
+            $scheme->installments = $request->installments;
+            $scheme->bonus_amount = $request->bonus_amount ?? 0;
+            $scheme->bonus_type = $request->bonus_type;
+            $scheme->minimum_daily_amount = null;
+
+        } else {
+
+            $scheme->minimum_daily_amount = $request->minimum_daily_amount;
+
+            // Keep monthly values empty
+            $scheme->monthly_amount = 0;
+            $scheme->installments = 0;
+            $scheme->bonus_amount = 0;
+        }
 
         $scheme->joining_fee = $request->joining_fee ?? 0;
 
@@ -169,7 +243,8 @@ class SchemeController extends Controller
 
         $scheme->is_online = $request->is_online;
         $scheme->status = $request->status;
-
+        // $scheme->scheme_type = $request->scheme_type;
+        // $scheme->minimum_daily_amount = $request->minimum_daily_amount;
         /*
         |--------------------------------------------------------------------------
         | Update Image

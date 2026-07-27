@@ -1,173 +1,250 @@
 @extends('layouts.website')
 
 @section('content')
-
     <style>
         :root {
-            --gold: #c9a227;
-            --gold-dark: #9b7a12;
-            --light: #faf8f3;
-            --text: #333;
+            --gold: #C9A227;
+            --gold-dark: #8D6A09;
+            --gold-light: #F8F2DE;
+            --bg: #F8F6F2;
+            --text: #222;
         }
 
         body {
-            background: #f8f8f8;
+            background: linear-gradient(180deg, #fff, #f8f6f2);
         }
 
-        .scheme-header {
-            background: linear-gradient(rgba(0, 0, 0, .65), rgba(0, 0, 0, .65)),
-                url('{{ asset("website/images/page-header.jpg") }}') center center/cover;
-            padding: 130px 0;
-            color: #fff;
-        }
-
-        .scheme-header h1 {
-            font-size: 48px;
-            font-weight: 700;
-        }
-
-        .scheme-header p {
-            opacity: .9;
-        }
-
-        .scheme-main {
-            margin-top: -70px;
+        .scheme-hero {
             position: relative;
-            z-index: 10;
+            padding: 170px 0 120px;
+            background:
+                linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .55)),
+                url('{{ asset("website/images/page-header.jpg") }}') center/cover;
         }
 
-        .scheme-gallery {
-            background: #fff;
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, .08);
-        }
-
-        .scheme-gallery img {
+        .scheme-hero::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1px;
             width: 100%;
-            height: 550px;
+            height: 90px;
+            background: #fff;
+            border-radius: 60px 60px 0 0;
+        }
+
+        .scheme-hero h1 {
+            color: #fff;
+            font-size: 60px;
+            font-weight: 800;
+        }
+
+        .scheme-hero p {
+            color: #ddd;
+            font-size: 18px;
+        }
+
+        .hero-wrapper {
+            margin-top: -90px;
+            position: relative;
+            z-index: 20;
+        }
+
+        .hero-card {
+
+            background: #fff;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, .08);
+        }
+
+        .hero-image {
+
+            position: relative;
+        }
+
+        .hero-image img {
+
+            width: 100%;
+            height: 620px;
             object-fit: cover;
         }
 
-        .scheme-info {
-            background: #fff;
-            border-radius: 25px;
-            padding: 40px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, .08);
-        }
+        .hero-badge {
 
-        .scheme-badge {
-            display: inline-block;
-            background: #fff4d6;
+            position: absolute;
+            left: 25px;
+            top: 25px;
+
+            background: rgba(255, 255, 255, .95);
+
             color: var(--gold-dark);
-            padding: 8px 18px;
-            border-radius: 40px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
 
-        .scheme-info h2 {
-            font-size: 40px;
+            padding: 10px 18px;
+
+            border-radius: 50px;
+
             font-weight: 700;
-            color: #222;
-            margin-bottom: 15px;
         }
 
-        .scheme-info p {
-            color: #666;
-            line-height: 28px;
+        .hero-content {
+
+            padding: 55px;
         }
 
-        .scheme-price {
+        .price-box {
+
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin: 25px 0;
+            gap: 20px;
+
+            margin: 30px 0;
         }
 
-        .scheme-price h3 {
+        .price-box h2 {
+
+            font-size: 58px;
+
             color: var(--gold-dark);
-            font-size: 40px;
-            font-weight: 700;
+
+            font-weight: 800;
+
             margin: 0;
         }
 
-        .scheme-price span {
+        .price-box span {
+
             color: #666;
+
+            font-size: 20px;
         }
 
-        .wallet-tag {
-            background: #f3f9f2;
-            border-left: 4px solid #28a745;
-            padding: 18px;
-            border-radius: 12px;
-            margin-top: 25px;
+        .wallet-card {
+
+            background: #F3FBF5;
+
+            border-left: 5px solid #18a058;
+
+            padding: 22px;
+
+            border-radius: 15px;
+
+            margin: 30px 0;
         }
 
-        .wallet-tag i {
-            color: #28a745;
-            margin-right: 8px;
+        .wallet-card i {
+
+            color: #18a058;
+
+            font-size: 22px;
         }
 
-        .feature-box {
+        .feature-list {
+
+            margin-top: 35px;
+        }
+
+        .feature-item {
+
             display: flex;
-            gap: 15px;
-            margin-top: 18px;
+
+            gap: 18px;
+
+            margin-bottom: 25px;
         }
 
         .feature-icon {
-            width: 55px;
-            height: 55px;
-            background: #fff8e8;
-            color: var(--gold-dark);
-            border-radius: 50%;
+
+            width: 65px;
+
+            height: 65px;
+
+            border-radius: 18px;
+
+            background: linear-gradient(135deg, #FFF7D8, #F7E2A3);
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
-            font-size: 22px;
+
+            font-size: 28px;
+
+            color: var(--gold-dark);
+
             flex-shrink: 0;
         }
 
-        .feature-content h5 {
+        .feature-text h5 {
+
+            font-weight: 700;
+
             margin-bottom: 5px;
-            font-weight: 600;
         }
 
-        .feature-content p {
+        .feature-text p {
+
             margin: 0;
+
             color: #777;
-            font-size: 15px;
         }
 
-        @media(max-width:991px) {
+        .cta-buttons {
 
-            .scheme-gallery img {
+            display: flex;
 
-                height: 380px;
+            gap: 15px;
 
-            }
+            margin-top: 40px;
+        }
 
-            .scheme-info {
+        .btn-gold {
 
-                margin-top: 30px;
+            background: linear-gradient(135deg, #C9A227, #8D6A09);
 
-                padding: 30px;
+            color: #fff;
 
-            }
+            border: none;
 
-            .scheme-header h1 {
+            padding: 16px 35px;
 
-                font-size: 34px;
+            border-radius: 50px;
 
-            }
+            font-weight: 700;
 
+            transition: .3s;
+        }
+
+        .btn-gold:hover {
+
+            transform: translateY(-3px);
+
+            color: #fff;
+        }
+
+        .btn-outline-gold {
+
+            border: 2px solid var(--gold);
+
+            color: var(--gold-dark);
+
+            padding: 16px 35px;
+
+            border-radius: 50px;
+
+            font-weight: 700;
+        }
+
+        .btn-outline-gold:hover {
+
+            background: var(--gold);
+
+            color: #fff;
         }
     </style>
 
-    <!-- Hero -->
-
-    <div class="scheme-header">
+    <div class="scheme-hero">
 
         <div class="container text-center">
 
@@ -175,11 +252,7 @@
 
             <p>
 
-                Home /
-
-                Jewellery Schemes /
-
-                {{ $scheme->title }}
+                Save Smart • Buy Dream Jewellery • Secure Wallet
 
             </p>
 
@@ -187,296 +260,223 @@
 
     </div>
 
-    <section class="scheme-main pb-5">
+    <section class="hero-wrapper pb-5">
 
         <div class="container">
 
-            <div class="row g-4 align-items-center">
+            <div class="hero-card">
 
-                <div class="col-lg-6">
+                <div class="row g-0 align-items-center">
 
-                    <div class="scheme-gallery">
+                    <div class="col-lg-6">
 
-                        @if($scheme->image)
+                        <div class="hero-image">
 
-                            <img src="{{ asset($scheme->image) }}" alt="{{ $scheme->title }}">
+                            @if($scheme->image)
 
-                        @else
+                                <img src="{{ asset($scheme->image) }}">
 
-                            <img src="{{ asset('website/images/no-image.png') }}">
+                            @else
 
-                        @endif
+                                <img src="{{ asset('website/images/no-image.png') }}">
+
+                            @endif
+
+                            <div class="hero-badge">
+
+                                <i class="fa fa-crown me-2"></i>
+
+                                Premium Jewellery Scheme
+
+                            </div>
+
+                        </div>
 
                     </div>
 
-                </div>
+                    <div class="col-lg-6">
 
-                <div class="col-lg-6">
+                        <div class="hero-content">
 
-                    <div class="scheme-info">
+                            <span class="badge rounded-pill bg-warning text-dark px-3 py-2">
 
-                        <span class="scheme-badge">
-
-                            Jewellery Savings Scheme
-
-                        </span>
-
-                        <h2>
-
-                            {{ $scheme->title }}
-
-                        </h2>
-
-                        <p>
-
-                            {{ $scheme->short_description }}
-
-                        </p>
-
-                        <div class="scheme-price">
-
-                            <h3>
-
-                                ₹{{ number_format($scheme->monthly_amount, 2) }}
-
-                            </h3>
-
-                            <span>
-
-                                Per Month
+                                Jewellery Savings Scheme
 
                             </span>
 
-                        </div>
+                            <h2 class="display-5 fw-bold mt-4">
 
-                        <div class="wallet-tag">
+                                {{ $scheme->title }}
 
-                            <i class="fa fa-wallet"></i>
+                            </h2>
 
-                            Every successful monthly payment is credited to your jewellery wallet
-                            and can be redeemed while purchasing jewellery.
+                            <p class="mt-3">
 
-                        </div>
+                                {{ $scheme->short_description }}
 
-                        <div class="feature-box">
+                            </p>
 
-                            <div class="feature-icon">
+                            <div class="price-box">
 
-                                <i class="fa fa-calendar"></i>
+                                @if($scheme->scheme_type == 'monthly')
 
-                            </div>
+                                    <h2>
 
-                            <div class="feature-content">
+                                        ₹{{ number_format($scheme->monthly_amount, 2) }}
 
-                                <h5>
+                                    </h2>
 
-                                    {{ $scheme->installments }} Monthly Installments
-
-                                </h5>
-
-                                <p>
-
-                                    Flexible monthly savings plan.
-
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                        <div class="feature-box">
-
-                            <div class="feature-icon">
-
-                                <i class="fa fa-gift"></i>
-
-                            </div>
-
-                            <div class="feature-content">
-
-                                <h5>
-
-                                    Wallet Bonus
-
-                                </h5>
-
-                                <p>
-
-                                    @if($scheme->bonus_type == 'fixed')
-
-                                        ₹{{ number_format($scheme->bonus_amount, 2) }}
-
-                                    @else
-
-                                        {{ $scheme->bonus_amount }}%
-
-                                    @endif
-
-                                    bonus on eligible schemes.
-
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                        <div class="feature-box">
-
-                            <div class="feature-icon">
-
-                                <i class="fa fa-gem"></i>
-
-                            </div>
-
-                            <div class="feature-content">
-
-                                <h5>
-
-                                    Redeem for Jewellery
-
-                                </h5>
-
-                                <p>
-
-                                    Use your wallet balance while purchasing
-                                    gold, diamond and silver jewellery.
-
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="row g-3 mt-5">
-
-                <div class="col-md-6">
-
-                    <div class="card border-0 shadow-sm h-100" style="border-radius:18px;">
-
-                        <div class="card-body text-center p-4">
-
-                            <div class="mb-3">
-
-                                <i class="fa fa-wallet fa-2x text-warning"></i>
-
-                            </div>
-
-                            <small class="text-muted d-block">
-
-                                Monthly Saving
-
-                            </small>
-
-                            <h3 class="fw-bold mt-2 mb-0">
-
-                                ₹{{ number_format($scheme->monthly_amount, 2) }}
-
-                            </h3>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-6">
-
-                    <div class="card border-0 shadow-sm h-100" style="border-radius:18px;">
-
-                        <div class="card-body text-center p-4">
-
-                            <div class="mb-3">
-
-                                <i class="fa fa-clock fa-2x text-primary"></i>
-
-                            </div>
-
-                            <small class="text-muted d-block">
-
-                                Duration
-
-                            </small>
-
-                            <h3 class="fw-bold mt-2 mb-0">
-
-                                {{ $scheme->installments }}
-
-                                Months
-
-                            </h3>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-6">
-
-                    <div class="card border-0 shadow-sm h-100" style="border-radius:18px;">
-
-                        <div class="card-body text-center p-4">
-
-                            <div class="mb-3">
-
-                                <i class="fa fa-money-bill fa-2x text-success"></i>
-
-                            </div>
-
-                            <small class="text-muted d-block">
-
-                                Joining Fee
-
-                            </small>
-
-                            <h3 class="fw-bold mt-2 mb-0">
-
-                                ₹{{ number_format($scheme->joining_fee, 2) }}
-
-                            </h3>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-6">
-
-                    <div class="card border-0 shadow-sm h-100" style="border-radius:18px;">
-
-                        <div class="card-body text-center p-4">
-
-                            <div class="mb-3">
-
-                                <i class="fa fa-gift fa-2x text-danger"></i>
-
-                            </div>
-
-                            <small class="text-muted d-block">
-
-                                Wallet Bonus
-
-                            </small>
-
-                            <h3 class="fw-bold mt-2 mb-0">
-
-                                @if($scheme->bonus_type == 'fixed')
-
-                                    ₹{{ number_format($scheme->bonus_amount, 2) }}
+                                    <span>Per Month</span>
 
                                 @else
 
-                                    {{ $scheme->bonus_amount }}%
+                                    <h2>
+
+                                        ₹{{ number_format($scheme->minimum_daily_amount, 2) }}
+
+                                    </h2>
+
+                                    <span>Minimum Per Day</span>
 
                                 @endif
 
-                            </h3>
+                            </div>
+
+                            <div class="wallet-card">
+
+                                <div class="d-flex">
+
+                                    <div class="me-3">
+
+                                        <i class="fa fa-wallet"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <h5 class="fw-bold">
+
+                                            Wallet Benefits
+
+                                        </h5>
+
+                                        <p class="mb-0">
+
+                                            @if($scheme->scheme_type == 'monthly')
+
+                                                Every monthly installment is instantly credited to your jewellery wallet.
+
+                                            @else
+
+                                                Every successful payment is instantly credited to your jewellery wallet.
+
+                                            @endif
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="feature-list">
+
+                                <div class="feature-item">
+
+                                    <div class="feature-icon">
+
+                                        <i class="fa fa-gem"></i>
+
+                                    </div>
+
+                                    <div class="feature-text">
+
+                                        <h5>Premium Jewellery</h5>
+
+                                        <p>
+
+                                            Redeem your wallet balance on Gold, Silver and Diamond Jewellery.
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="feature-item">
+
+                                    <div class="feature-icon">
+
+                                        <i class="fa fa-wallet"></i>
+
+                                    </div>
+
+                                    <div class="feature-text">
+
+                                        <h5>Secure Wallet</h5>
+
+                                        <p>
+
+                                            Every successful payment increases your jewellery wallet balance.
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="feature-item">
+
+                                    <div class="feature-icon">
+
+                                        <i class="fa fa-shield-alt"></i>
+
+                                    </div>
+
+                                    <div class="feature-text">
+
+                                        <h5>100% Safe Payments</h5>
+
+                                        <p>
+
+                                            Protected online payments with complete security.
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="cta-buttons">
+
+                                @auth('customer')
+
+                                    <a href="{{ route('scheme.join', $scheme->slug) }}" class="btn btn-gold">
+
+                                        Join Now
+
+                                    </a>
+
+                                @else
+
+                                    <a href="{{ route('login') }}" class="btn btn-gold">
+
+                                        Login & Join
+
+                                    </a>
+
+                                @endauth
+
+                                <a href="#benefits" class="btn btn-outline-gold">
+
+                                    Explore Benefits
+
+                                </a>
+
+                            </div>
 
                         </div>
 
@@ -488,188 +488,462 @@
 
         </div>
 
-        </div>
+    </section>
+    {{-- ===========================
+    PREMIUM STATISTICS
+    ============================ --}}
 
-        @php
+    @php
 
+        if ($scheme->scheme_type == 'monthly') {
+
+            $savingAmount = $scheme->monthly_amount;
+            $firstPayment = $scheme->monthly_amount + $scheme->joining_fee;
             $totalSaving = $scheme->monthly_amount * $scheme->installments;
 
-            $firstPayment = $scheme->monthly_amount + $scheme->joining_fee;
+        } else {
 
-        @endphp
+            $savingAmount = $scheme->minimum_daily_amount;
+            $firstPayment = $scheme->minimum_daily_amount + $scheme->joining_fee;
+            $totalSaving = null;
 
-        <div class="row mt-5">
+        }
+
+    @endphp
+
+    <style>
+        .stat-card {
+
+            background: #fff;
+
+            border-radius: 25px;
+
+            padding: 35px;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .08);
+
+            transition: .35s;
+
+            height: 100%;
+
+            text-align: center;
+
+        }
+
+        .stat-card:hover {
+
+            transform: translateY(-8px);
+
+        }
+
+        .stat-icon {
+
+            width: 85px;
+
+            height: 85px;
+
+            margin: auto;
+
+            border-radius: 50%;
+
+            background: linear-gradient(135deg, #FFF8DB, #F8E2A5);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 34px;
+
+            color: #9b7a12;
+
+            margin-bottom: 25px;
+
+        }
+
+        .stat-card h6 {
+
+            color: #888;
+
+            margin-bottom: 12px;
+
+        }
+
+        .stat-card h2 {
+
+            font-weight: 800;
+
+            margin: 0;
+
+        }
+
+        .wallet-summary {
+
+            background: #fff;
+
+            border-radius: 30px;
+
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .08);
+
+            overflow: hidden;
+
+        }
+
+        .summary-header {
+
+            background: linear-gradient(135deg, #c9a227, #8d6a09);
+
+            padding: 28px;
+
+            color: #fff;
+
+        }
+
+        .summary-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            padding: 16px 0;
+
+            border-bottom: 1px solid #eee;
+
+        }
+
+        .summary-row:last-child {
+
+            border: none;
+
+        }
+
+        .join-card {
+
+            background: #fff;
+
+            border-radius: 30px;
+
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .08);
+
+            position: sticky;
+
+            top: 120px;
+
+            overflow: hidden;
+
+        }
+
+        .join-header {
+
+            background: linear-gradient(135deg, #c9a227, #8d6a09);
+
+            padding: 30px;
+
+            text-align: center;
+
+            color: #fff;
+
+        }
+
+        .join-price {
+
+            font-size: 52px;
+
+            font-weight: 800;
+
+            margin: 15px 0;
+
+        }
+
+        .join-benefit {
+
+            display: flex;
+
+            gap: 15px;
+
+            margin-bottom: 18px;
+
+        }
+
+        .join-benefit i {
+
+            width: 45px;
+
+            height: 45px;
+
+            border-radius: 50%;
+
+            background: #FFF6D8;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #9b7a12;
+
+        }
+
+        .join-btn {
+
+            background: linear-gradient(135deg, #c9a227, #8d6a09);
+
+            color: #fff;
+
+            padding: 16px;
+
+            border-radius: 50px;
+
+            font-weight: 700;
+
+            width: 100%;
+
+        }
+
+        .join-btn:hover {
+
+            color: #fff;
+
+            transform: translateY(-2px);
+
+        }
+    </style>
+
+    <div class="container pb-5">
+
+        <div class="row g-4 mb-5">
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+
+                        <i class="fa fa-wallet"></i>
+
+                    </div>
+
+                    <h6>
+
+                        {{ $scheme->scheme_type == 'monthly' ? 'Monthly Saving' : 'Daily Saving' }}
+
+                    </h6>
+
+                    <h2>
+
+                        ₹{{ number_format($savingAmount, 2) }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+
+                        <i class="fa fa-money-bill-wave"></i>
+
+                    </div>
+
+                    <h6>
+
+                        Joining Fee
+
+                    </h6>
+
+                    <h2>
+
+                        ₹{{ number_format($scheme->joining_fee, 2) }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+            @if($scheme->scheme_type == 'monthly')
+
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+
+                            <i class="fa fa-calendar-alt"></i>
+
+                        </div>
+
+                        <h6>
+
+                            Duration
+
+                        </h6>
+
+                        <h2>
+
+                            {{ $scheme->installments }}
+
+                            Months
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+
+                            <i class="fa fa-gift"></i>
+
+                        </div>
+
+                        <h6>
+
+                            Wallet Bonus
+
+                        </h6>
+
+                        <h2>
+
+                            @if($scheme->bonus_type == 'fixed')
+
+                                ₹{{ number_format($scheme->bonus_amount, 2) }}
+
+                            @else
+
+                                {{ $scheme->bonus_amount }}%
+
+                            @endif
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            @else
+
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+
+                            <i class="fa fa-sync"></i>
+
+                        </div>
+
+                        <h6>
+
+                            Payments
+
+                        </h6>
+
+                        <h2>
+
+                            Unlimited
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+
+                            <i class="fa fa-bolt"></i>
+
+                        </div>
+
+                        <h6>
+
+                            Wallet Credit
+
+                        </h6>
+
+                        <h2>
+
+                            Instant
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            @endif
+
+        </div>
+
+        <div class="row">
 
             <div class="col-lg-8">
 
-                <div class="card border-0 shadow-lg" style="border-radius:25px;">
+                <div class="wallet-summary">
 
-                    <div class="card-header border-0 text-white py-4"
-                        style="background:linear-gradient(135deg,#c9a227,#9b7a12);border-radius:25px 25px 0 0;">
+                    <div class="summary-header">
 
-                        <h3 class="mb-0">
+                        <h3 class="mb-1">
 
                             Wallet Summary
 
                         </h3>
 
-                    </div>
-
-                    <div class="card-body p-4">
-
-                        <div class="row">
-
-                            <div class="col-md-6 mb-4">
-
-                                <h6 class="text-muted">
-
-                                    Total Savings
-
-                                </h6>
-
-                                <h3>
-
-                                    ₹{{ number_format($totalSaving, 2) }}
-
-                                </h3>
-
-                            </div>
-
-                            <div class="col-md-6 mb-4">
-
-                                <h6 class="text-muted">
-
-                                    First Payment
-
-                                </h6>
-
-                                <h3>
-
-                                    ₹{{ number_format($firstPayment, 2) }}
-
-                                </h3>
-
-                            </div>
-
-                            <div class="col-md-6">
-
-                                <h6 class="text-muted">
-
-                                    Wallet Credit
-
-                                </h6>
-
-                                <h5>
-
-                                    Credited after every successful installment.
-
-                                </h5>
-
-                            </div>
-
-                            <div class="col-md-6">
-
-                                <h6 class="text-muted">
-
-                                    Online Joining
-
-                                </h6>
-
-                                <h5>
-
-                                    @if($scheme->is_online)
-
-                                        <span class="badge bg-success">
-
-                                            Available
-
-                                        </span>
-
-                                    @else
-
-                                        <span class="badge bg-danger">
-
-                                            Offline Only
-
-                                        </span>
-
-                                    @endif
-
-                                </h5>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-4">
-
-                <div class="card border-0 shadow-lg sticky-top" style="top:100px;border-radius:25px;overflow:hidden;">
-
-                    <div class="card-header text-center text-white py-4" style="background:#c9a227;">
-
-                        <h3 class="mb-1">
-
-                            Join Scheme
-
-                        </h3>
-
                         <small>
 
-                            Start Saving Today
+                            Everything you need to know
 
                         </small>
 
                     </div>
 
-                    <div class="card-body p-4">
+                    <div class="p-4">
 
-                        <div class="d-flex justify-content-between mb-3">
+                        <div class="summary-row">
 
-                            <span>
-
-                                Monthly Saving
-
-                            </span>
+                            <span>Saving Amount</span>
 
                             <strong>
 
-                                ₹{{ number_format($scheme->monthly_amount, 2) }}
+                                ₹{{ number_format($savingAmount, 2) }}
 
                             </strong>
 
                         </div>
 
-                        <div class="d-flex justify-content-between mb-3">
+                        @if($scheme->scheme_type == 'monthly')
 
-                            <span>
+                            <div class="summary-row">
 
-                                Duration
+                                <span>Total Saving</span>
 
-                            </span>
+                                <strong>
 
-                            <strong>
+                                    ₹{{ number_format($totalSaving, 2) }}
 
-                                {{ $scheme->installments }}
+                                </strong>
 
-                                Months
+                            </div>
 
-                            </strong>
+                        @endif
 
-                        </div>
+                        <div class="summary-row">
 
-                        <div class="d-flex justify-content-between mb-3">
-
-                            <span>
-
-                                Joining Fee
-
-                            </span>
+                            <span>Joining Fee</span>
 
                             <strong>
 
@@ -679,80 +953,57 @@
 
                         </div>
 
-                        <hr>
+                        <div class="summary-row">
 
-                        <div class="text-center mb-4">
+                            <span>First Payment</span>
 
-                            <small class="text-muted">
-
-                                First Payment
-
-                            </small>
-
-                            <h2 class="text-warning fw-bold">
+                            <strong class="text-success">
 
                                 ₹{{ number_format($firstPayment, 2) }}
 
-                            </h2>
+                            </strong>
 
                         </div>
 
-                        @if($scheme->is_online)
+                        <div class="summary-row">
 
-                            @auth('customer')
+                            <span>Wallet Credit</span>
 
-                                <a href="{{ route('scheme.join', $scheme->slug) }}"
-                                    class="btn btn-warning w-100 btn-lg rounded-pill">
+                            <strong>
 
-                                    <i class="fa fa-arrow-right me-2"></i>
+                                Every Successful Payment
 
-                                    Join Scheme
+                            </strong>
 
-                                </a>
+                        </div>
 
-                            @else
+                        <div class="summary-row">
 
-                                <a href="{{ route('login') }}" class="btn btn-warning w-100 btn-lg rounded-pill">
+                            <span>Online Joining</span>
 
-                                    Login & Join
+                            <strong>
 
-                                </a>
+                                @if($scheme->is_online)
 
-                            @endauth
+                                    <span class="badge bg-success">
 
-                        @else
+                                        Available
 
-                            <button class="btn btn-secondary w-100 btn-lg rounded-pill" disabled>
+                                    </span>
 
-                                Offline Joining Only
+                                @else
 
-                            </button>
+                                    <span class="badge bg-danger">
 
-                        @endif
+                                        Offline
 
-                    </div>
+                                    </span>
 
-                </div>
+                                @endif
 
-            </div>
+                            </strong>
 
-        </div>
-        <!-- Description & Benefits -->
-        <div class="row mt-5">
-
-            <div class="col-lg-8">
-
-                <div class="card border-0 shadow-sm mb-4" style="border-radius:20px;">
-
-                    <div class="card-body p-5">
-
-                        <h3 class="fw-bold mb-4">
-
-                            About This Jewellery Savings Scheme
-
-                        </h3>
-
-                        {!! $scheme->description !!}
+                        </div>
 
                     </div>
 
@@ -762,138 +1013,115 @@
 
             <div class="col-lg-4">
 
-                <div class="card border-0 shadow-sm" style="border-radius:20px;">
+                <div class="join-card">
 
-                    <div class="card-body p-4">
+                    <div class="join-header">
 
-                        <h4 class="fw-bold mb-4">
+                        <h4>
 
-                            Scheme Benefits
+                            Join This Scheme
 
                         </h4>
 
-                        <div class="d-flex mb-4">
+                        <div class="join-price">
 
-                            <div class="me-3">
+                            ₹{{ number_format($firstPayment, 2) }}
 
-                                <span class="badge bg-success rounded-circle p-3">
+                        </div>
 
-                                    <i class="fa fa-wallet"></i>
+                        <small>
 
-                                </span>
+                            Pay Today
 
-                            </div>
+                        </small>
+
+                    </div>
+
+                    <div class="p-4">
+
+                        <div class="join-benefit">
+
+                            <i class="fa fa-wallet"></i>
 
                             <div>
 
-                                <h6 class="fw-bold">
+                                <strong>
 
                                     Wallet Credit
 
-                                </h6>
+                                </strong>
 
-                                <small class="text-muted">
+                                <div class="text-muted">
 
-                                    Every successful installment is credited to
-                                    your jewellery wallet.
+                                    Every payment is credited
 
-                                </small>
+                                </div>
 
                             </div>
 
                         </div>
 
-                        <div class="d-flex mb-4">
+                        <div class="join-benefit">
 
-                            <div class="me-3">
-
-                                <span class="badge bg-warning rounded-circle p-3">
-
-                                    <i class="fa fa-gem"></i>
-
-                                </span>
-
-                            </div>
+                            <i class="fa fa-shield-alt"></i>
 
                             <div>
 
-                                <h6 class="fw-bold">
+                                <strong>
 
-                                    Jewellery Purchase
+                                    100% Secure
 
-                                </h6>
+                                </strong>
 
-                                <small class="text-muted">
+                                <div class="text-muted">
 
-                                    Redeem your wallet balance while purchasing
-                                    gold, diamond or silver jewellery.
+                                    SSL Protected Payment
 
-                                </small>
+                                </div>
 
                             </div>
 
                         </div>
 
-                        <div class="d-flex mb-4">
+                        <div class="join-benefit">
 
-                            <div class="me-3">
-
-                                <span class="badge bg-primary rounded-circle p-3">
-
-                                    <i class="fa fa-calendar-check"></i>
-
-                                </span>
-
-                            </div>
+                            <i class="fa fa-gem"></i>
 
                             <div>
 
-                                <h6 class="fw-bold">
+                                <strong>
 
-                                    Easy Monthly Payments
+                                    Redeem Anytime
 
-                                </h6>
+                                </strong>
 
-                                <small class="text-muted">
+                                <div class="text-muted">
 
-                                    Flexible monthly installment schedule.
+                                    Use wallet for jewellery
 
-                                </small>
-
-                            </div>
-
-                        </div>
-
-                        <div class="d-flex">
-
-                            <div class="me-3">
-
-                                <span class="badge bg-danger rounded-circle p-3">
-
-                                    <i class="fa fa-shield-alt"></i>
-
-                                </span>
-
-                            </div>
-
-                            <div>
-
-                                <h6 class="fw-bold">
-
-                                    Secure Payments
-
-                                </h6>
-
-                                <small class="text-muted">
-
-                                    Safe online payment with complete transaction
-                                    security.
-
-                                </small>
+                                </div>
 
                             </div>
 
                         </div>
+
+                        @auth('customer')
+
+                            <a href="{{ route('scheme.join', $scheme->slug) }}" class="btn join-btn mt-4">
+
+                                Join Now
+
+                            </a>
+
+                        @else
+
+                            <a href="{{ route('login') }}" class="btn join-btn mt-4">
+
+                                Login & Join
+
+                            </a>
+
+                        @endauth
 
                     </div>
 
@@ -903,191 +1131,398 @@
 
         </div>
 
-        <!-- How It Works -->
+    </div>
+    {{-- ===========================================================
+    PART 3 - PREMIUM ABOUT & BENEFITS
+    ============================================================ --}}
 
-        <div class="card border-0 shadow-sm mt-5" style="border-radius:25px;">
+    <style>
+        .section-title {
+            font-size: 42px;
+            font-weight: 800;
+            color: #222;
+            margin-bottom: 15px;
+        }
 
-            <div class="card-body p-5">
+        .section-subtitle {
+            color: #888;
+            font-size: 17px;
+        }
 
-                <div class="text-center mb-5">
+        .about-card {
 
-                    <h2 class="fw-bold">
+            background: #fff;
 
-                        How It Works
+            border-radius: 30px;
 
-                    </h2>
+            padding: 45px;
 
-                    <p class="text-muted">
+            box-shadow: 0 20px 55px rgba(0, 0, 0, .07);
 
-                        Simple steps to start your jewellery savings journey.
+        }
+
+        .benefit-card {
+
+            background: #fff;
+
+            border-radius: 25px;
+
+            padding: 30px;
+
+            transition: .35s;
+
+            height: 100%;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .06);
+
+        }
+
+        .benefit-card:hover {
+
+            transform: translateY(-10px);
+
+        }
+
+        .benefit-icon {
+
+            width: 80px;
+
+            height: 80px;
+
+            border-radius: 20px;
+
+            background: linear-gradient(135deg, #FFF8DA, #F5E0A4);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 34px;
+
+            color: #9b7a12;
+
+            margin-bottom: 25px;
+
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 70px auto 0;
+            padding: 0 0 20px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #d6b04a;
+            transform: translateX(-50%);
+        }
+
+        .step {
+            position: relative;
+            margin-bottom: 60px;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #C9A227, #8D6A09);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .step-card {
+            width: 42%;
+            background: #fff;
+            border-radius: 22px;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .08);
+        }
+
+        .step:nth-child(odd) .step-card {
+            margin-right: auto;
+            text-align: right;
+        }
+
+        .step:nth-child(even) .step-card {
+            margin-left: auto;
+            text-align: left;
+        }
+    </style>
+
+    <div class="container py-5" id="benefits">
+
+        <div class="text-center mb-5">
+
+            <h2 class="section-title">
+
+                About This Jewellery Scheme
+
+            </h2>
+
+            <p class="section-subtitle">
+
+                Save every day and turn your savings into beautiful jewellery.
+
+            </p>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-8">
+
+                <div class="about-card">
+
+                    {!! $scheme->description !!}
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="benefit-card">
+
+                    <div class="benefit-icon">
+
+                        <i class="fa fa-wallet"></i>
+
+                    </div>
+
+                    <h4>
+
+                        Wallet Credit
+
+                    </h4>
+
+                    <p>
+
+                        Every successful payment is automatically credited into your jewellery wallet.
 
                     </p>
 
                 </div>
 
-                <div class="row text-center">
+                <div class="benefit-card mt-4">
 
-                    <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="benefit-icon">
 
-                        <div class="p-4">
-
-                            <div class="rounded-circle bg-warning text-white mx-auto mb-3"
-                                style="width:80px;height:80px;display:flex;align-items:center;justify-content:center;">
-
-                                <i class="fa fa-user-plus fa-2x"></i>
-
-                            </div>
-
-                            <h5>
-
-                                Join Scheme
-
-                            </h5>
-
-                            <p class="text-muted">
-
-                                Register and become a member of your preferred
-                                jewellery savings scheme.
-
-                            </p>
-
-                        </div>
+                        <i class="fa fa-shield-alt"></i>
 
                     </div>
 
-                    <div class="col-lg-3 col-md-6 mb-4">
+                    <h4>
 
-                        <div class="p-4">
+                        Secure Payments
 
-                            <div class="rounded-circle bg-primary text-white mx-auto mb-3"
-                                style="width:80px;height:80px;display:flex;align-items:center;justify-content:center;">
+                    </h4>
 
-                                <i class="fa fa-credit-card fa-2x"></i>
+                    <p>
 
-                            </div>
+                        SSL encrypted online payments with Razorpay.
 
-                            <h5>
-
-                                Pay Monthly
-
-                            </h5>
-
-                            <p class="text-muted">
-
-                                Complete your monthly installment online or at
-                                the store.
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 mb-4">
-
-                        <div class="p-4">
-
-                            <div class="rounded-circle bg-success text-white mx-auto mb-3"
-                                style="width:80px;height:80px;display:flex;align-items:center;justify-content:center;">
-
-                                <i class="fa fa-wallet fa-2x"></i>
-
-                            </div>
-
-                            <h5>
-
-                                Wallet Updated
-
-                            </h5>
-
-                            <p class="text-muted">
-
-                                Your installment amount is added to your jewellery
-                                wallet after successful payment.
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-3 col-md-6">
-
-                        <div class="p-4">
-
-                            <div class="rounded-circle bg-danger text-white mx-auto mb-3"
-                                style="width:80px;height:80px;display:flex;align-items:center;justify-content:center;">
-
-                                <i class="fa fa-ring fa-2x"></i>
-
-                            </div>
-
-                            <h5>
-
-                                Buy Jewellery
-
-                            </h5>
-
-                            <p class="text-muted">
-
-                                Redeem your wallet balance to purchase your
-                                favourite jewellery.
-
-                            </p>
-
-                        </div>
-
-                    </div>
+                    </p>
 
                 </div>
 
             </div>
 
         </div>
-        <!-- Terms & Conditions -->
-        <div class="row mt-5" id="terms">
 
-            <div class="col-lg-8">
+        <div class="row mt-5">
 
-                <div class="card border-0 shadow-sm" style="border-radius:20px;">
+            <div class="col-lg-4 mb-4">
 
-                    <div class="card-body p-5">
+                <div class="benefit-card text-center">
 
-                        <h3 class="fw-bold mb-4">
+                    <div class="benefit-icon mx-auto">
 
-                            Terms & Conditions
+                        <i class="fa fa-gem"></i>
 
-                        </h3>
+                    </div>
 
-                        @if(!empty($scheme->terms_conditions))
+                    <h4>
 
-                            {!! $scheme->terms_conditions !!}
+                        Premium Jewellery
+
+                    </h4>
+
+                    <p>
+
+                        Redeem your wallet against Gold, Silver and Diamond Jewellery.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 mb-4">
+
+                <div class="benefit-card text-center">
+
+                    <div class="benefit-icon mx-auto">
+
+                        <i class="fa fa-coins"></i>
+
+                    </div>
+
+                    <h4>
+
+                        Flexible Savings
+
+                    </h4>
+
+                    <p>
+
+                        Save according to your convenience and grow your jewellery fund.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 mb-4">
+
+                <div class="benefit-card text-center">
+
+                    <div class="benefit-icon mx-auto">
+
+                        <i class="fa fa-award"></i>
+
+                    </div>
+
+                    <h4>
+
+                        Trusted Brand
+
+                    </h4>
+
+                    <p>
+
+                        GoldPot ensures transparency, trust and secure transactions.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {{-- ================================
+    HOW IT WORKS
+    ================================ --}}
+
+    <section class="py-5">
+
+        <div class="container">
+
+            <div class="text-center mb-5">
+
+                <h2 class="section-title">
+
+                    How It Works
+
+                </h2>
+
+                <p class="section-subtitle">
+
+                    Four simple steps to own your dream jewellery.
+
+                </p>
+
+            </div>
+
+            <div class="timeline">
+
+                <div class="step">
+
+                    <div class="step-number">
+
+                        1
+
+                    </div>
+
+                    <div class="step-card text-center">
+
+                        <h4>
+
+                            Join Your Scheme
+
+                        </h4>
+
+                        <p>
+
+                            Create your membership and start saving today.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="step">
+
+                    <div class="step-number">
+
+                        2
+
+                    </div>
+
+                    <div class="step-card text-center">
+
+                        @if($scheme->scheme_type == 'monthly')
+
+                            <h4>
+
+                                Pay Every Month
+
+                            </h4>
+
+                            <p>
+
+                                Complete your monthly installment online.
+
+                            </p>
 
                         @else
 
-                            <ul class="mb-0">
+                            <h4>
 
-                                <li class="mb-3">
-                                    Monthly installment should be paid on or before the due date.
-                                </li>
+                                Make Daily Payments
 
-                                <li class="mb-3">
-                                    Wallet balance can be redeemed only against jewellery purchases.
-                                </li>
+                            </h4>
 
-                                <li class="mb-3">
-                                    Bonus is credited as per the selected scheme.
-                                </li>
+                            <p>
 
-                                <li class="mb-3">
-                                    Wallet balance cannot be exchanged for cash.
-                                </li>
+                                Pay one or multiple times every day.
 
-                                <li>
-                                    Company reserves the right to modify the scheme terms.
-                                </li>
-
-                            </ul>
+                            </p>
 
                         @endif
 
@@ -1095,127 +1530,53 @@
 
                 </div>
 
-            </div>
+                <div class="step">
 
-            <div class="col-lg-4">
+                    <div class="step-number">
 
-                <div class="card border-0 shadow-sm" style="border-radius:20px;">
+                        3
 
-                    <div class="card-body p-4">
+                    </div>
 
-                        <h4 class="fw-bold mb-4">
+                    <div class="step-card text-center">
 
-                            Quick Summary
+                        <h4>
+
+                            Wallet Updated
 
                         </h4>
 
-                        <table class="table table-borderless">
+                        <p>
 
-                            <tr>
+                            Every successful payment is instantly credited into your jewellery wallet.
 
-                                <td>
+                        </p>
 
-                                    Monthly Saving
+                    </div>
 
-                                </td>
+                </div>
 
-                                <th class="text-end">
+                <div class="step">
 
-                                    ₹{{ number_format($scheme->monthly_amount, 2) }}
+                    <div class="step-number">
 
-                                </th>
+                        4
 
-                            </tr>
+                    </div>
 
-                            <tr>
+                    <div class="step-card text-center">
 
-                                <td>
+                        <h4>
 
-                                    Duration
+                            Purchase Jewellery
 
-                                </td>
+                        </h4>
 
-                                <th class="text-end">
+                        <p>
 
-                                    {{ $scheme->installments }} Months
+                            Redeem your wallet balance while purchasing jewellery.
 
-                                </th>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>
-
-                                    Joining Fee
-
-                                </td>
-
-                                <th class="text-end">
-
-                                    ₹{{ number_format($scheme->joining_fee, 2) }}
-
-                                </th>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>
-
-                                    Wallet Bonus
-
-                                </td>
-
-                                <th class="text-end">
-
-                                    @if($scheme->bonus_type == 'fixed')
-
-                                        ₹{{ number_format($scheme->bonus_amount, 2) }}
-
-                                    @else
-
-                                        {{ $scheme->bonus_amount }}%
-
-                                    @endif
-
-                                </th>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>
-
-                                    Online Joining
-
-                                </td>
-
-                                <th class="text-end">
-
-                                    @if($scheme->is_online)
-
-                                        <span class="badge bg-success">
-
-                                            Yes
-
-                                        </span>
-
-                                    @else
-
-                                        <span class="badge bg-danger">
-
-                                            No
-
-                                        </span>
-
-                                    @endif
-
-                                </th>
-
-                            </tr>
-
-                        </table>
+                        </p>
 
                     </div>
 
@@ -1225,19 +1586,184 @@
 
         </div>
 
-        <!-- FAQ -->
+    </section>
+    {{-- ==========================================================
+    PART 4 - FAQ + RELATED SCHEMES + PREMIUM CTA
+    ========================================================== --}}
 
-        <div class="card border-0 shadow-sm mt-5" style="border-radius:20px;">
+    <style>
+        .faq-section {
 
-            <div class="card-body p-5">
+            padding: 80px 0;
 
-                <h2 class="fw-bold text-center mb-5">
+        }
+
+        .faq-card {
+
+            background: #fff;
+
+            border-radius: 25px;
+
+            box-shadow: 0 15px 45px rgba(0, 0, 0, .06);
+
+            overflow: hidden;
+
+        }
+
+        .accordion-item {
+
+            border: none;
+
+            border-bottom: 1px solid #eee;
+
+        }
+
+        .accordion-button {
+
+            padding: 22px 25px;
+
+            font-size: 18px;
+
+            font-weight: 600;
+
+            box-shadow: none !important;
+
+        }
+
+        .accordion-button:not(.collapsed) {
+
+            background: #fff8df;
+
+            color: #9b7a12;
+
+        }
+
+        .related-card {
+
+            background: #fff;
+
+            border-radius: 22px;
+
+            overflow: hidden;
+
+            transition: .35s;
+
+            box-shadow: 0 18px 40px rgba(0, 0, 0, .08);
+
+            height: 100%;
+
+        }
+
+        .related-card:hover {
+
+            transform: translateY(-8px);
+
+        }
+
+        .related-card img {
+
+            height: 260px;
+
+            width: 100%;
+
+            object-fit: cover;
+
+        }
+
+        .related-body {
+
+            padding: 25px;
+
+        }
+
+        .related-price {
+
+            color: #9b7a12;
+
+            font-size: 28px;
+
+            font-weight: 700;
+
+        }
+
+        .cta-section {
+
+            margin-top: 80px;
+
+            border-radius: 35px;
+
+            overflow: hidden;
+
+            background:
+
+                linear-gradient(135deg, #c9a227, #8d6a09);
+
+            color: #fff;
+
+        }
+
+        .cta-section .container {
+
+            padding: 80px 60px;
+
+        }
+
+        .cta-title {
+
+            font-size: 48px;
+
+            font-weight: 800;
+
+        }
+
+        .btn-white-gold {
+
+            background: #fff;
+
+            color: #8d6a09;
+
+            border-radius: 50px;
+
+            padding: 16px 40px;
+
+            font-weight: 700;
+
+        }
+
+        .btn-white-gold:hover {
+
+            color: #8d6a09;
+
+            transform: translateY(-2px);
+
+        }
+    </style>
+
+    <!-- FAQ -->
+
+    <section class="faq-section">
+
+        <div class="container">
+
+            <div class="text-center mb-5">
+
+                <h2 class="section-title">
 
                     Frequently Asked Questions
 
                 </h2>
 
-                <div class="accordion" id="faqAccordion">
+                <p class="section-subtitle">
+
+                    Everything you need to know about this jewellery savings scheme.
+
+                </p>
+
+            </div>
+
+            <div class="faq-card">
+
+                <div class="accordion accordion-flush" id="faqAccordion">
 
                     <div class="accordion-item">
 
@@ -1245,7 +1771,7 @@
 
                             <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#faq1">
 
-                                How does the wallet scheme work?
+                                How does this jewellery savings scheme work?
 
                             </button>
 
@@ -1255,9 +1781,8 @@
 
                             <div class="accordion-body">
 
-                                Every successful installment is credited to your
-                                jewellery wallet and can be used while purchasing
-                                jewellery.
+                                Every successful payment is credited to your jewellery wallet.
+                                You can redeem the accumulated wallet balance while purchasing jewellery.
 
                             </div>
 
@@ -1281,8 +1806,7 @@
 
                             <div class="accordion-body">
 
-                                Yes. Secure online payment is available for eligible
-                                schemes.
+                                Yes. Secure online payment is available using Razorpay.
 
                             </div>
 
@@ -1296,7 +1820,7 @@
 
                             <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq3">
 
-                                Can I redeem anytime?
+                                When is the wallet credited?
 
                             </button>
 
@@ -1306,8 +1830,31 @@
 
                             <div class="accordion-body">
 
-                                Wallet redemption is available according to the
-                                scheme terms and jewellery purchase policy.
+                                Wallet credit happens automatically after every successful payment.
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="accordion-item">
+
+                        <h2 class="accordion-header">
+
+                            <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq4">
+
+                                Can I redeem anytime?
+
+                            </button>
+
+                        </h2>
+
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+
+                            <div class="accordion-body">
+
+                                Yes, according to the scheme's redemption policy and jewellery purchase rules.
 
                             </div>
 
@@ -1321,19 +1868,29 @@
 
         </div>
 
-        <!-- Related Schemes -->
+    </section>
 
-        @if(isset($relatedSchemes) && $relatedSchemes->count())
+    <!-- RELATED SCHEMES -->
 
-            <div class="mt-5">
+    @if(isset($relatedSchemes) && $relatedSchemes->count())
+
+        <section class="pb-5">
+
+            <div class="container">
 
                 <div class="text-center mb-5">
 
-                    <h2 class="fw-bold">
+                    <h2 class="section-title">
 
-                        Explore More Jewellery Schemes
+                        Explore More Schemes
 
                     </h2>
+
+                    <p class="section-subtitle">
+
+                        Choose the perfect savings plan for your dream jewellery.
+
+                    </p>
 
                 </div>
 
@@ -1341,31 +1898,52 @@
 
                     @foreach($relatedSchemes as $item)
 
-                        <div class="col-lg-4 mb-4">
+                        <div class="col-lg-4 col-md-6 mb-4">
 
-                            <div class="card border-0 shadow h-100" style="border-radius:20px;overflow:hidden;transition:.3s;">
+                            <div class="related-card">
 
-                                <img src="{{ asset($item->image) }}" style="height:250px;object-fit:cover;">
+                                <img src="{{ asset($item->image) }}">
 
-                                <div class="card-body">
+                                <div class="related-body">
 
-                                    <h4>
+                                    <span class="badge bg-warning text-dark">
+
+                                        Jewellery Scheme
+
+                                    </span>
+
+                                    <h4 class="mt-3">
 
                                         {{ $item->title }}
 
                                     </h4>
 
-                                    <p class="text-muted">
+                                    @if($item->scheme_type == 'monthly')
 
-                                        ₹{{ number_format($item->monthly_amount, 2) }}
+                                        <div class="related-price">
 
-                                        / Month
+                                            ₹{{ number_format($item->monthly_amount, 2) }}
 
-                                    </p>
+                                            <small>/ Month</small>
 
-                                    <a href="{{ route('schemes.show', $item->slug) }}" class="btn btn-warning rounded-pill w-100">
+                                        </div>
 
-                                        View Details
+                                    @else
+
+                                        <div class="related-price">
+
+                                            ₹{{ number_format($item->minimum_daily_amount, 2) }}
+
+                                            <small>/ Day</small>
+
+                                        </div>
+
+                                    @endif
+
+                                    <a href="{{ route('schemes.show', $item->slug) }}"
+                                        class="btn btn-warning rounded-pill w-100 mt-4">
+
+                                        View Scheme
 
                                     </a>
 
@@ -1381,55 +1959,68 @@
 
             </div>
 
-        @endif
+        </section>
 
-        <!-- Bottom CTA -->
+    @endif
 
-        <div class="card border-0 mt-5" style="background:linear-gradient(135deg,#c9a227,#9b7a12);border-radius:25px;">
+    <!-- PREMIUM CTA -->
 
-            <div class="card-body text-center text-white py-5">
+    <section class="container">
 
-                <h2 class="fw-bold">
+        <div class="cta-section">
 
-                    Start Your Jewellery Savings Journey Today
+            <div class="container">
 
-                </h2>
+                <div class="row align-items-center">
 
-                <p class="mb-4">
+                    <div class="col-lg-8">
 
-                    Save every month, build your jewellery wallet, and purchase
-                    your dream jewellery with confidence.
+                        <h2 class="cta-title">
 
-                </p>
+                            Start Your Jewellery Savings Journey Today
 
-                @if($scheme->is_online)
+                        </h2>
 
-                    @auth('customer')
+                        <p class="mt-4 mb-0 fs-5">
 
-                        <a href="{{ route('scheme.join', $scheme->slug) }}" class="btn btn-light btn-lg rounded-pill px-5">
+                            Save consistently, build your jewellery wallet and purchase
+                            your dream jewellery with confidence.
 
-                            Join This Scheme
+                        </p>
 
-                        </a>
+                    </div>
 
-                    @else
+                    <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
 
-                        <a href="{{ route('login') }}" class="btn btn-light btn-lg rounded-pill px-5">
+                        @if($scheme->is_online)
 
-                            Login & Join
+                            @auth('customer')
 
-                        </a>
+                                <a href="{{ route('scheme.join', $scheme->slug) }}" class="btn btn-white-gold btn-lg">
 
-                    @endauth
+                                    Join Scheme
 
-                @endif
+                                </a>
+
+                            @else
+
+                                <a href="{{ route('login') }}" class="btn btn-white-gold btn-lg">
+
+                                    Login & Join
+
+                                </a>
+
+                            @endauth
+
+                        @endif
+
+                    </div>
+
+                </div>
 
             </div>
 
         </div>
 
-        </div>
-
     </section>
-
 @endsection

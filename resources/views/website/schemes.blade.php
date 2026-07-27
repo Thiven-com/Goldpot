@@ -154,13 +154,12 @@
                 </span>
 
                 <h2 class="scheme-title">
-                    Save Every Month & Shop Jewellery Using Your Wallet
+                    Choose the Perfect Jewellery Savings Scheme
                 </h2>
 
-                <p class="scheme-desc">
-                    Join a jewellery savings scheme that suits your budget. Every successful
-                    monthly payment is credited to your wallet, allowing you to purchase your
-                    favourite gold and diamond jewellery with ease.
+                <p class="scheme-desc mt-3">
+                    Choose between monthly savings plans and flexible daily savings plans. Every successful payment is
+                    credited to your jewellery wallet, which you can use to purchase gold, silver, or diamond jewellery.
                 </p>
 
             </div>
@@ -189,72 +188,104 @@
 
                             <div class="scheme-content">
 
-                                <span class="scheme-badge gold">
+                                <span class="scheme-badge {{ $scheme->scheme_type == 'monthly' ? 'gold' : 'blue' }}">
 
                                     {{ $scheme->title }}
+
+                                    <small class="ms-2">
+                                        ({{ ucfirst($scheme->scheme_type) }})
+                                    </small>
 
                                 </span>
 
                                 <h3>
 
-                                    ₹{{ number_format($scheme->monthly_amount, 2) }}
-                                    <small>/ Month</small>
+                                    @if($scheme->scheme_type == 'monthly')
+
+                                        ₹{{ number_format($scheme->monthly_amount, 2) }}
+                                        <small>/ Month</small>
+
+                                    @else
+
+                                        ₹{{ number_format($scheme->minimum_daily_amount, 2) }}
+                                        <small>Minimum / Day</small>
+
+                                    @endif
 
                                 </h3>
 
                                 <ul>
 
-                                    <li>
+                                    @if($scheme->scheme_type == 'monthly')
 
-                                        ✔
-                                        {{ $scheme->installments }}
-                                        Monthly Installments
+                                        <li>
+                                            ✔ {{ $scheme->installments }} Monthly Installments
+                                        </li>
 
-                                    </li>
+                                        <li>
+                                            ✔ Joining Fee :
+                                            ₹{{ number_format($scheme->joining_fee, 2) }}
+                                        </li>
 
-                                    <li>
+                                        <li>
 
-                                        ✔
-                                        Joining Fee :
-                                        ₹{{ number_format($scheme->joining_fee, 2) }}
+                                            ✔ Wallet Bonus :
 
-                                    </li>
+                                            @if($scheme->bonus_type == 'fixed')
 
-                                    <li>
+                                                ₹{{ number_format($scheme->bonus_amount, 2) }}
 
-                                        ✔
-                                        Wallet Bonus :
+                                            @else
 
-                                        @if($scheme->bonus_type == 'fixed')
+                                                {{ $scheme->bonus_amount }}%
 
-                                            ₹{{ number_format($scheme->bonus_amount, 2) }}
+                                            @endif
 
-                                        @else
+                                        </li>
 
-                                            {{ $scheme->bonus_amount }}%
+                                        <li>
+                                            ✔ Wallet Credit After Every Successful Payment
+                                        </li>
 
-                                        @endif
+                                        <li>
+                                            ✔ Use Wallet Balance to Purchase Jewellery
+                                        </li>
 
-                                    </li>
+                                        <li>
+                                            ✔ Online Joining :
+                                            {{ $scheme->is_online ? 'Available' : 'Not Available' }}
+                                        </li>
 
-                                    <li>
+                                    @else
 
-                                        ✔ Wallet Credit After Every Successful Payment
+                                        <li>
+                                            ✔ Minimum Daily Payment :
+                                            ₹{{ number_format($scheme->minimum_daily_amount, 2) }}
+                                        </li>
 
-                                    </li>
+                                        <li>
+                                            ✔ Multiple Payments Allowed Per Day
+                                        </li>
 
-                                    <li>
+                                        <li>
+                                            ✔ Joining Fee :
+                                            ₹{{ number_format($scheme->joining_fee, 2) }}
+                                        </li>
 
-                                        ✔ Use Wallet Balance to Purchase Jewellery
+                                        <li>
+                                            ✔ Every Successful Payment is Credited to Wallet
+                                        </li>
 
-                                    </li>
+                                        <li>
+                                            ✔ Use Wallet Balance to Purchase Jewellery
+                                        </li>
 
-                                    <li>
+                                        <li>
+                                            ✔ Online Joining :
+                                            {{ $scheme->is_online ? 'Available' : 'Not Available' }}
+                                        </li>
 
-                                        ✔ Online Joining :
-                                        {{ $scheme->is_online ? 'Available' : 'Not Available' }}
-
-                                    </li>
+                                    @endif
 
                                 </ul>
 
@@ -265,22 +296,22 @@
                                         View Details
 
                                     </a>
-{{-- 
+                                    {{--
                                     @auth('customer')
 
-                                        <a href="{{ route('scheme.join', $scheme->slug) }}" class="btn btn-dark">
+                                    <a href="{{ route('scheme.join', $scheme->slug) }}" class="btn btn-dark">
 
-                                            Join Scheme
+                                        Join Scheme
 
-                                        </a>
+                                    </a>
 
                                     @else
 
-                                        <a href="{{ route('customer.login') }}" class="btn btn-dark">
+                                    <a href="{{ route('customer.login') }}" class="btn btn-dark">
 
-                                            Login to Join
+                                        Login to Join
 
-                                        </a>
+                                    </a>
 
                                     @endauth --}}
 

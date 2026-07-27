@@ -737,6 +737,7 @@
 
     </script>
 
+
     <form id="paymentForm" action="{{ route('scheme.payment.success', $member->id) }}" method="POST" style="display:none;">
 
         @csrf
@@ -748,5 +749,16 @@
         <input type="hidden" name="razorpay_signature" id="razorpay_signature">
 
     </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            if (!document.getElementById('agreeTerms').checked) {
+                document.getElementById('agreeTerms').checked = true;
+            }
+
+            document.getElementById('payButton').click();
+
+        });
+    </script>
 
 @endsection

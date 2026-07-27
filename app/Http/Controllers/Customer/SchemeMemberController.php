@@ -27,12 +27,24 @@ class SchemeMemberController extends Controller
                 ->route('schemes')
                 ->with('error', 'Scheme Details Not Found.');
         }
+
         // Prevent duplicate joining
         $alreadyJoined = SchemeMember::where('scheme_id', $scheme->id)
             ->where('customer_id', Auth::guard('customer')->id())
             ->exists();
 
-        if ($alreadyJoined) {
+        $member = SchemeMember::where('scheme_id', $scheme->id)
+            ->where('customer_id', Auth::guard('customer')->id())
+            ->first();
+
+        if ($member) {
+
+            // For Daily Scheme, show Join page again to enter amount
+            if ($scheme->scheme_type == 'daily') {
+                return view('website.join-scheme', compact('scheme', 'member'));
+            }
+
+            // Monthly Scheme - prevent duplicate join
             return redirect()
                 ->route('customer.my-schemes')
                 ->with('error', 'You have already joined this scheme.');
@@ -52,63 +64,111 @@ class SchemeMemberController extends Controller
 
             $customer = Auth::guard('customer')->user();
 
-            // Prevent duplicate registration
-            $exists = SchemeMember::where('scheme_id', $scheme->id)
+            // Existing Member
+            $member = SchemeMember::where('scheme_id', $scheme->id)
                 ->where('customer_id', $customer->id)
                 ->whereIn('status', ['pending', 'active'])
-                ->exists();
+                ->first();
 
-            if ($exists) {
+            /*
+            |--------------------------------------------------------------------------
+            | DAILY SCHEME
+            |--------------------------------------------------------------------------
+            */
+            if ($scheme->scheme_type == 'daily') {
+
+                $request->validate([
+                    'amount' => [
+                        'required',
+                        'numeric',
+                        'min:' . $scheme->minimum_daily_amount,
+                    ],
+                ]);
+
+                // Already joined -> Only create payment
+                if ($member) {
+
+                    SchemePayment::create([
+                        'scheme_member_id' => $member->id,
+                        'installment_no' => $member->paid_installments + 1,
+                        'amount' => $request->amount,
+                        'due_date' => now(),
+                        'status' => 'pending',
+                    ]);
+
+                    DB::commit();
+
+                    return redirect()->route('scheme.payment', $member->id);
+                }
+
+                // First Time Join
+
+                $memberNo = $this->generateMemberNumber();
+
+                $member = SchemeMember::create([
+                    'scheme_id' => $scheme->id,
+                    'customer_id' => $customer->id,
+                    'member_no' => $memberNo,
+                    'monthly_amount' => 0,
+                    'installments' => 0,
+                    'bonus_amount' => 0,
+                    // 'bonus_type' => null,
+                    'joining_fee' => $scheme->joining_fee,
+                    'paid_amount' => 0,
+                    'wallet_credited' => 0,
+                    'paid_installments' => 0,
+                    'joining_date' => now(),
+                    'next_due_date' => null,
+                    'completion_date' => null,
+                    'status' => 'pending',
+                ]);
+
+                SchemePayment::create([
+                    'scheme_member_id' => $member->id,
+                    'installment_no' => 1,
+                    'amount' => $request->amount,
+                    'due_date' => now(),
+                    'status' => 'pending',
+                ]);
+
+                DB::commit();
+
+                return redirect()->route('scheme.payment', $member->id);
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | MONTHLY SCHEME
+            |--------------------------------------------------------------------------
+            */
+
+            if ($member) {
 
                 DB::rollBack();
 
                 return back()->with('error', 'You have already joined this scheme.');
-
             }
 
-            // Generate Member Number
             $memberNo = $this->generateMemberNumber();
 
-            $joiningDate = now()->toDateString();
-
-            $nextDueDate = now()->addMonth()->toDateString();
-
-            $completionDate = now()->addMonths($scheme->installments)->toDateString();
-
-            // Create Member
             $member = SchemeMember::create([
-
                 'scheme_id' => $scheme->id,
-
                 'customer_id' => $customer->id,
-
                 'member_no' => $memberNo,
-
                 'monthly_amount' => $scheme->monthly_amount,
-
                 'installments' => $scheme->installments,
-
                 'bonus_amount' => $scheme->bonus_amount,
-
                 'bonus_type' => $scheme->bonus_type,
-
                 'joining_fee' => $scheme->joining_fee,
-
                 'paid_amount' => 0,
-
                 'wallet_credited' => 0,
-
                 'paid_installments' => 0,
-
-                'joining_date' => $joiningDate,
-
-                'next_due_date' => $nextDueDate,
-
-                'completion_date' => $completionDate,
-
+                'joining_date' => now(),
+                'next_due_date' => now()->addMonth(),
+                'completion_date' => now()->addMonths($scheme->installments),
                 'status' => 'pending',
-
             ]);
+
             SchemePayment::create([
                 'scheme_member_id' => $member->id,
                 'installment_no' => 1,
@@ -128,7 +188,6 @@ class SchemeMemberController extends Controller
             return back()
                 ->withInput()
                 ->with('error', $e->getMessage());
-
         }
     }
 
@@ -173,8 +232,9 @@ class SchemeMemberController extends Controller
 
 
 
-    public function payment($id)
+    public function payment(Request $request, $id)
     {
+
         $customer = Auth::guard('customer')->user();
 
         $member = SchemeMember::with('scheme')
@@ -182,11 +242,21 @@ class SchemeMemberController extends Controller
             ->where('customer_id', $customer->id)
             ->first();
 
-        $payment = SchemePayment::where('scheme_member_id', $member->id)
-            ->where('status', 'pending')
-            ->orderBy('installment_no')
-            ->first();
+        if ($member->scheme->scheme_type == 'daily') {
 
+            $payment = SchemePayment::where('scheme_member_id', $member->id)
+                ->where('status', 'pending')
+                ->latest('id')
+                ->first();
+
+        } else {
+
+            $payment = SchemePayment::where('scheme_member_id', $member->id)
+                ->where('status', 'pending')
+                ->orderBy('installment_no')
+                ->first();
+
+        }
         if (!$payment) {
             return redirect()->route('customer.my-schemes')
                 ->with('error', 'No pending payment found.');
@@ -274,40 +344,36 @@ class SchemeMemberController extends Controller
 
             $member->increment('wallet_credited', $payment->amount);
 
-            if ($member->paid_installments >= $member->installments) {
+            if ($member->scheme->scheme_type == 'monthly') {
 
-                $member->update([
+                if ($member->paid_installments >= $member->installments) {
 
-                    'status' => 'completed',
+                    $member->update([
+                        'status' => 'completed',
+                        'completion_date' => now(),
+                        'next_due_date' => null,
+                    ]);
 
-                    'completion_date' => now(),
+                } else {
 
-                    'next_due_date' => null,
+                    $member->update([
+                        'status' => 'active',
+                        'next_due_date' => now()->addMonth(),
+                    ]);
 
-                ]);
+                    SchemePayment::create([
+                        'scheme_member_id' => $member->id,
+                        'installment_no' => $payment->installment_no + 1,
+                        'amount' => $member->monthly_amount,
+                        'due_date' => now()->addMonth(),
+                        'status' => 'pending',
+                    ]);
+
+                }
 
             } else {
-
                 $member->update([
-
                     'status' => 'active',
-
-                    'next_due_date' => now()->addMonth(),
-
-                ]);
-
-                SchemePayment::create([
-
-                    'scheme_member_id' => $member->id,
-
-                    'installment_no' => $payment->installment_no + 1,
-
-                    'amount' => $member->monthly_amount,
-
-                    'due_date' => now()->addMonth(),
-
-                    'status' => 'pending',
-
                 ]);
             }
 

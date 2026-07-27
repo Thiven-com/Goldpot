@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SiteSetting extends Model
 {
-     protected $fillable = [
-
+    protected $fillable = [
         'logo',
         'site_logo',
         'favicon',

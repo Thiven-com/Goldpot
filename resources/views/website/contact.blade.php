@@ -47,8 +47,12 @@
                 <div class="col-xl-6">
                     <!-- Google Map Start -->
                     <div class="google-map-iframe wow fadeInUp">
-                        <iframe
+                        {{-- <iframe
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248815.85822883708!2d77.62197175!3d12.987977!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1784279941639!5m2!1sen!2sin"
+                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="strict-origin-when-cross-origin"></iframe> --}}
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d497428.8116807678!2d77.583195!3d13.08888!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1868489f9cb3%3A0x4da39eb79875fe5c!2s761%2C%2014th%20Main%20Rd%2C%20Judicial%20Layout%2C%20Yelahanka%2C%20Bengaluru%2C%20Karnataka%20560065%2C%20India!5e0!3m2!1sen!2sus!4v1785153465852!5m2!1sen!2sus"
                             width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
                             referrerpolicy="strict-origin-when-cross-origin"></iframe>
                     </div>
@@ -136,7 +140,7 @@
                         <div class="contact-info-content">
                             <p>Phone Number</p>
                             <ul>
-                                <li><a href="tel:9876543210">9876543210</a></li>
+                                <li><a href="tel:{{$site->phone}}">{{$site->phone}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -152,7 +156,7 @@
                         <div class="contact-info-content">
                             <p>Email Address</p>
                             <ul>
-                                <li><a href="mailto:support@goldpot.in">support@goldpot.in</a></li>
+                                <li><a href="mailto:{{ $site->email }}">{{ $site->email }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -169,9 +173,7 @@
                             <p>Our Location</p>
                             <ul>
                                 <li>
-                                    GoldPot Jewellery<br>
-                                    Bengaluru, Karnataka - 560001<br>
-                                    India
+                                    {{$site->address}}
                                 </li>
                             </ul>
                         </div>

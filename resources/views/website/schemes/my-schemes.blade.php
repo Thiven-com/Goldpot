@@ -2,153 +2,219 @@
 
 @section('content')
 
-<main class="main-bg">
+    <main class="main-bg">
 
-    <section class="pt-120 pb-120">
-        <div class="container" style="margin-top:80px;">
+        <section class="pt-120 pb-120">
+            <div class="container" style="margin-top:80px;">
 
-            <div class="text-center mb-5">
-                <h2 class="fw-bold">My Jewellery Schemes</h2>
-                <p class="text-muted">
-                    View your active and completed jewellery savings schemes.
-                </p>
-            </div>
-
-            @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
+                <div class="text-center mb-5">
+                    <h2 class="fw-bold">My Jewellery Schemes</h2>
+                    <p class="text-muted">
+                        View your active and completed jewellery savings schemes.
+                    </p>
                 </div>
-            @endif
 
-            @if($members->count())
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger mb-3">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-                <div class="row">
+                @if(session('error'))
+                    <div class="alert alert-danger mb-3">
+                        {{ session('error') }}
+                    </div>
+                @endif
+                @if($members->count())
 
-                    @foreach($members as $member)
+                    <div class="row">
 
-                        <div class="col-lg-6 mb-4">
+                        @foreach($members as $member)
 
-                            <div class="card shadow border-0 rounded-4">
+                            <div class="col-lg-6 mb-4">
 
-                                <div class="card-body">
+                                <div class="card shadow border-0 rounded-4">
 
-                                    <h4 class="fw-bold mb-3">
-                                        {{ $member->scheme->title }}
-                                    </h4>
+                                    <div class="card-body">
 
-                                    <table class="table table-borderless mb-3">
+                                        <h4 class="fw-bold mb-3">
+                                            {{ $member->scheme->title }}
+                                        </h4>
 
-                                        <tr>
-                                            <th>Member No</th>
-                                            <td>{{ $member->member_no }}</td>
-                                        </tr>
+                                        <table class="table table-borderless mb-3">
 
-                                        <tr>
-                                            <th>Monthly Amount</th>
-                                            <td>₹{{ number_format($member->monthly_amount,2) }}</td>
-                                        </tr>
+                                            <tr>
+                                                <th>Member No</th>
+                                                <td>{{ $member->member_no }}</td>
+                                            </tr>
 
-                                        <tr>
-                                            <th>Paid Amount</th>
-                                            <td class="text-success">
-                                                ₹{{ number_format($member->paid_amount,2) }}
-                                            </td>
-                                        </tr>
+                                            @if($member->scheme->scheme_type == 'monthly')
 
-                                        <tr>
-                                            <th>Wallet Credited</th>
-                                            <td class="text-primary">
-                                                ₹{{ number_format($member->wallet_credited,2) }}
-                                            </td>
-                                        </tr>
+                                                <tr>
+                                                    <th>Monthly Amount</th>
+                                                    <td>₹{{ number_format($member->monthly_amount, 2) }}</td>
+                                                </tr>
 
-                                        <tr>
-                                            <th>Installments</th>
-                                            <td>
-                                                {{ $member->paid_installments }}
-                                                /
-                                                {{ $member->installments }}
-                                            </td>
-                                        </tr>
+                                            @else
 
-                                        <tr>
-                                            <th>Next Due</th>
-                                            <td>
-                                                {{ $member->next_due_date ? \Carbon\Carbon::parse($member->next_due_date)->format('d M Y') : '-' }}
-                                            </td>
-                                        </tr>
+                                                <tr>
+                                                    <th>Minimum Daily Amount</th>
+                                                    <td>
+                                                        ₹{{ number_format($member->scheme->minimum_daily_amount, 2) }}
+                                                    </td>
+                                                </tr>
 
-                                        <tr>
-                                            <th>Status</th>
-                                            <td>
+                                            @endif
 
-                                                @if($member->status=='active')
-                                                    <span class="badge bg-success">Active</span>
-                                                @elseif($member->status=='completed')
-                                                    <span class="badge bg-primary">Completed</span>
-                                                @else
-                                                    <span class="badge bg-warning text-dark">
-                                                        Pending
-                                                    </span>
-                                                @endif
+                                            <tr>
+                                                <th>Paid Amount</th>
+                                                <td class="text-success">
+                                                    ₹{{ number_format($member->paid_amount, 2) }}
+                                                </td>
+                                            </tr>
 
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <th>Wallet Credited</th>
+                                                <td class="text-primary">
+                                                    ₹{{ number_format($member->wallet_credited, 2) }}
+                                                </td>
+                                            </tr>
 
-                                    </table>
+                                            @if($member->scheme->scheme_type == 'monthly')
 
-                                    @php
-                                        $payment = $member->payments()
-                                            ->where('status','pending')
-                                            ->orderBy('installment_no')
-                                            ->first();
-                                    @endphp
+                                                                <tr>
+                                                                    <th>Installments</th>
+                                                                    <td>
+                                                                        {{ $member->paid_installments }}
+                                                                        /
+                                                                        {{ $member->installments }}
+                                                                    </td>
+                                                                </tr>
 
-                                    @if($payment)
+                                                                <tr>
+                                                                    <th>Next Due</th>
+                                                                    <td>
+                                                                        {{ $member->next_due_date
+                                                ? \Carbon\Carbon::parse($member->next_due_date)->format('d M Y')
+                                                : '-' }}
+                                                                    </td>
+                                                                </tr>
 
-                                        <a href="{{ route('scheme.payment',$member->id) }}"
-                                           class="theme-btn style-one w-100">
+                                            @else
 
-                                            Pay Next Installment
+                                                                <tr>
+                                                                    <th>Total Payments</th>
+                                                                    <td>{{ $member->paid_installments }}</td>
+                                                                </tr>
 
-                                        </a>
+                                                                <tr>
+                                                                    <th>Last Payment</th>
+                                                                    <td>
+                                                                        @php
+                                                                            $lastPayment = $member->payments()
+                                                                                ->where('status', 'success')
+                                                                                ->latest('paid_at')
+                                                                                ->first();
+                                                                        @endphp
 
-                                    @endif
+                                                                        {{ $lastPayment
+                                                ? \Carbon\Carbon::parse($lastPayment->paid_at)->format('d M Y')
+                                                : '-' }}
+                                                                    </td>
+                                                                </tr>
+
+                                            @endif
+
+                                            <tr>
+                                                <th>Status</th>
+                                                <td>
+
+                                                    @if($member->status == 'active')
+
+                                                        <span class="badge bg-success">Active</span>
+
+                                                    @elseif($member->status == 'completed')
+
+                                                        <span class="badge bg-primary">Completed</span>
+
+                                                    @else
+
+                                                        <span class="badge bg-warning text-dark">
+                                                            Pending
+                                                        </span>
+
+                                                    @endif
+
+                                                </td>
+                                            </tr>
+
+                                        </table>
+
+                                        @php
+                                            $payment = $member->payments()
+                                                ->where('status', 'pending')
+                                                ->orderBy('installment_no')
+                                                ->first();
+                                        @endphp
+
+                                        @if($member->scheme->scheme_type == 'monthly')
+
+                                            @if($payment)
+                                                <a href="{{ route('scheme.payment', $member->id) }}" class="theme-btn style-one w-100">
+                                                    Pay Next Installment
+                                                </a>
+                                            @endif
+{{-- 
+                                        @else
+
+                                            <button type="button" class="btn btn-success style-one w-100" data-bs-toggle="modal"
+                                                data-bs-target="#dailyPaymentModal{{ $member->id }}">
+                                                Make Payment
+                                            </button> --}}
+
+                                        @endif
+
+                                    </div>
 
                                 </div>
 
                             </div>
 
-                        </div>
+                        @endforeach
 
-                    @endforeach
+                    </div>
 
-                </div>
+                @else
 
-            @else
+                    <div class="text-center py-5">
 
-                <div class="text-center py-5">
+                        <h4>No Schemes Found</h4>
 
-                    <h4>No Schemes Found</h4>
+                        <p class="text-muted">
+                            You haven't joined any jewellery scheme yet.
+                        </p>
 
-                    <p class="text-muted">
-                        You haven't joined any jewellery scheme yet.
-                    </p>
+                        <a href="{{ route('schemes') }}" class="theme-btn style-one">
 
-                    <a href="{{ route('schemes') }}"
-                       class="theme-btn style-one">
+                            Browse Schemes
 
-                        Browse Schemes
+                        </a>
 
-                    </a>
+                    </div>
 
-                </div>
+                @endif
 
-            @endif
+            </div>
+        </section>
 
-        </div>
-    </section>
-
-</main>
-
+    </main>
 @endsection
