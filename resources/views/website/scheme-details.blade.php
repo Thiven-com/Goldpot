@@ -67,7 +67,7 @@
 
             width: 100%;
             height: 620px;
-            object-fit: cover;
+            object-fit: fill;
         }
 
         .hero-badge {
