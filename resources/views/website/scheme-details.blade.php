@@ -16,7 +16,7 @@
 
         .scheme-hero {
             position: relative;
-            padding: 170px 0 120px;
+            padding: 20px 0 120px;
             background:
                 linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .55)),
                 url('{{ asset("website/images/page-header.jpg") }}') center/cover;
@@ -30,7 +30,7 @@
             width: 100%;
             height: 90px;
             background: #fff;
-            border-radius: 60px 60px 0 0;
+            border-radius: 25px 25px 0 0;
         }
 
         .scheme-hero h1 {
@@ -489,6 +489,668 @@
         </div>
 
     </section>
+    {{-- =========================
+    MOBILE SCHEME HERO
+    ========================= --}}
+
+    <section class="mobile-scheme-section">
+
+        <div class="mobile-scheme-card">
+
+            {{-- IMAGE --}}
+            <div class="mobile-scheme-image">
+
+                @if($scheme->image)
+                    <img src="{{ asset($scheme->image) }}" alt="{{ $scheme->title }}">
+                @else
+                    <img src="{{ asset('website/images/no-image.png') }}" alt="{{ $scheme->title }}">
+                @endif
+
+                <div class="mobile-premium-badge">
+                    <i class="fa fa-crown"></i>
+                    Premium Scheme
+                </div>
+
+            </div>
+
+
+            {{-- CONTENT --}}
+            <div class="mobile-scheme-content">
+
+                {{-- LABEL --}}
+                <div class="mobile-scheme-label">
+                    <i class="fa fa-gem"></i>
+                    Jewellery Savings Scheme
+                </div>
+
+
+                {{-- TITLE --}}
+                <h1 class="mobile-scheme-title">
+                    {{ $scheme->title }}
+                </h1>
+
+
+                {{-- DESCRIPTION --}}
+                <p class="mobile-scheme-description">
+                    {{ $scheme->short_description }}
+                </p>
+
+
+                {{-- PRICE --}}
+                <div class="mobile-price-card">
+
+                    <div class="mobile-price-icon">
+                        <i class="fa fa-wallet"></i>
+                    </div>
+
+                    <div class="mobile-price-content">
+
+                        <span>
+                            {{ $scheme->scheme_type == 'monthly'
+        ? 'Monthly Saving'
+        : 'Minimum Daily Saving'
+                            }}
+                        </span>
+
+                        <strong>
+                            ₹{{ number_format(
+        $scheme->scheme_type == 'monthly'
+        ? $scheme->monthly_amount
+        : $scheme->minimum_daily_amount,
+        2
+    ) }}
+                        </strong>
+
+                    </div>
+
+                    <div class="mobile-price-period">
+
+                        {{ $scheme->scheme_type == 'monthly'
+        ? '/ Month'
+        : '/ Day'
+                        }}
+
+                    </div>
+
+                </div>
+
+
+                {{-- WALLET BENEFIT --}}
+                <div class="mobile-wallet-card">
+
+                    <div class="mobile-wallet-icon">
+                        <i class="fa fa-wallet"></i>
+                    </div>
+
+                    <div>
+
+                        <h5>
+                            Wallet Benefits
+                        </h5>
+
+                        <p>
+                            @if($scheme->scheme_type == 'monthly')
+                                Every monthly installment is instantly credited to your jewellery wallet.
+                            @else
+                                Every successful payment is instantly credited to your jewellery wallet.
+                            @endif
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- FEATURES --}}
+                <div class="mobile-features">
+
+                    {{-- FEATURE 1 --}}
+                    <div class="mobile-feature">
+
+                        <div class="mobile-feature-icon">
+                            <i class="fa fa-gem"></i>
+                        </div>
+
+                        <div>
+                            <strong>
+                                Premium Jewellery
+                            </strong>
+
+                            <span>
+                                Gold, Silver & Diamond
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    {{-- FEATURE 2 --}}
+                    <div class="mobile-feature">
+
+                        <div class="mobile-feature-icon">
+                            <i class="fa fa-shield-alt"></i>
+                        </div>
+
+                        <div>
+                            <strong>
+                                Secure Wallet
+                            </strong>
+
+                            <span>
+                                Safe & protected savings
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    {{-- FEATURE 3 --}}
+                    <div class="mobile-feature">
+
+                        <div class="mobile-feature-icon">
+                            <i class="fa fa-lock"></i>
+                        </div>
+
+                        <div>
+                            <strong>
+                                Safe Payments
+                            </strong>
+
+                            <span>
+                                Secure online payments
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                {{-- BUTTONS --}}
+                <div class="mobile-scheme-buttons">
+
+                    @auth('customer')
+
+                        <a href="{{ route('scheme.join', $scheme->slug) }}" class="mobile-join-btn">
+
+                            <i class="fa fa-arrow-right me-2"></i>
+                            Join Now
+
+                        </a>
+
+                    @else
+
+                        <a href="{{ route('login') }}" class="mobile-join-btn">
+
+                            <i class="fa fa-sign-in-alt me-2"></i>
+                            Login & Join
+
+                        </a>
+
+                    @endauth
+
+
+                    <a href="#benefits" class="mobile-explore-btn">
+
+                        Explore Benefits
+                        <i class="fa fa-angle-down ms-2"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <style>
+        /* ==========================================
+       MOBILE SCHEME HERO
+    ========================================== */
+
+        .mobile-scheme-section {
+            display: none;
+        }
+
+        @media (max-width: 767px) {
+            .hero-wrapper {
+                display: none !important;
+            }
+        }
+
+
+        /* ==========================================
+       MOBILE ONLY
+    ========================================== */
+
+        @media (max-width: 767px) {
+
+            .mobile-scheme-section {
+                display: block;
+                padding: 15px 12px 30px;
+                background: #f8f6f2;
+            }
+
+
+            /* MAIN CARD */
+
+            .mobile-scheme-card {
+                background: #ffffff;
+                border-radius: 24px;
+                overflow: hidden;
+                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+            }
+
+
+            /* IMAGE */
+
+            .mobile-scheme-image {
+                position: relative;
+                width: 100%;
+                height: 300px;
+                overflow: hidden;
+            }
+
+            .mobile-scheme-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+
+
+            /* IMAGE OVERLAY */
+
+            .mobile-scheme-image::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                height: 100px;
+                background: linear-gradient(to top,
+                        rgba(0, 0, 0, 0.55),
+                        transparent);
+                pointer-events: none;
+            }
+
+
+            /* PREMIUM BADGE */
+
+            .mobile-premium-badge {
+                position: absolute;
+                top: 15px;
+                left: 15px;
+                z-index: 2;
+
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+
+                padding: 8px 13px;
+
+                background: rgba(255, 255, 255, 0.95);
+
+                color: #8d6a09;
+
+                border-radius: 50px;
+
+                font-size: 12px;
+                font-weight: 700;
+
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+            }
+
+            .mobile-premium-badge i {
+                color: #c9a227;
+            }
+
+
+            /* CONTENT */
+
+            .mobile-scheme-content {
+                padding: 22px 18px 20px;
+            }
+
+
+            /* LABEL */
+
+            .mobile-scheme-label {
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+
+                padding: 7px 12px;
+
+                background: #fff8df;
+
+                color: #8d6a09;
+
+                border-radius: 50px;
+
+                font-size: 11px;
+                font-weight: 700;
+
+                margin-bottom: 14px;
+            }
+
+            .mobile-scheme-label i {
+                color: #c9a227;
+            }
+
+
+            /* TITLE */
+
+            .mobile-scheme-title {
+                font-size: 28px;
+                line-height: 1.2;
+
+                font-weight: 800;
+
+                color: #222;
+
+                margin: 0 0 10px;
+            }
+
+
+            /* DESCRIPTION */
+
+            .mobile-scheme-description {
+                font-size: 14px;
+                line-height: 1.7;
+
+                color: #777;
+
+                margin: 0 0 18px;
+            }
+
+
+            /* PRICE */
+
+            .mobile-price-card {
+                display: flex;
+                align-items: center;
+
+                gap: 12px;
+
+                padding: 15px;
+
+                background: linear-gradient(135deg,
+                        #fff9e8,
+                        #fffdf7);
+
+                border: 1px solid #f0dfaa;
+
+                border-radius: 18px;
+
+                margin-bottom: 15px;
+            }
+
+
+            .mobile-price-icon {
+                width: 45px;
+                height: 45px;
+
+                min-width: 45px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                background: linear-gradient(135deg,
+                        #c9a227,
+                        #8d6a09);
+
+                color: #fff;
+
+                border-radius: 13px;
+
+                font-size: 18px;
+            }
+
+
+            .mobile-price-content {
+                flex: 1;
+            }
+
+            .mobile-price-content span {
+                display: block;
+
+                color: #888;
+
+                font-size: 11px;
+
+                margin-bottom: 2px;
+            }
+
+            .mobile-price-content strong {
+                display: block;
+
+                color: #8d6a09;
+
+                font-size: 25px;
+
+                line-height: 1.1;
+
+                font-weight: 800;
+            }
+
+
+            .mobile-price-period {
+                color: #777;
+
+                font-size: 12px;
+
+                white-space: nowrap;
+            }
+
+
+            /* WALLET */
+
+            .mobile-wallet-card {
+                display: flex;
+
+                align-items: flex-start;
+
+                gap: 12px;
+
+                padding: 15px;
+
+                background: #f3fbf5;
+
+                border-left: 4px solid #18a058;
+
+                border-radius: 15px;
+
+                margin-bottom: 18px;
+            }
+
+
+            .mobile-wallet-icon {
+                width: 40px;
+                height: 40px;
+
+                min-width: 40px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                background: #e3f6e9;
+
+                color: #18a058;
+
+                border-radius: 11px;
+
+                font-size: 17px;
+            }
+
+
+            .mobile-wallet-card h5 {
+                margin: 0 0 4px;
+
+                font-size: 14px;
+
+                font-weight: 700;
+
+                color: #222;
+            }
+
+
+            .mobile-wallet-card p {
+                margin: 0;
+
+                color: #6d6d6d;
+
+                font-size: 12px;
+
+                line-height: 1.6;
+            }
+
+
+            /* FEATURES */
+
+            .mobile-features {
+                display: flex;
+                flex-direction: column;
+
+                gap: 10px;
+
+                margin-bottom: 20px;
+            }
+
+
+            .mobile-feature {
+                display: flex;
+                align-items: center;
+
+                gap: 12px;
+
+                padding: 12px;
+
+                border: 1px solid #eeeeee;
+
+                border-radius: 14px;
+
+                background: #fff;
+            }
+
+
+            .mobile-feature-icon {
+                width: 40px;
+                height: 40px;
+
+                min-width: 40px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                border-radius: 12px;
+
+                background: linear-gradient(135deg,
+                        #fff8da,
+                        #f5e0a4);
+
+                color: #9b7a12;
+
+                font-size: 16px;
+            }
+
+
+            .mobile-feature strong {
+                display: block;
+
+                font-size: 13px;
+
+                color: #333;
+
+                margin-bottom: 2px;
+            }
+
+
+            .mobile-feature span {
+                display: block;
+
+                font-size: 11px;
+
+                color: #888;
+            }
+
+
+            /* BUTTONS */
+
+            .mobile-scheme-buttons {
+                display: flex;
+                flex-direction: column;
+
+                gap: 10px;
+            }
+
+
+            .mobile-join-btn {
+                width: 100%;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                padding: 14px 20px;
+
+                background: linear-gradient(135deg,
+                        #c9a227,
+                        #8d6a09);
+
+                color: #fff !important;
+
+                border-radius: 50px;
+
+                font-size: 14px;
+
+                font-weight: 700;
+
+                text-decoration: none;
+
+                box-shadow: 0 8px 20px rgba(141, 106, 9, 0.22);
+
+                transition: 0.3s;
+            }
+
+
+            .mobile-explore-btn {
+                width: 100%;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                padding: 13px 20px;
+
+                background: #fff;
+
+                border: 1.5px solid #c9a227;
+
+                color: #8d6a09 !important;
+
+                border-radius: 50px;
+
+                font-size: 13px;
+
+                font-weight: 700;
+
+                text-decoration: none;
+            }
+
+
+            .mobile-join-btn:active,
+            .mobile-explore-btn:active {
+                transform: scale(0.98);
+            }
+
+        }
+    </style>
     {{-- ===========================
     PREMIUM STATISTICS
     ============================ --}}

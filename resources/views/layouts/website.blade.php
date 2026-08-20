@@ -383,7 +383,7 @@
                                     </div>
                                     <div class="footer-contact-item-content">
                                         <h3>Phone:</h3>
-                                        <p><a href="tel:{{$site->phone}}">{{$site->phone}}</a></p>
+                                        <p><a href="tel:{{$site->phone ?? ' '}}">{{$site->phone ?? ' '}}</a></p>
                                     </div>
                                 </div>
                                 <!-- Footer Contact Item End -->
@@ -395,7 +395,7 @@
                                     </div>
                                     <div class="footer-contact-item-content">
                                         <h3>Email:</h3>
-                                        <p><a href="mailto:{{ $site->email }}">{{ $site->email }}</a></p>
+                                        <p><a href="mailto:{{ $site->email ?? ' '}}">{{ $site->email ?? ' '}}</a></p>
                                     </div>
                                 </div>
                                 <!-- Footer Contact Item End -->
