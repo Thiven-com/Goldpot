@@ -19,7 +19,7 @@
             padding: 20px 0 120px;
             background:
                 linear-gradient(rgba(0, 0, 0, .55), rgba(0, 0, 0, .55)),
-                url('{{ asset("website/images/page-header.jpg") }}') center/cover;
+                url('{{ asset("website") }}/images/page-header-bg-image.jpg') center/cover;
         }
 
         .scheme-hero::after {
